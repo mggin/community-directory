@@ -1,0 +1,36 @@
+.nav-bar {
+  background: #0984e3;
+  height: 60px;
+}
+
+.action-btn {
+  border-radius: 50px;
+  padding: 5px 15px;
+  font-size: 12px;
+  margin-right: 50px;;
+}
+
+.user-icon {
+  font-size: 25px;
+  color: white;
+}
+
+li {
+  font-size: 12px;
+}
+
+li:hover {
+  background: rgba(52, 73, 94, 0.2);
+  cursor: pointer;
+}
+
+.user-title {
+  font-size: 11px;
+  margin: 0px 5px;
+  color: white;
+}
+
+.user-actions:hover {
+    opacity: 0.9;
+    cursor: pointer;
+}

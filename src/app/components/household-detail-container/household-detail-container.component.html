@@ -1,0 +1,43 @@
+<div class="card">
+    <div class="card-header">
+        Detail
+    </div>
+    <div class="card-body">
+        <label class="household-detail-label mt-0">Householder</label>
+        <select class="form-control default-options" 
+            [(ngModel)]="householdDetail.householderId"
+            [ngClass]="{'border-danger': setting.requireHouseholderId}">
+            <option value="undefined" disabled>Select Householder</option>
+            <option *ngFor="let memberForm of memberForms" [value]="memberForm.member.id">
+                {{memberForm.member.christianName}} {{memberForm.member.ethnicName}}
+            </option>
+        </select>
+        <label class="household-detail-label">B.E.C</label>
+        <select class="form-control default-options" 
+            [(ngModel)]="householdDetail.becGroup"
+            [ngClass]="{'border-danger': setting.requireBecGroup}">
+            <option value="undefined" disabled>Select B.E.C</option>
+            <option *ngFor="let becGroupOption of becGroupOptions | async " [value]="becGroupOption">
+                {{becGroupOption}}
+            </option>
+        </select>
+        <label class="household-detail-label">Address</label>
+        <input class="form-control" placeholder="Address" [(ngModel)]="householdDetail.addressLine" />
+        <label class="household-detail-label">City</label>
+        <input class="form-control" placeholder="City" [(ngModel)]="householdDetail.city" />
+        <div class="row m-0 p-0">
+            <div class="col m-0 p-0">
+                <label class="household-detail-label">State</label>
+                <input class="form-control" placeholder="State" [(ngModel)]="householdDetail.state" />
+            </div>
+            <div class="col m-0 p-0 ml-2">
+                <label class="household-detail-label">Zip Code</label>
+                <input class="form-control" placeholder="Zip Code" [(ngModel)]="householdDetail.zipCode" />
+            </div>
+        </div>
+        <label class="household-detail-label">Primary contact</label>
+        <input class="form-control" placeholder="Primary contact" [(ngModel)]="householdDetail.primaryPhone" />
+        <label class="household-detail-label">Secondary contact</label>
+        <input class="form-control" placeholder="Secondary contact" [(ngModel)]="householdDetail.secondaryPhone" />
+    </div>
+</div>

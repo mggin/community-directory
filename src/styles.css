@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to thi/s file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+
+body, html {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+    margin: 0;
+}
+
+.login-card {
+    width: 300px;
+}
+
+::placeholder {
+    font-size: 13px;
+}
+
+.btn-font-size {
+    font-size: 12px;
+}
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

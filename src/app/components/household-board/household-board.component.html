@@ -1,0 +1,68 @@
+<nav-bar></nav-bar>
+<div class="col row m-0 p-0">
+    <section class="household-list-col">
+        <div class="card m-1 p-2">
+            <input class="form-control" placeholder="Search" (keyup.enter)="searchMembers()" [(ngModel)]="name" />
+            <ul class="list-group mt-2" *ngIf="searchedMembers">
+                <li *ngFor="let searchedMember of searchedMembers" 
+                class="list-group-item household-list-item"
+                [ngClass]="{'list-bg': searchedMember.selected}"
+                    (click)="handleHouseholdBoard(searchedMember)">
+                    <div class="row justify-content-between align-items-center">
+                        <p class="m-0 p-0 ml-2">{{searchedMember.christianName}} {{searchedMember.ethnicName}}</p>
+                        <i class="fas fa-angle-right mr-2"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="col m-0 p-0 mt-1" *ngIf="householdDetail">
+        <div class="col m-0 p-0 row justify-content-between">
+            <span class="card p-2 pl-3 pr-3 ml-1 card-bg">{{householdDetail.becGroup}}</span>
+            <button class="btn btn-sm btn-success pl-3 pr-3 mr-1" (click)="openHouseholdEditor(householdDetail.id)">
+                <i class="fas fa-edit"></i>
+                Edit
+            </button>
+        </div>
+        <div class="m-1 p-0 row">
+            <div class="col p-0 m-0">
+                <ul class="list-group">
+                    <li class="list-group-item member-list-item" *ngFor="let member of members; let i = index">
+                        <div class="col row justify-content-between align-items-center m-0 p-0">
+                            <div class="col row align-items-center m-0 p-0">
+                                <p class="m-0 p-0">{{ i + 1 }}</p>
+                                <p class="m-0 p-0 ml-2">{{member.christianName}} {{member.ethnicName}}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col p-0 m-0 ml-1">
+                <div class="card">
+                    <div class="card-header">
+                        Address
+                    </div>
+                    <div class="card-body">
+                        <p class="col card p-2 mb-2 card-bg" *ngIf="householdDetail.addressLine">{{householdDetail.addressLine}}</p>
+                        <div class="col row m-0 p-0">
+                            <span class="col card p-2 card-bg" >{{householdDetail.city}}</span>
+                            <span class="col card p-2 ml-2 card-bg">{{householdDetail.state}}</span>
+                            <span class="col card p-2 ml-2 card-bg">{{householdDetail.zipCode}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-1">
+                    <div class="card-header">
+                        Contact
+                    </div>
+                    <div class="card-body">
+                        <p class="card p-2 card-bg m-0" *ngIf="householdDetail.primaryPhone">
+                            {{householdDetail.primaryPhone}}</p>
+                        <p class="card p-2 card-bg m-0 mt-2" *ngIf="householdDetail.secondaryPhone">
+                            {{householdDetail.secondaryPhone}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,14 @@
+.collapse-icon {
+    font-size: 20px;
+    margin-top: 5px;
+    color: rgba(113, 128, 147,1.0);
+}
+
+.collapse-icon:hover {
+    cursor: pointer;
+    color: rgba(113, 128, 147, 0.8);
+}
+
+.add-btn, .cancel-btn, .create-btn{
+    font-size: 12px;
+}
