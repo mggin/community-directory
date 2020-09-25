@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HouseholdCreatorComponent } from '../household-creator/household-creator.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MENU_OPTIONS } from 'src/app/constant-data';
+import { HouseholdCreatorComponent } from '../household/household-creator/household-creator.component';
+import { ManageBecComponent } from '../bec-group/manage-bec/manage-bec.component';
+import { DialogService } from 'src/app/services/dialog.service';
+import { RouteService } from 'src/app/services/route.service';
 
 @Component({
   selector: 'nav-bar',
@@ -8,36 +12,12 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  menuOption = {
-    CREATE_HOUSEHOLD: 'Create Household',
-    BEC: 'B.E.C',
-    SIGN_OUT: 'Sign out',
-  };
+  menuOptions = MENU_OPTIONS;
   username: string;
-  constructor(public dialog: MatDialog) {}
+  constructor(public routeService: RouteService) {}
 
   ngOnInit(): void {
     this.username = localStorage.getItem('username')
   }
 
-  navigateOptions(option: string) {
-    let component: any;
-    switch (option) {
-      case this.menuOption.CREATE_HOUSEHOLD:
-        component = HouseholdCreatorComponent;
-        break;
-      case this.menuOption.BEC:
-        break;
-      case this.menuOption.SIGN_OUT:
-        break;
-      default:
-        break;
-    }
-    this.dialog.open(component, {
-      width: '98vw',
-      maxWidth: '98vw',
-      height: '95vh',
-      disableClose: true,
-    });
-  }
 }

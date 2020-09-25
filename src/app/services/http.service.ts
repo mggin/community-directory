@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Member } from '../models/member';
+import { BecName, BecNames } from '../interfaces';
+import { CommitteeMember } from '../models/committee-member';
 
 @Injectable({
   providedIn: 'root',
@@ -41,19 +43,20 @@ export class HttpService {
 
   updateHousehold(householdId: string, params: any) {
     return this.http.put(`${this.apiUrl}/api/tmsl/household`, {
-      householdId, params
-    })
+      householdId,
+      params,
+    });
   }
 
   deleteHousehold(householdId: string) {
     return this.http.delete(`${this.apiUrl}/api/tmsl/household`, {
-      params: { householdId }
-    })
+      params: { householdId },
+    });
   }
 
-  searchMembers(name: string) {
+  searchMembers(name: string, size: number = 20) {
     return this.http.get(`${this.apiUrl}/api/tmsl/search/members`, {
-      params: { name },
+      params: { name, size: size.toString() },
     });
   }
 
@@ -73,18 +76,53 @@ export class HttpService {
   }
 
   createMembers(members: unknown[]) {
-    return this.http.post(`${this.apiUrl}/api/tmsl/create-members`, { members });
+    return this.http.post(`${this.apiUrl}/api/tmsl/create-members`, {
+      members,
+    });
   }
 
   updateMember(id: string, member: unknown) {
     return this.http.put(`${this.apiUrl}/api/tmsl/update/member`, {
-      id, member
-    })
+      id,
+      member,
+    });
   }
 
   deleteMember(memberId: string) {
     return this.http.delete(`${this.apiUrl}/api/tmsl/member`, {
-      params: { memberId }
-    })
+      params: { memberId },
+    });
+  }
+
+  getBECs() {
+    return this.http.get<BecNames>(`${this.apiUrl}/api/tmsl/bec-names`);
+  }
+
+  getBECsDetails(becId: string) {
+    return this.http.get(`${this.apiUrl}/api/tmsl/bec`, {
+      params: { becId },
+    });
+  }
+
+  assignBecRole(becId: string, memberId: string, role: string) {
+    return this.http.get(`${this.apiUrl}/api/tmsl/bec/assign-role`, {
+      params: { memberId, becId, role },
+    });
+  }
+
+  getCommitteeMembers() {
+    return this.http.get(`${this.apiUrl}/api/tmsl/committee-members`);
+  }
+
+  updateCommitteeMember(committeeMember: CommitteeMember) {
+    return this.http.put(`${this.apiUrl}/api/tmsl/committee-member`, {
+      committeeMember,
+    });
+  }
+
+  assignCommitteeMember(committeeMember: CommitteeMember) {
+    return this.http.post(`${this.apiUrl}/api/tmsl/committee-member`, {
+      committeeMember,
+    });
   }
 }

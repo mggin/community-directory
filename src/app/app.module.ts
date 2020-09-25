@@ -7,14 +7,18 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HouseholdBoardComponent } from './components/household-board/household-board.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HouseholdCreatorComponent } from './components/household-creator/household-creator.component';
-import { MemberContainerComponent } from './components/member-container/member-container.component';
 import { DialogTemplateComponent } from './components/dialog-template/dialog-template.component';
-import { HouseholdDetailContainerComponent } from './components/household-detail-container/household-detail-container.component';
-import { HouseholdEditorComponent } from './components/household-editor/household-editor.component';
+import { HouseholdBoardComponent } from './components/household/household-board/household-board.component';
+import { HouseholdCreatorComponent } from './components/household/household-creator/household-creator.component';
+import { MemberContainerComponent } from './components/household/member-container/member-container.component';
+import { HouseholdDetailContainerComponent } from './components/household/household-detail-container/household-detail-container.component';
+import { HouseholdEditorComponent } from './components/household/household-editor/household-editor.component';
+import { ManageBecComponent } from './components/bec-group/manage-bec/manage-bec.component';
+import { ManageCommitteeComponent } from './components/committee/manage-committee/manage-committee.component';
+import { AssignCommitteeComponent } from './components/committee/assign-committee/assign-committee.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +30,10 @@ import { HouseholdEditorComponent } from './components/household-editor/househol
     MemberContainerComponent,
     DialogTemplateComponent,
     HouseholdDetailContainerComponent,
-    HouseholdEditorComponent
+    HouseholdEditorComponent,
+    ManageBecComponent,
+    ManageCommitteeComponent,
+    AssignCommitteeComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +46,6 @@ import { HouseholdEditorComponent } from './components/household-editor/househol
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [HouseholdCreatorComponent, HouseholdEditorComponent, MemberContainerComponent]
+  entryComponents: [HouseholdCreatorComponent, HouseholdEditorComponent, MemberContainerComponent, ManageBecComponent]
 })
 export class AppModule { }

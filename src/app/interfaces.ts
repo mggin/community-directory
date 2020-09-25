@@ -1,4 +1,3 @@
-import { HouseholdEditorComponent } from './components/household-editor/household-editor.component';
 
 export interface LoginResponse {
   accessToken: string;
@@ -34,8 +33,7 @@ export interface SearchedMemberResponse {
 
 export interface SearchedMemberData {
   householdId: string;
-  christianName: string;
-  ethnicName: string;
+  name: string;
 }
 
 export interface Member {
@@ -61,3 +59,10 @@ export interface HouseholdDetail {
   state: string;
   zipCode: number;
 }
+
+export interface BecName {
+  id: string;
+  name: string;
+}
+
+export interface BecNames extends Array<BecName>{ }

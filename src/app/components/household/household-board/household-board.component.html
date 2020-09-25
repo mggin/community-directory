@@ -4,12 +4,10 @@
         <div class="card m-1 p-2">
             <input class="form-control" placeholder="Search" (keyup.enter)="searchMembers()" [(ngModel)]="name" />
             <ul class="list-group mt-2" *ngIf="searchedMembers">
-                <li *ngFor="let searchedMember of searchedMembers" 
-                class="list-group-item household-list-item"
-                [ngClass]="{'list-bg': searchedMember.selected}"
-                    (click)="handleHouseholdBoard(searchedMember)">
+                <li *ngFor="let searchedMember of searchedMembers" class="list-group-item household-list-item"
+                    [ngClass]="{'list-bg': searchedMember.selected}" (click)="handleHouseholdBoard(searchedMember)">
                     <div class="row justify-content-between align-items-center">
-                        <p class="m-0 p-0 ml-2">{{searchedMember.christianName}} {{searchedMember.ethnicName}}</p>
+                        <p class="m-0 p-0 ml-2">{{searchedMember.name}}</p>
                         <i class="fas fa-angle-right mr-2"></i>
                     </div>
                 </li>
@@ -43,9 +41,10 @@
                         Address
                     </div>
                     <div class="card-body">
-                        <p class="col card p-2 mb-2 card-bg" *ngIf="householdDetail.addressLine">{{householdDetail.addressLine}}</p>
+                        <p class="col card p-2 mb-2 card-bg" *ngIf="householdDetail.addressLine">
+                            {{householdDetail.addressLine}}</p>
                         <div class="col row m-0 p-0">
-                            <span class="col card p-2 card-bg" >{{householdDetail.city}}</span>
+                            <span class="col card p-2 card-bg">{{householdDetail.city}}</span>
                             <span class="col card p-2 ml-2 card-bg">{{householdDetail.state}}</span>
                             <span class="col card p-2 ml-2 card-bg">{{householdDetail.zipCode}}</span>
                         </div>

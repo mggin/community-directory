@@ -17,7 +17,6 @@ export class AuthService implements CanActivate {
         return true;
       }
     } else {
-      console.log(redirect)
       if (!redirect) {
         this.router.navigate(['login']);
       } else {

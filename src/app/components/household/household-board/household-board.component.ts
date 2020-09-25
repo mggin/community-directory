@@ -7,10 +7,11 @@ import {
   SearchedMemberResponse,
   SearchedMemberData,
 } from 'src/app/interfaces';
-import { MatDialog } from '@angular/material/dialog';
-import { MEMBER_ACTIONS } from 'src/app/constant-data';
-import { HouseholdEditorComponent } from '../household-editor/household-editor.component';
+import { MEMBER_ACTIONS, MODAL_NAMES } from 'src/app/constant-data';
 import { SearchedMember } from 'src/app/models/searched-member';
+import { ActivatedRoute } from '@angular/router';
+import { DialogService } from 'src/app/services/dialog.service';
+import { RouteService } from 'src/app/services/route.service';
 
 @Component({
   selector: 'household-board',
@@ -24,7 +25,34 @@ export class HouseholdBoardComponent implements OnInit {
   members: Member[];
   householdDetail: HouseholdDetail;
   becGroupOptions: Observable<string[]>;
-  constructor(private httpService: HttpService, public dialog: MatDialog) {}
+  constructor(
+    private httpService: HttpService,
+    private route: ActivatedRoute,
+    private routeService: RouteService,
+    private dialogService: DialogService
+  ) {
+    route.params.subscribe((param) => {
+      const { modal } = param;
+      switch (modal) {
+        case MODAL_NAMES.bec:
+          dialogService.openManageBec();
+          break;
+        case MODAL_NAMES.create:
+          dialogService.openHouseholdCreator();
+          break;
+        case MODAL_NAMES.committee:
+          dialogService.openManageCommittee();
+          break;
+        case MODAL_NAMES.edit:
+          const { householdId } = param;
+          console.log(householdId);
+          this.openHouseholdEditor(householdId);
+          break;
+        default:
+          break;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.becGroupOptions = this.httpService.getBecGroupOptions();
@@ -34,16 +62,8 @@ export class HouseholdBoardComponent implements OnInit {
     if (this.name) {
       this.httpService
         .searchMembers(this.name)
-        .subscribe((HttpResponse: SearchedMemberResponse) => {
-          this.searchedMembers = HttpResponse.data.map(
-            (data: SearchedMemberData) => {
-              return new SearchedMember(
-                data.householdId,
-                data.christianName,
-                data.ethnicName
-              );
-            }
-          );
+        .subscribe((HttpResponse: any) => {
+          this.searchedMembers = HttpResponse.data;
         });
     }
   }
@@ -68,13 +88,7 @@ export class HouseholdBoardComponent implements OnInit {
   }
 
   openHouseholdEditor(householdId: string) {
-    const dialogRef = this.dialog.open(HouseholdEditorComponent, {
-      data: { householdId },
-      width: '98vw',
-      maxWidth: '98vw',
-      height: '95vh',
-      disableClose: true,
-    });
+    const dialogRef = this.dialogService.openHouseholdEditor( { householdId });
 
     dialogRef.afterClosed().subscribe((householdId: string) => {
       if (householdId) {

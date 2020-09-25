@@ -9,7 +9,7 @@ import {
   MEMBER_SQL_EXCHANGE,
   STATUS_OPTIONS,
 } from 'src/app/constant-data';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MemberForm } from 'src/app/models/member-form';
 import { MemberFormSetting } from 'src/app/models/member-form-setting';
 import { ValidationService } from 'src/app/services/validation.service';
@@ -18,6 +18,7 @@ import {
   CreateHouseholdResponse,
 } from 'src/app/interfaces';
 import { HouseholdDetailForm } from 'src/app/models/household-detail-form';
+import { RouteService } from 'src/app/services/route.service';
 
 @Component({
   selector: 'app-household-creator',
@@ -31,9 +32,10 @@ export class HouseholdCreatorComponent implements OnInit {
   isCreatingHousehold = false;
   disableActions = false;
   constructor(
-    public dialogRef: MatDialogRef<HouseholdCreatorComponent>,
+    private dialogRef: MatDialogRef<HouseholdCreatorComponent>,
     private httpService: HttpService,
-    private validateService: ValidationService
+    private validateService: ValidationService,
+    private routeService: RouteService,
   ) {}
   ngOnInit(): void {
     this.householdDetailForm = new HouseholdDetailForm();
@@ -74,6 +76,11 @@ export class HouseholdCreatorComponent implements OnInit {
         this.dialogRef.close();
       }
     }, 3000);
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
+    this.routeService.toBoard();
   }
 
   createHousehold() {

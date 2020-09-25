@@ -19,6 +19,7 @@ import { ValidationService } from 'src/app/services/validation.service';
 import { HouseholdDetailForm } from 'src/app/models/household-detail-form';
 import { Router } from '@angular/router';
 import { MemberContainerComponent } from '../member-container/member-container.component';
+import { RouteService } from 'src/app/services/route.service';
 
 @Component({
   selector: 'app-household-editor',
@@ -43,13 +44,14 @@ export class HouseholdEditorComponent implements OnInit {
     private validationService: ValidationService,
     private router: Router,
     private dialog: MatDialog,
+    private routeService: RouteService,
     @Inject(MAT_DIALOG_DATA) private data: HouseholdEditorData
   ) {}
 
   ngOnInit(): void {
     this.loadData();
   }
-
+  
   loadData() {
     this.becGroupOptions = this.httpService.getBecGroupOptions();
     this.queryHousehold(this.data.householdId);

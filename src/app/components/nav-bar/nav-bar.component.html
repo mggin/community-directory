@@ -3,19 +3,25 @@
         <button class="btn btn-sm btn-light action-btn" id="dropdownManual" ngbDropdownToggle
             (focus)="myDrop.open()">Browse All</button>
         <div ngbDropdownMenu aria-labelledby="dropdownManual">
-            <li ngbDropdownItem (click)="navigateOptions(menuOption.CREATE_HOUSEHOLD)">
+            <li ngbDropdownItem (click)="routeService.toCreate()">
                 Add Household</li>
-            <li ngbDropdownItem>
+            <li ngbDropdownItem (click)="routeService.toBec()">
+                Manage B.E.C</li>
+            <li ngbDropdownItem (click)="routeService.toCommittee()">
+                Manage Committee</li>
+            <li ngbDropdownItem (click)="routeService.toBec()">
                 B.E.C Dashboard</li>
         </div>
     </div>
-    <div class="d-inline-block text-light mr-2" ngbDropdown #userActions="ngbDropdown" display="dynamic" placement="bottom-right">
-        <div class="row justify-content-end align-items-center m-0 p-0 user-actions" ngbDropdownToggle (focus)="userActions.open()">
+    <div class="d-inline-block text-light mr-2" ngbDropdown #userActions="ngbDropdown" display="dynamic"
+        placement="bottom-right">
+        <div class="row justify-content-end align-items-center m-0 p-0 user-actions" ngbDropdownToggle
+            (focus)="userActions.open()">
             <i class="fas fa-user-circle user-icon"></i>
             <span class="user-title">{{username}}</span>
         </div>
         <div ngbDropdownMenu aria-labelledby="dropdownManual">
-            <li ngbDropdownItem (click)="navigateOptions(menuOption.CREATE_HOUSEHOLD)">
+            <li ngbDropdownItem>
                 Sign out</li>
         </div>
     </div>

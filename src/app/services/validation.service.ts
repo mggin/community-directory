@@ -3,7 +3,6 @@ import { MemberForm } from '../models/member-form';
 import { HouseholdDetail } from '../models/household-detail';
 import { HOUSEHOLD_SQL_EXCHANGE, MEMBER_SQL_EXCHANGE } from '../constant-data';
 import { Member } from '../models/member';
-import { HouseholdEditorComponent } from '../components/household-editor/household-editor.component';
 import { HouseholdDetailForm } from '../models/household-detail-form';
 
 @Injectable({

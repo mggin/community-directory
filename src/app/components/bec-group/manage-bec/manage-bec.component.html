@@ -1,0 +1,61 @@
+<div class="col m-0 p-0" *ngIf="becs">
+    <div class="col row justify-content-between m-0 p-0">
+        <div class="col row">
+            <select class="form-control" style="width: 150px;" [(ngModel)]="selectedBecId" (change)="hanldeOnChange()">
+                <option *ngFor="let bec of becs" [value]="bec.id">
+                    {{bec.name}}
+                </option>
+            </select>
+            <div class="col row align-items-center ml-4">
+                <p class="m-0 p-0 ml-1 mr-1">Leader</p>
+                <select class="form-control" style="width: 200px;" (change)="handleAssignRole($event, 'leader')">
+                    <option *ngFor="let becDetail of becsDetail" [value]="becDetail.householderId" [selected]="becDetail['role'] === 'leader'">
+                        {{becDetail.householderName}}
+                    </option>
+                </select>
+                <span class="m-0 p-0 ml-5 mr-1">Assistant</span>
+                <select class="form-control" style="width: 200px;" (change)="handleAssignRole($event, 'assistant')">
+                    <option *ngFor="let becDetail of becsDetail" [value]="becDetail.householderId" [selected]="becDetail['role'] === 'assistant'">
+                        {{becDetail.householderName}}
+                    </option>
+                </select>
+            </div>
+            <button class="btn btn-success ml-2 mr-2" [disabled]="true">
+                <i class="fas fa-print"></i>
+                Print
+            </button>
+        </div>
+
+        <button class="btn btn-dark" (click)="closeDialog()">
+            <i class="fas fa-chevron-circle-left"></i>
+            Back
+        </button>
+    </div>
+    <table class="table table-sm table-striped table-bordered mt-2" *ngIf="becsDetail">
+        <thead class="thead-dark">
+            <th>No.</th>
+            <th>Householder</th>
+            <th>Members</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th>Primary Phone</th>
+            <th>Secondary Phone</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let becDetail of becsDetail; let i = index">
+                <td>{{i + 1}} <i class="fas fa-check-circle text-success" *ngIf="['leader', 'assistant'].includes(becDetail['role'])"></i>
+                </td>
+                <td>{{becDetail['householderName']}}</td>
+                <td>{{becDetail['members']}}</td>
+                <td>{{becDetail['addressLine']}}</td>
+                <td>{{becDetail['city']}}</td>
+                <td>{{becDetail['state']}}</td>
+                <td>{{becDetail['zipCode']}}</td>
+                <td>{{becDetail['primaryPhone']}}</td>
+                <td>{{becDetail['secondaryPhone']}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

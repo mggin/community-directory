@@ -3,6 +3,11 @@ export const MEMBER_ACTIONS = {
   EDIT: 'EDIT',
 };
 
+export const COMMITTEE_ACTIONS = {
+  CREATE: 'CREATE',
+  EDIT: 'EDIT',
+};
+
 export const PROGRESS_TYPES = {
   CREATE: 'CREATE',
   UPDATE: 'UPDATE',
@@ -10,9 +15,9 @@ export const PROGRESS_TYPES = {
 };
 
 export const STATUS_OPTIONS = {
-    SUCCESS: 'SUCCESS',
-    FAIL: 'FAIL'
-}
+  SUCCESS: 'SUCCESS',
+  FAIL: 'FAIL',
+};
 
 export const HOUSEHOLD_SQL_EXCHANGE = {
   becGroup: 'bec_group',
@@ -48,3 +53,28 @@ export const GENDER_OPTIONS = [
     long: 'Female',
   },
 ];
+
+export const MENU_OPTIONS = {
+  CREATE_HOUSEHOLD: 'Create Household',
+  MANAGE_BEC: 'Manage B.E.C',
+  SIGN_OUT: 'Sign out',
+};
+
+export const BEC_COLUMNS = {
+  householderName: 'Name',
+  members: 'Members',
+  addressLine: 'Address',
+  city: 'City',
+  state: 'State',
+  zipCode: 'Zip Code',
+  primaryPhone: 'Primary Phone',
+  secondaryPhone: 'Secondary Phone',
+};
+
+export const MODAL_NAMES = {
+  bec: 'bec',
+  create: 'create',
+  edit: 'edit',
+  committee: 'committee'
+};
+
