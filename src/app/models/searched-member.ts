@@ -1,4 +1,5 @@
 export class SearchedMember {
+  id: string;
   householdId: string;
   name: string;
   selected: boolean;

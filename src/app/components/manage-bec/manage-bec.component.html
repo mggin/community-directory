@@ -1,21 +1,30 @@
 <div class="col m-0 p-0" *ngIf="becs">
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
     <div class="col row justify-content-between m-0 p-0">
         <div class="col row">
-            <select class="form-control" style="width: 150px;" [(ngModel)]="selectedBecId" (change)="hanldeOnChange()">
-                <option *ngFor="let bec of becs" [value]="bec.id">
+            <select class="form-control" style="width: 150px;" (change)="hanldeOnChange($event)">
+                <option *ngFor="let bec of becs" 
+                        [value]="bec.id" 
+                        [selected]="bec.id === selectedBecId">
                     {{bec.name}}
                 </option>
             </select>
             <div class="col row align-items-center ml-4">
                 <p class="m-0 p-0 ml-1 mr-1">Leader</p>
-                <select class="form-control" style="width: 200px;" (change)="handleAssignRole($event, 'leader')">
-                    <option *ngFor="let becDetail of becsDetail" [value]="becDetail.householderId" [selected]="becDetail['role'] === 'leader'">
+                <select class="form-control" style="width: 200px;" (change)="updateLeaderRole($event)">
+                    <option *ngFor="let becDetail of becsDetail | async" 
+                            [value]="becDetail.householderId"
+                            [selected]="bec.leaderId === becDetail.householderId">
                         {{becDetail.householderName}}
                     </option>
                 </select>
                 <span class="m-0 p-0 ml-5 mr-1">Assistant</span>
-                <select class="form-control" style="width: 200px;" (change)="handleAssignRole($event, 'assistant')">
-                    <option *ngFor="let becDetail of becsDetail" [value]="becDetail.householderId" [selected]="becDetail['role'] === 'assistant'">
+                <select class="form-control" style="width: 200px;" (change)="updateAssistantRole($event)">
+                    <option *ngFor="let becDetail of becsDetail | async" 
+                            [value]="becDetail.householderId" 
+                            [selected]="bec.assistantId === becDetail.householderId">
                         {{becDetail.householderName}}
                     </option>
                 </select>
@@ -42,10 +51,14 @@
             <th>Zip Code</th>
             <th>Primary Phone</th>
             <th>Secondary Phone</th>
+            <th style="width: 60px;"> </th>
         </thead>
         <tbody>
-            <tr *ngFor="let becDetail of becsDetail; let i = index">
-                <td>{{i + 1}} <i class="fas fa-check-circle text-success" *ngIf="['leader', 'assistant'].includes(becDetail['role'])"></i>
+            <tr *ngFor="let becDetail of becsDetail | async ; let i = index">
+                <td>{{i + 1}} 
+                    <i class="fas fa-check-circle text-success" 
+                    *ngIf="becDetail.householderId === bec.leaderId || 
+                    becDetail.householderId === bec.assistantId"></i>
                 </td>
                 <td>{{becDetail['householderName']}}</td>
                 <td>{{becDetail['members']}}</td>
@@ -55,6 +68,12 @@
                 <td>{{becDetail['zipCode']}}</td>
                 <td>{{becDetail['primaryPhone']}}</td>
                 <td>{{becDetail['secondaryPhone']}}</td>
+                <td>
+                    <button class="btn btn-sm btn-info" (click)="routeToEditPage(becDetail.householdId)">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>

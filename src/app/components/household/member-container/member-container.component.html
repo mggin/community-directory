@@ -19,14 +19,8 @@
         <div class="alert alert-danger" role="alert" *ngIf="showErrorMessage()">
             <p class="small m-0">Fill out the required fields.</p>
         </div>
-        <div class="alert alert-danger" role="alert" *ngIf="showCreateError(statusOptions.FAIL)">
-            <p class="small m-0">Failed to create the member.</p>
-        </div>
-        <div class="alert alert-danger" role="alert" *ngIf="showUpdateError(statusOptions.FAIL)">
-            <p class="small m-0">Member update failed.</p>
-        </div>
-        <div class="alert alert-success" role="alert" *ngIf="showUpdateError(statusOptions.SUCCESS)">
-            <p class="small m-0">Successfully updated.</p>
+        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+            <p class="small m-0">{{errorMessage}}</p>
         </div>
         <label class="member-detail-label mt-0">Christian name</label>
         <input class="form-control" placeholder="Christian name" [(ngModel)]="member.christianName" />

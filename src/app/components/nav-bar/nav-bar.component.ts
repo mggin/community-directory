@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MENU_OPTIONS } from 'src/app/constant-data';
-import { HouseholdCreatorComponent } from '../household/household-creator/household-creator.component';
-import { ManageBecComponent } from '../bec-group/manage-bec/manage-bec.component';
-import { DialogService } from 'src/app/services/dialog.service';
 import { RouteService } from 'src/app/services/route.service';
+import { AuthHttpService } from 'src/app/services/http-services/auth-http.service';
 
 @Component({
   selector: 'nav-bar',
@@ -14,10 +11,24 @@ import { RouteService } from 'src/app/services/route.service';
 export class NavBarComponent implements OnInit {
   menuOptions = MENU_OPTIONS;
   username: string;
-  constructor(public routeService: RouteService) {}
+  constructor(
+    public routeService: RouteService,
+    private authHttpService: AuthHttpService
+  ) {}
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('username')
+    this.username = localStorage.getItem('username');
   }
 
+  signOut() {
+    this.authHttpService.signOut().subscribe(
+      (HttpResponse) => {
+        localStorage.clear();
+        this.routeService.toLogin();
+      },
+      (HttpError) => {
+        console.error(HttpError);
+      }
+    );
+  }
 }

@@ -1,10 +1,9 @@
-import { Injectable, Component, TemplateRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HouseholdCreatorComponent } from '../components/household/household-creator/household-creator.component';
-import { ManageBecComponent } from '../components/bec-group/manage-bec/manage-bec.component';
 import { HouseholdEditorComponent } from '../components/household/household-editor/household-editor.component';
-import { ManageCommitteeComponent } from '../components/committee/manage-committee/manage-committee.component';
-import { AssignCommitteeComponent } from '../components/committee/assign-committee/assign-committee.component';
+import { ManageLeaderComponent } from '../components/leader/manage-leader/manage-leader.component';
+import { ManageBecComponent } from '../components/manage-bec/manage-bec.component';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +23,8 @@ export class DialogService {
     return this.open(HouseholdEditorComponent, data);
   }
 
-  openManageCommittee(data = undefined) {
-    return this.open(ManageCommitteeComponent, data);
-  }
-
-  openCommitteeEditor(data = undefined) {
-     return this.dialog.open(AssignCommitteeComponent, data)
+  openManageLeader(data = undefined){
+    return this.open(ManageLeaderComponent, data);
   }
 
   open(component: any, data: any) {

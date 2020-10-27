@@ -1,18 +1,14 @@
-export const MEMBER_ACTIONS = {
+export const ACTIONS = {
   CREATE: 'CREATE',
   EDIT: 'EDIT',
 };
 
-export const COMMITTEE_ACTIONS = {
-  CREATE: 'CREATE',
-  EDIT: 'EDIT',
-};
+export const DIALOG_NAMES = {
+  HOUSEHOLD_CREATOR: 'Household Creator',
+  MANAGE_BEC: 'Manage Bec',
+  MANAGE_COMMITTEE: 'Manage Committee'
+}
 
-export const PROGRESS_TYPES = {
-  CREATE: 'CREATE',
-  UPDATE: 'UPDATE',
-  DELETE: 'DELETE',
-};
 
 export const STATUS_OPTIONS = {
   SUCCESS: 'SUCCESS',
@@ -43,16 +39,6 @@ export const MEMBER_SQL_EXCHANGE = {
   gender: 'gender',
 };
 
-export const GENDER_OPTIONS = [
-  {
-    short: 'M',
-    long: 'Male',
-  },
-  {
-    short: 'F',
-    long: 'Female',
-  },
-];
 
 export const MENU_OPTIONS = {
   CREATE_HOUSEHOLD: 'Create Household',
@@ -72,9 +58,9 @@ export const BEC_COLUMNS = {
 };
 
 export const MODAL_NAMES = {
-  bec: 'bec',
-  create: 'create',
-  edit: 'edit',
-  committee: 'committee'
+  BEC: 'bec',
+  CREATE: 'create',
+  EDIT: 'edit',
+  COMMITTEE: 'committee'
 };
 

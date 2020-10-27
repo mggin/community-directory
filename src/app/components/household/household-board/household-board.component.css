@@ -1,25 +1,33 @@
 .household-list-col {
-    width: 350px;
+  width: 350px;
 }
 
 .household-list-item {
-    font-weight: 350;
+  font-weight: 350;
 }
 
-.household-list-item:hover, .member-list-item:hover {
-    background: rgba(149, 165, 166, 0.1);
-    cursor: pointer;
+.household-list-item:hover,
+.member-list-item:hover {
+  background: rgba(149, 165, 166, 0.1);
+  cursor: pointer;
 }
 
 .household-detail-label {
-    font-size: 12px;
-    margin: 10px 0px 2px 2px;
+  font-size: 12px;
+  margin: 10px 0px 2px 2px;
 }
 
 .card-bg {
-    background: #00000008
+  background: #00000008;
 }
 
 .list-bg {
-    background: #00000010;
+  background: #00000010;
+}
+
+.rounded-input {
+  border-radius: 50px;
+  padding: 5px 15px;
+  font-size: 12px;
+  margin-right: 50px;
 }

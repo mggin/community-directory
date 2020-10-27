@@ -1,0 +1,26 @@
+<div class="card p-4" style="width: 300px;" *ngIf="leader"> 
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
+    <label class="m-0">Role</label>
+    <input class="form-control mb-2" placeholder="Role" [(ngModel)]="leader.role"/>
+    <label class="m-0">Member</label>
+    <input list="name-input" 
+           class="form-control mb-4" 
+           name="name-input" 
+           placeholder="Member" 
+           [(ngModel)]="leader.name"
+           (keyup)="handleOnKeyUp($event)" 
+           (change)="handleOnChange($event)"/>
+    <datalist id="name-input">
+        <option *ngFor="let populatedMember of populatedMembers" [value]="populatedMember.name">
+    </datalist>
+    <button class="btn btn-success" [disabled]="disableActions" (click)="assignLeader()" *ngIf="createMode">
+        <i class="fas fa-check-circle mr-1" *ngIf="!disableActions"></i>
+        <i class="fa fa-circle-notch fa-spin" *ngIf="disableActions"></i>
+        Assign</button>
+    <button class="btn btn-info" (click)="updateLeader()" [disabled]="disableActions" *ngIf="editMode">
+        <i class="fas fa-check-circle mr-1" *ngIf="!disableActions"></i>
+        <i class="fa fa-circle-notch fa-spin" *ngIf="disableActions"></i>
+        Update</button>
+</div>

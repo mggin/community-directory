@@ -1,12 +1,12 @@
 export class HouseholdDetail {
   id: string;
-  becGroup: string;
+  becId: string;
   primaryPhone: string;
   secondaryPhone: string;
   email: string;
   addressLine: string;
   city: string;
   state: string;
-  zipCode: number;
-  householderId: number;
+  zipCode: string;
+  householderId: string;
 }

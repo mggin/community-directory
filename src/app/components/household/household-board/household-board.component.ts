@@ -1,52 +1,58 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from 'src/app/services/http.service';
-import { Observable, forkJoin } from 'rxjs';
-import {
-  Member,
-  HouseholdDetail,
-  SearchedMemberResponse,
-  SearchedMemberData,
-} from 'src/app/interfaces';
-import { MEMBER_ACTIONS, MODAL_NAMES } from 'src/app/constant-data';
+import { Observable } from 'rxjs';
+import { ACTIONS, MODAL_NAMES } from 'src/app/constant-data';
 import { SearchedMember } from 'src/app/models/searched-member';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog.service';
+import { HouseholdHttpService } from 'src/app/services/http-services/household-http.service';
+import { MatDialogRef } from '@angular/material/dialog';
 import { RouteService } from 'src/app/services/route.service';
-
+import { MemberHttpService } from 'src/app/services/http-services/member-http.service';
+import { Member } from 'src/app/models/member';
+import { HouseholdProps, HouseholdInfoProps } from 'src/app/interfaces';
 @Component({
   selector: 'household-board',
   templateUrl: './household-board.component.html',
   styleUrls: ['./household-board.component.css'],
 })
 export class HouseholdBoardComponent implements OnInit {
-  USER_ACTION = MEMBER_ACTIONS.EDIT;
+  timerId: any;
+  USER_ACTION = ACTIONS.EDIT;
   searchedMembers: SearchedMember[];
   name: string;
   members: Member[];
-  householdDetail: HouseholdDetail;
+  householdDetail: Partial<HouseholdProps>;
   becGroupOptions: Observable<string[]>;
+  householdInfo: HouseholdInfoProps;
+  dialogRef: MatDialogRef<any>;
   constructor(
-    private httpService: HttpService,
+    private memberHttpService: MemberHttpService,
     private route: ActivatedRoute,
-    private routeService: RouteService,
-    private dialogService: DialogService
+    private householdHttpService: HouseholdHttpService,
+    private dialogService: DialogService,
+    public routeService: RouteService
   ) {
+    route.queryParams.subscribe((params) => {
+      const { householdId } = params;
+      if (householdId) {
+        this.queryHousehold(householdId);
+      }
+    });
     route.params.subscribe((param) => {
       const { modal } = param;
       switch (modal) {
-        case MODAL_NAMES.bec:
-          dialogService.openManageBec();
+        case MODAL_NAMES.BEC:
+          this.dialogRef = dialogService.openManageBec();
           break;
-        case MODAL_NAMES.create:
-          dialogService.openHouseholdCreator();
+        case MODAL_NAMES.CREATE:
+          this.dialogRef = dialogService.openHouseholdCreator();
           break;
-        case MODAL_NAMES.committee:
-          dialogService.openManageCommittee();
+        case MODAL_NAMES.EDIT:
+          const { householdId } = this.route.snapshot.queryParams;
+          this.dialogRef = dialogService.openHouseholdEditor({ householdId });
           break;
-        case MODAL_NAMES.edit:
-          const { householdId } = param;
-          console.log(householdId);
-          this.openHouseholdEditor(householdId);
+        case MODAL_NAMES.COMMITTEE:
+          this.dialogRef = dialogService.openManageLeader();
           break;
         default:
           break;
@@ -55,17 +61,30 @@ export class HouseholdBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.becGroupOptions = this.httpService.getBecGroupOptions();
+    this.householdHttpService.getHouseholdsLastEntry().subscribe(
+      (HttpResponse: SearchedMember[]) => {
+        this.searchedMembers = HttpResponse;
+      },
+      (HttpError) => {
+        console.error(HttpError);
+      }
+    );
   }
 
   searchMembers() {
-    if (this.name) {
-      this.httpService
-        .searchMembers(this.name)
-        .subscribe((HttpResponse: any) => {
-          this.searchedMembers = HttpResponse.data;
-        });
+    if (this.timerId) {
+      clearTimeout(this.timerId);
     }
+    this.timerId = setTimeout(() => {
+      this.memberHttpService.searchMember(this.name).subscribe(
+        (HttpResponse: SearchedMember[]) => {
+          this.searchedMembers = HttpResponse;
+        },
+        (HttpError) => {
+          console.log(HttpError);
+        }
+      );
+    }, 1000);
   }
 
   handleHouseholdBoard(searchedMember: SearchedMember) {
@@ -74,30 +93,18 @@ export class HouseholdBoardComponent implements OnInit {
     });
     const { householdId } = searchedMember;
     searchedMember.selected = true;
-    this.queryHousehold(householdId);
+    this.routeService.toBoard(householdId);
   }
 
   queryHousehold(householdId: string) {
-    forkJoin([
-      this.httpService.getMembers(householdId),
-      this.httpService.getHousehold(householdId),
-    ]).subscribe((responses) => {
-      this.members = responses[0]['data'];
-      this.householdDetail = responses[1]['data'];
-    });
-  }
-
-  openHouseholdEditor(householdId: string) {
-    const dialogRef = this.dialogService.openHouseholdEditor( { householdId });
-
-    dialogRef.afterClosed().subscribe((householdId: string) => {
-      if (householdId) {
-        this.queryHousehold(householdId);
-      } else {
-        this.members = undefined;
-        this.householdDetail = undefined;
-        this.searchMembers();
-      }
-    });
+    this.householdHttpService.getHouseholdInfo(householdId).subscribe(
+      (HttpResponse: HouseholdInfoProps) => {
+        const { members, householdDetail } = HttpResponse;
+        this.householdInfo = HttpResponse;
+        this.householdDetail = householdDetail;
+        this.members = members;
+      },
+      (HttpError) => {}
+    );
   }
 }

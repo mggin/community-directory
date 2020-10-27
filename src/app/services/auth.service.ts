@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { decode } from 'punycode';
+import { ValidationService } from './validation.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private validationService: ValidationService) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
     const { redirect } = route.data;
@@ -29,10 +30,7 @@ export class AuthService implements CanActivate {
     const token = localStorage.getItem('accessToken');
     let payload: string;
     if (token) {
-      payload = window.atob(token.split('.')[1]);
-      const decodedToken = JSON.parse(payload);
-      const { username } = decodedToken;
-      localStorage.setItem('username', username);
+      const decodedToken = this.validationService.DecodeToken(token);
       return decodedToken.exp > Date.now() / 1000;
     }
     return false;

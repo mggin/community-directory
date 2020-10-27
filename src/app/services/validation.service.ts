@@ -4,12 +4,23 @@ import { HouseholdDetail } from '../models/household-detail';
 import { HOUSEHOLD_SQL_EXCHANGE, MEMBER_SQL_EXCHANGE } from '../constant-data';
 import { Member } from '../models/member';
 import { HouseholdDetailForm } from '../models/household-detail-form';
+import { decode } from 'punycode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ValidationService {
   constructor() {}
+
+  DecodeToken(token: string) {
+    const payload = window.atob(token.split('.')[1]);
+    const decodedToken = JSON.parse(payload);
+    return decodedToken;
+  }
+
+  GetCommunityId() {
+    return localStorage.getItem('communityId')||''
+  }
   MemberForm(memberForms: MemberForm[]) {
     for (const memberForm of memberForms) {
       const { ethnicName, gender } = memberForm.member;
@@ -39,7 +50,7 @@ export class ValidationService {
     } else {
       householdDetailForm.setting.requireHouseholderId = false;
     }
-    if (!householdDetailForm.householdDetail.becGroup) {
+    if (!householdDetailForm.householdDetail.becId) {
       householdDetailForm.setting.requireBecGroup = true;
     } else {
       householdDetailForm.setting.requireBecGroup = false;

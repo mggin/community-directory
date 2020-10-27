@@ -2,7 +2,7 @@
 <div class="col row m-0 p-0">
     <section class="household-list-col">
         <div class="card m-1 p-2">
-            <input class="form-control" placeholder="Search" (keyup.enter)="searchMembers()" [(ngModel)]="name" />
+            <input class="form-control rounded-input" placeholder="Search" (keyup)="searchMembers()" [(ngModel)]="name" />
             <ul class="list-group mt-2" *ngIf="searchedMembers">
                 <li *ngFor="let searchedMember of searchedMembers" class="list-group-item household-list-item"
                     [ngClass]="{'list-bg': searchedMember.selected}" (click)="handleHouseholdBoard(searchedMember)">
@@ -13,11 +13,11 @@
                 </li>
             </ul>
         </div>
-    </section>
+    </section> 
     <section class="col m-0 p-0 mt-1" *ngIf="householdDetail">
         <div class="col m-0 p-0 row justify-content-between">
-            <span class="card p-2 pl-3 pr-3 ml-1 card-bg">{{householdDetail.becGroup}}</span>
-            <button class="btn btn-sm btn-success pl-3 pr-3 mr-1" (click)="openHouseholdEditor(householdDetail.id)">
+            <span class="card p-2 pl-3 pr-3 ml-1 card-bg">{{householdDetail.becName}}</span>
+            <button class="btn btn-sm btn-success pl-3 pr-3 mr-1" (click)="routeService.toEdit(householdDetail.id)">
                 <i class="fas fa-edit"></i>
                 Edit
             </button>
