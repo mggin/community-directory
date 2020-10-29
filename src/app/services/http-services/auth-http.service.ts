@@ -1,10 +1,16 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+
+export const InterceptorSkip = 'X-Skip-Interceptor';
+export const InterceptorSkipHeader = new HttpHeaders({
+  'X-Skip-Interceptor': ''
+});
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthHttpService {
   apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
@@ -12,7 +18,7 @@ export class AuthHttpService {
     return this.http.post(`${this.apiUrl}/auth/sign-in`, {
       username,
       password,
-    });
+    }, { headers: InterceptorSkipHeader });
   }
 
   signOut() {

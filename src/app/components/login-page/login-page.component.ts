@@ -3,6 +3,7 @@ import { LoginResponse } from 'src/app/interfaces';
 import { Router } from '@angular/router';
 import { ValidationService } from 'src/app/services/validation.service';
 import { AuthHttpService } from 'src/app/services/http-services/auth-http.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'login-page',
@@ -36,14 +37,10 @@ export class LoginPageComponent implements OnInit {
         this.isSigningIn = true;
         this.router.navigate(['board']);
       },
-      (HttpError) => {
-        console.log(HttpError);
+      (HttpError: HttpErrorResponse) => {
+        this.errorMessage = HttpError.error;
+        this.isSigningIn = false;
       }
     );
-  }
-
-  handleSigInError(errorMsg: string) {
-    this.errorMessage = errorMsg;
-    this.isSigningIn = false;
   }
 }
