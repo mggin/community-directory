@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MemberForm } from '../models/member-form';
 import { HouseholdDetail } from '../models/household-detail';
-import { HOUSEHOLD_SQL_EXCHANGE, MEMBER_SQL_EXCHANGE } from '../constant-data';
+// import { HOUSEHOLD_SQL_EXCHANGE, MEMBER_SQL_EXCHANGE } from '../constant-data';
 import { Member } from '../models/member';
 import { HouseholdDetailForm } from '../models/household-detail-form';
 import { decode } from 'punycode';
@@ -21,6 +21,12 @@ export class ValidationService {
   GetCommunityId() {
     return localStorage.getItem('communityId')||''
   }
+
+  validateToken(): boolean {
+    const token = localStorage.getItem('accessToken');
+    return ( token && (this.DecodeToken(token).exp > ( Date.now() / 1000 )))
+  }
+
   MemberForm(memberForms: MemberForm[]) {
     for (const memberForm of memberForms) {
       const { ethnicName, gender } = memberForm.member;
@@ -61,23 +67,23 @@ export class ValidationService {
     );
   }
 
-  FormatHouseholdDetails(_householdDetail: HouseholdDetail) {
-    const householdDetails = {};
-    Object.keys(_householdDetail).forEach((key) => {
-      if (HOUSEHOLD_SQL_EXCHANGE[key]) {
-        householdDetails[HOUSEHOLD_SQL_EXCHANGE[key]] = _householdDetail[key];
-      }
-    });
-    return householdDetails;
-  }
+  // FormatHouseholdDetails(_householdDetail: HouseholdDetail) {
+  //   const householdDetails = {};
+  //   Object.keys(_householdDetail).forEach((key) => {
+  //     if (HOUSEHOLD_SQL_EXCHANGE[key]) {
+  //       householdDetails[HOUSEHOLD_SQL_EXCHANGE[key]] = _householdDetail[key];
+  //     }
+  //   });
+  //   return householdDetails;
+  // }
 
-  FormatMember(_member: Member) {
-    const member = {};
-    Object.keys(_member).forEach((key) => {
-      if (MEMBER_SQL_EXCHANGE[key]) {
-        member[MEMBER_SQL_EXCHANGE[key]] = _member[key];
-      }
-    });
-    return member;
-  }
+  // FormatMember(_member: Member) {
+  //   const member = {};
+  //   Object.keys(_member).forEach((key) => {
+  //     if (MEMBER_SQL_EXCHANGE[key]) {
+  //       member[MEMBER_SQL_EXCHANGE[key]] = _member[key];
+  //     }
+  //   });
+  //   return member;
+  // }
 }

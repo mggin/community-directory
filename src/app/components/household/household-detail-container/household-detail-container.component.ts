@@ -7,6 +7,8 @@ import { HouseholdDetailFormSetting } from 'src/app/models/household-detail-form
 import { BecsHttpService } from 'src/app/services/http-services/becs-http.service';
 import { HouseholdHttpService } from 'src/app/services/http-services/household-http.service';
 import { RouteService } from 'src/app/services/route.service';
+import { Message } from 'src/app/models/message';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'household-detail-container',
@@ -24,6 +26,8 @@ export class HouseholdDetailContainerComponent implements OnInit {
   showDeleteProgress: boolean = false;
   becGroupOptions: Observable<any>;
   showEditElements = true;
+  message = new Message();
+  interval: any;
   constructor(
     private becsHttpSvc: BecsHttpService,
     private householdHttpService: HouseholdHttpService,
@@ -35,47 +39,45 @@ export class HouseholdDetailContainerComponent implements OnInit {
   }
 
   resetProgress() {
-    setTimeout(() => {
-      this.disableActions = false;
-      this.showUpdateProgress = false;
-      this.showDeleteProgress = false;
-    }, 3000);
+    if (!this.disableActions) {
+       this.message = new Message();
+    }
+    this.disableActions = !this.disableActions;
+    this.showUpdateProgress = false;
+    this.showDeleteProgress = false;
   }
 
   updateHousehold() {
-    this.disableActions = true;
+    this.resetProgress();
     this.showUpdateProgress = true;
     const { id } = this.householdDetail;
     this.householdHttpService
       .updateHousehold(id, this.householdDetail)
+      .pipe(finalize(() => this.resetProgress()))
       .subscribe(
         (HttpResponse) => {
-          this.resetProgress();
-          console.info(HttpResponse);
+          this.message.success = `Successfully updated.`
         },
         (HttpError) => {
-          this.resetProgress();
-          console.error(HttpError);
+          this.message.error = HttpError
         }
       );
   }
 
   deleteHousehold() {
     if (confirm(`Are you sure you want to delete this Household?`)) {
-      this.disableActions = true;
+      this.resetProgress();
       this.showDeleteProgress = true;
       this.householdHttpService
         .deleteHousehold(this.householdDetail.id)
+        .pipe(finalize(() => this.resetProgress()))
         .subscribe(
           (HttpResponse) => {
-            this.resetProgress();
             this.closeDialog.emit();
             this.routeService.toBoard();
-            console.info(HttpResponse);
           },
           (HttpError) => {
-            this.resetProgress();
-            console.error(HttpError);
+            this.message.error = HttpError
           }
         );
     }

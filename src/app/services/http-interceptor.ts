@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (req.headers && req.headers.has(InterceptorSkip)) {
       const headers = req.headers.delete(InterceptorSkip);
-      return next.handle(req.clone({ headers }));
+      return next.handle(req.clone({ ...headers, withCredentials: true }));
     } else {
       const accessToken = localStorage.getItem('accessToken') || '';
       const clonedRequest = req.clone({

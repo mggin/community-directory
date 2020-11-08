@@ -1,0 +1,7 @@
+#remove-icon {
+    cursor: pointer;
+}
+
+#remove-icon:hover {
+    opacity: 0.8;
+}

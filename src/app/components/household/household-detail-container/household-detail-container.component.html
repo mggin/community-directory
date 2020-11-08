@@ -3,6 +3,12 @@
         Detail
     </div>
     <div class="card-body">
+        <div class="alert alert-success" role="alert" *ngIf="message.success">
+            {{message.success}}
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="message.error">
+            {{message.error}}
+          </div>
         <label class="household-detail-label mt-0">Householder</label>
         <select class="form-control default-options" [(ngModel)]="householdDetail.householderId"
             [ngClass]="{'border-danger': setting.requireHouseholderId}">

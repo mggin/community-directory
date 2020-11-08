@@ -8,12 +8,10 @@ import { Member } from 'src/app/models/member';
 import { Observable } from 'rxjs';
 import {
   ACTIONS,
-  STATUS_OPTIONS
 } from 'src/app/constant-data';
 import { MemberForm } from 'src/app/models/member-form';
 import { MemberFormSetting } from 'src/app/models/member-form-setting';
 import { HouseholdDetailForm } from 'src/app/models/household-detail-form';
-import { Router } from '@angular/router';
 import { MemberContainerComponent } from '../member-container/member-container.component';
 import { RouteService } from 'src/app/services/route.service';
 import { HouseholdHttpService } from 'src/app/services/http-services/household-http.service';
@@ -30,13 +28,6 @@ export class HouseholdEditorComponent implements OnInit {
   memberForms: MemberForm[];
   householdDetailForm: HouseholdDetailForm;
   becGroupOptions: Observable<string[]>;
-  isUpdating = false;
-  isDeleting = false;
-  disableActions = false;
-  statusOptions = STATUS_OPTIONS;
-  updateStatus: string;
-  deleteStatus: string;
-  showDeleteError = false;
   constructor(
     public dialogRef: MatDialogRef<HouseholdEditorComponent>,
     private householdHttpService: HouseholdHttpService,
@@ -75,10 +66,6 @@ export class HouseholdEditorComponent implements OnInit {
     return setting.collapse;
   }
 
-  showUpdateError(updateStatusType: string) {
-    return updateStatusType === this.updateStatus;
-  }
-
   closeDialog() {
     this.dialogRef.close();
     this.routeService.toBoard(this.householdId)
@@ -89,13 +76,15 @@ export class HouseholdEditorComponent implements OnInit {
       width: '450px',
       disableClose: true,
     });
-    dialogRef.componentInstance.householdId = this.householdDetailForm.householdDetail.id;
-    dialogRef.componentInstance.member = new Member();
-    dialogRef.componentInstance.setting = new MemberFormSetting();
-    dialogRef.componentInstance.action = ACTIONS.CREATE;
-    dialogRef.componentInstance.showCollapse = false;
-    dialogRef.componentInstance.index = this.memberForms.length + 1;
-    dialogRef.componentInstance.closeDialog.subscribe(
+    const instance = dialogRef.componentInstance;
+    instance.householdId = this.householdDetailForm.householdDetail.id;
+    instance.member = new Member();
+    instance.setting = new MemberFormSetting();
+    instance.action = ACTIONS.CREATE;
+    instance.showCollapse = false;
+    instance.index = this.memberForms.length + 1;
+
+    instance.closeDialog.subscribe(
       (shouldRefresh: boolean) => {
         dialogRef.close(shouldRefresh);
       }

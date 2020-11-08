@@ -5,10 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
 import { HouseholdBoardComponent } from './components/household/household-board/household-board.component';
 import { HouseholdCreatorComponent } from './components/household/household-creator/household-creator.component';
 import { MemberContainerComponent } from './components/household/member-container/member-container.component';
@@ -18,13 +15,16 @@ import { AuthInterceptor } from './services/http-interceptor';
 import { ManageLeaderComponent } from './components/leader/manage-leader/manage-leader.component';
 import { AssignLeaderComponent } from './components/leader/assign-leader/assign-leader.component';
 import { ManageBecComponent } from './components/manage-bec/manage-bec.component';
+import { AdminModule } from './components/admin/admin.module';
+import { SharedModule } from './components/shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    NavBarComponent,
     HouseholdBoardComponent,
     HouseholdCreatorComponent,
     MemberContainerComponent,
@@ -35,13 +35,13 @@ import { ManageBecComponent } from './components/manage-bec/manage-bec.component
     AssignLeaderComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
-    NgbModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    SharedModule
   ],
   providers: [
     {

@@ -1,33 +1,8 @@
 <div class="col m-0 p-0">
-    <div class="alert alert-danger mb-1" role="alert" *ngIf="showUpdateError(statusOptions.FAIL)">
-        <p class="m-0 p-0 small">Update Failed.</p>
-    </div>
-    <div class="alert alert-danger mb-1" role="alert" *ngIf="showDeleteError">
-        <p class="m-0 p-0 small">Failed to remove the household.</p>
-    </div>
-    <div class="alert alert-success mb-1" role="alert" *ngIf="showUpdateError(statusOptions.SUCCESS)">
-        <p class="m-0 p-0 small">Successfully updated.</p>
-    </div>
-    <!-- <div class="col row justify-content-between m-0 p-0">
-        <div class="col m-0 p-0">
-            <button class="btn btn-dark ml-1 btn-font-size" [disabled]="disableActions"
-                (click)="openMemberCreator()">
-                <i class="fas fa-user-plus"></i>
-                Add Member
-            </button>
-        </div>
-        <div class="col row justify-content-end m-0 p-0">
-            <button class="btn btn-dark mr-1 btn-font-size" [disabled]="disableActions"
-                (click)="closeDialog()">
-                <i class="fas fa-chevron-circle-left"></i>
-                Back
-            </button>
-        </div>
-    </div> -->
     <div class="col row m-0 p-0">
         <div class="col m-0 p-0">
             <div class="col row justify-content-end m-0 p-0">
-                <button class="btn btn-dark ml-1 btn-font-size mr-1" [disabled]="disableActions"
+                <button class="btn btn-dark ml-1 btn-font-size mr-1"
                     (click)="openMemberCreator()">
                     <i class="fas fa-user-plus"></i>
                     Add Member
@@ -48,7 +23,7 @@
 
         <div class="col m-0 p-0">
             <div class="col row justify-content-end m-0 p-0">
-                <button class="btn btn-dark btn-font-size" [disabled]="disableActions"
+                <button class="btn btn-dark btn-font-size"
                     (click)="closeDialog()">
                     <i class="fas fa-chevron-circle-left"></i>
                     Back

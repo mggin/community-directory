@@ -2,6 +2,7 @@ import { Member } from './models/member';
 
 export interface LoginResponse {
   accessToken: string;
+  isAdmin: boolean;
 }
 
 export interface BecProps {

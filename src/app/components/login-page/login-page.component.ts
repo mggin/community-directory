@@ -29,13 +29,16 @@ export class LoginPageComponent implements OnInit {
     this.authHttpService.signIn(this.username, this.password).subscribe(
       (HttpResponse: LoginResponse) => {
         this.isSigningIn = false;
-        const { accessToken } = HttpResponse;
+        const { accessToken, isAdmin } = HttpResponse;
         const decodedToken = this.validationService.DecodeToken(accessToken);
         const { username } = decodedToken;
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('username', username);
-        this.isSigningIn = true;
-        this.router.navigate(['board']);
+        if (isAdmin) {
+          this.router.navigate(['admin']);
+        } else {
+          this.router.navigate(['board']);
+        }
       },
       (HttpError: HttpErrorResponse) => {
         this.errorMessage = HttpError.error;

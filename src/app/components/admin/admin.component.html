@@ -1,0 +1,45 @@
+<nav-bar [hideElements]="true"></nav-bar>
+<div class="col p-2 m-0">
+    <div class="alert alert-success mb-1" role="alert" *ngIf="message.success">
+        {{message.success}}
+      </div>
+      <div class="alert alert-danger mb-1" role="alert" *ngIf="message.error">
+        {{message.error}}
+      </div>
+    <div class="col row justify-content-end m-0 p-0 mb-1">
+        <button class="btn btn-dark" (click)="addCommunity()">
+            <i class="fas fa-church"></i>
+            <span class="ml-2 mb-4">Add Community</span>
+        </button>
+    </div>
+    <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Households</th>
+                <th>Members</th>
+                <th style="width: 50px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let community of communities | async" class="col p-0 m-0">
+                <td>{{community.name}}</td>
+                <td>{{community.communityCode}}</td>
+                <td>{{community.city}}</td>
+                <td>{{community.state}}</td>
+                <td>{{community.households}}</td>
+                <td>{{community.members}}</td>
+                <td class="p-2">
+                    <div class="d-flex justify-content-center m-auto p-0">
+                        <div>
+                            <i class="fas fa-trash text-danger" id="remove-icon" (click)="deleteCommunity(community.id)"></i>
+                        </div>
+                    </div> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

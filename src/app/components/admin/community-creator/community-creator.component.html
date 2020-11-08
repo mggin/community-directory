@@ -1,0 +1,16 @@
+<div class="col m-0 p-3">
+    <div class="alert alert-danger" role="alert" *ngIf="message.error">
+        {{message.error}}
+      </div>
+    <input class="form-control mb-2" placeholder="Name" [(ngModel)]="community.name"/>
+    <input class="form-control mb-2" placeholder="Code" (keyup)="convertToUpperCase()" [(ngModel)]="community.communityCode"/>
+    <input class="form-control mb-2" placeholder="City" [(ngModel)]="community.city"/>
+    <input class="form-control mb-3" placeholder="State" [(ngModel)]="community.state"/>
+    <div class="col row justify-content-center m-0 p-0">
+        <button class="btn btn-success" (click)="addCommunity()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            Add Community
+    </button>
+    </div>
+    
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MENU_OPTIONS } from 'src/app/constant-data';
 import { RouteService } from 'src/app/services/route.service';
 import { AuthHttpService } from 'src/app/services/http-services/auth-http.service';
@@ -9,6 +9,7 @@ import { AuthHttpService } from 'src/app/services/http-services/auth-http.servic
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
+  @Input() hideElements: boolean = false;
   menuOptions = MENU_OPTIONS;
   username: string;
   constructor(
