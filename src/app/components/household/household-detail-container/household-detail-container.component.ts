@@ -9,6 +9,8 @@ import { HouseholdHttpService } from 'src/app/services/http-services/household-h
 import { RouteService } from 'src/app/services/route.service';
 import { Message } from 'src/app/models/message';
 import { finalize } from 'rxjs/operators';
+import { ValidationService } from 'src/app/services/validation.service';
+import { HouseholdDetailForm } from 'src/app/models/household-detail-form';
 
 @Component({
   selector: 'household-detail-container',
@@ -16,11 +18,12 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./household-detail-container.component.css'],
 })
 export class HouseholdDetailContainerComponent implements OnInit {
-  @Input() householdDetail: HouseholdDetail;
   @Input() memberForms: MemberForm[];
-  @Input() setting: HouseholdDetailFormSetting;
+  @Input() householdDetailForm: HouseholdDetailForm;
   @Input() action: string;
   @Output() closeDialog = new EventEmitter();
+  householdDetail: HouseholdDetail;
+  setting: HouseholdDetailFormSetting;
   disableActions: boolean = false;
   showUpdateProgress: boolean = false;
   showDeleteProgress: boolean = false;
@@ -28,14 +31,19 @@ export class HouseholdDetailContainerComponent implements OnInit {
   showEditElements = true;
   message = new Message();
   interval: any;
+
   constructor(
     private becsHttpSvc: BecsHttpService,
     private householdHttpService: HouseholdHttpService,
-    private routeService: RouteService
+    private routeService: RouteService,
+    private validationService: ValidationService
   ) {}
   ngOnInit(): void {
+    this.householdDetail = this.householdDetailForm.householdDetail;
+    this.setting = this.householdDetailForm.setting;
     this.becGroupOptions = this.becsHttpSvc.getBecs();
     this.showEditElements = this.action === ACTIONS.EDIT;
+    console.log(this.action)
   }
 
   resetProgress() {
@@ -48,10 +56,14 @@ export class HouseholdDetailContainerComponent implements OnInit {
   }
 
   updateHousehold() {
-    this.resetProgress();
-    this.showUpdateProgress = true;
-    const { id } = this.householdDetail;
-    this.householdHttpService
+    const householdValidation = this.validationService.HouseholdDetailForm(
+      this.householdDetailForm
+    );
+    if (householdValidation) {
+      this.resetProgress();
+      this.showUpdateProgress = true;
+      const { id } = this.householdDetail;
+      this.householdHttpService
       .updateHousehold(id, this.householdDetail)
       .pipe(finalize(() => this.resetProgress()))
       .subscribe(
@@ -62,6 +74,7 @@ export class HouseholdDetailContainerComponent implements OnInit {
           this.message.error = HttpError
         }
       );
+    }
   }
 
   deleteHousehold() {

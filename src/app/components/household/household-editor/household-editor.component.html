@@ -32,9 +32,8 @@
             <div class="col m-0 p-0 mt-1" *ngIf="householdDetailForm">
                 <household-detail-container
                     [action]="ACTION" 
-                    [householdDetail]="householdDetailForm.householdDetail"
+                    [householdDetailForm]="householdDetailForm"
                     [memberForms]="memberForms"
-                    [setting]="householdDetailForm.setting"
                     (closeDialog)="dialogRef.close()">
                 </household-detail-container>
             </div>

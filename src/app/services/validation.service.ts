@@ -29,41 +29,53 @@ export class ValidationService {
 
   MemberForm(memberForms: MemberForm[]) {
     for (const memberForm of memberForms) {
-      const { ethnicName, gender } = memberForm.member;
-      if (!ethnicName || ethnicName.length < 1) {
-        memberForm.setting.requireEthnicName = true;
-      } else if (ethnicName) {
-        memberForm.setting.requireEthnicName = false;
+      const { ethnicName, gender, phone } = memberForm.member;
+      // if (!ethnicName || ethnicName.length < 1) {
+      memberForm.setting.requireEthnicName = !ethnicName || ethnicName.length < 1;
+      if (phone) {
+        memberForm.setting.requirePhone = !(phone.length <= 12 && phone.length >= 10)
+        console.log('inn')
+      } else {
+        memberForm.setting.requirePhone = false;
       }
-      if (!gender) {
-        memberForm.setting.requireGender = true;
-      } else if (gender) {
-        memberForm.setting.requireGender = false;
-      }
+      console.log(memberForm.setting)
+      // } else if (ethnicName) {
+      //   memberForm.setting.requireEthnicName = false;
+      // }
+      // if (!gender) {
+      //   memberForm.setting.requireGender = true;
+      // } else if (gender) {
+      memberForm.setting.requireGender = !gender
+      // }
+      // if ()
     }
     return memberForms.every((memberForm) => {
       return (
         !memberForm.setting.requireEthnicName &&
-        !memberForm.setting.requireGender
+        !memberForm.setting.requireGender &&
+        !memberForm.setting.requirePhone
       );
     });
   }
 
   HouseholdDetailForm(householdDetailForm: HouseholdDetailForm) {
     console.log(householdDetailForm.householdDetail)
-    if (!householdDetailForm.householdDetail.householderId) {
-      householdDetailForm.setting.requireHouseholderId = true;
-    } else {
-      householdDetailForm.setting.requireHouseholderId = false;
+    const { householderId, becId, primaryPhone, secondaryPhone } = householdDetailForm.householdDetail;
+    householdDetailForm.setting.requireHouseholderId = !householderId;
+    householdDetailForm.setting.requireBecGroup = !becId;
+    householdDetailForm.setting.requirePrimaryPhone = false;
+    householdDetailForm.setting.requireSecondaryPhone = false;
+    if (primaryPhone) {
+      householdDetailForm.setting.requirePrimaryPhone =  !(primaryPhone.length >= 10 && primaryPhone.length <= 12)
     }
-    if (!householdDetailForm.householdDetail.becId) {
-      householdDetailForm.setting.requireBecGroup = true;
-    } else {
-      householdDetailForm.setting.requireBecGroup = false;
-    }
+    if (secondaryPhone) {
+      householdDetailForm.setting.requireSecondaryPhone =  !(secondaryPhone.length >= 10 && secondaryPhone.length <= 12)
+    } 
     return (
       !householdDetailForm.setting.requireHouseholderId &&
-      !householdDetailForm.setting.requireBecGroup
+      !householdDetailForm.setting.requireBecGroup && 
+      !householdDetailForm.setting.requirePrimaryPhone &&
+      !householdDetailForm.setting.requireSecondaryPhone
     );
   }
 

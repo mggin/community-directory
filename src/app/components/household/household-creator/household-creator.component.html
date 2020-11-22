@@ -2,14 +2,14 @@
     {{errorMessage}}    
 </div>
 <div class="row justify-content-center">
-    <div class="col">
-        <div class="col row justify-content-end m-0 p-0">
+    <div class="col m-0 p-0">
+        <div class="col row justify-content-end m-0 p-0 mb-1">
             <button class="btn btn-dark m-0 add-btn" (click)="addMember()" [disabled]="disableActions">
                 <i class="fas fa-user-plus"></i>
                 Add Member
             </button>
         </div>
-        <div *ngFor="let memberForm of memberForms; let i = index" class="card mt-1">
+        <ng-container *ngFor="let memberForm of memberForms; let i = index">
             <member-container 
                 [action]="ACTION"
                 [member]="memberForm.member" 
@@ -17,7 +17,7 @@
                 [setting]="memberForm.setting" 
                 (removeLocalMember)="removeLocalMember($event)">
             </member-container>
-        </div>
+        </ng-container>
     </div>
     <div class="col">
         <div class="col row justify-content-end m-0 p-0 mb-1">
@@ -32,9 +32,9 @@
         </div>
         <household-detail-container 
             [action]="ACTION"
-            [householdDetail]="householdDetailForm.householdDetail"
+            [householdDetailForm]="householdDetailForm"
             [memberForms]="memberForms"
-            [setting]="householdDetailForm.setting">
+            >
         </household-detail-container>
 
     </div>

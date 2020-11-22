@@ -58,7 +58,7 @@ export class MemberContainerComponent implements OnInit {
   }
 
   showErrorMessage() {
-    return this.setting.requireEthnicName || this.setting.requireGender;
+    return this.setting.requireEthnicName || this.setting.requireGender || this.setting.requirePhone;
   }
 
   collapseCard(setting: MemberFormSetting) {

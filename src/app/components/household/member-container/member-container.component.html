@@ -1,77 +1,138 @@
 <div class="card">
-    <ng-container *ngIf="showCollapse">
-        <div class="card-header row col m-0 justify-content-between align-items-center">
-            <div class="col m-0 p-0">
-                <p *ngIf="!setting.collapse" class="m-0 p-0">{{member.christianName}}
-                    {{member.ethnicName}}</p>
-            </div>
-            <div>
-                <i class="fas fa-chevron-circle-right collapse-icon" *ngIf="!setting.collapse"
-                    (click)="collapseCard(setting)"></i>
-                <i class="fas fa-chevron-circle-down collapse-icon" *ngIf="setting.collapse"
-                    (click)="collapseCard(setting)"></i>
-
-            </div>
-        </div>
-    </ng-container>
-    <div class="card-body" *ngIf="setting.collapse">
-        <!-- <p class="col small text-danger m-0 p-0" *ngIf="showErrorMessage()">Fill out the required fields.</p> -->
-        <div class="alert alert-danger" role="alert" *ngIf="showErrorMessage()">
-            <p class="small m-0">Fill out the required fields.</p>
-        </div>
-        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
-            <p class="small m-0">{{errorMessage}}</p>
-        </div>
-        <label class="member-detail-label mt-0">Christian name</label>
-        <input class="form-control" placeholder="Christian name" [(ngModel)]="member.christianName" />
-        <label class="member-detail-label">Ethnic name</label>
-        <input class="form-control" placeholder="Ethnic name" [(ngModel)]="member.ethnicName"
-            [ngClass]="{'border-danger': setting.requireEthnicName}" />
-        <label class="member-detail-label">Nick name</label>
-        <input class="form-control" placeholder="Nick name" [(ngModel)]="member.nickName" />
-        <label class="member-detail-label">Birth year</label>
-        <select class="form-control default-options" [(ngModel)]="member.birthYear">
-            <option value="undefined" disabled>Select Birth Year</option>
-            <option *ngFor="let birthYearOption of birthYearOptions" [value]="birthYearOption">{{birthYearOption}}
-            </option>
-        </select>
-        <label class="member-detail-label">Gender</label>
-        <select class="form-control default-options" [(ngModel)]="member.gender"
-            [ngClass]="{'border-danger': setting.requireGender}">
-            <option value="undefined" disabled>Select Gender</option>
-            <option *ngFor="let genderOption of genderOptions" [value]="genderOption.short">{{genderOption.long}}
-            </option>
-        </select>
-        <label class="member-detail-label">Phone</label>
-        <input class="form-control" placeholder="Phone number" type="text" max=10 [(ngModel)]="member.phone" />
-        <div class="row col m-0 p-0 justify-content-end mt-4">
-            <ng-container *ngIf="showCreateElements">
-                <button class="btn btn-success btn-font-size mr-1" (click)="createMember(member)"
-                    [disabled]="disableActions">
-                    <i class="fas fa-cloud-upload-alt" *ngIf="!showCreateProgress"></i>
-                    <i class="fa fa-circle-notch fa-spin" *ngIf="showCreateProgress"></i>
-                    Save</button>
-                <button class="btn btn-dark mr-1 btn-font-size" [disabled]="disableActions"
-                    (click)="closeDialog.emit()">
-                    <i class="fas fa-chevron-circle-left"></i>
-                    Back
-                </button>
-            </ng-container>
-            <ng-container *ngIf="showEditElements">
-                <button class="btn btn-success btn-font-size" (click)="updateMember(member)"
-                    [disabled]="disableActions">
-                    <i class="fas fa-cloud-upload-alt" *ngIf="!showUpdateProgress"></i>
-                    <i class="fa fa-circle-notch fa-spin" *ngIf="showUpdateProgress"></i>
-                    Update</button>
-                <button class="btn btn-danger btn-font-size ml-2" (click)="deleteMember(member.id)"
-                    [disabled]="disableActions">
-                    <i class="fas fa-trash" *ngIf="!showDeleteProgress"></i>
-                    <i class="fa fa-circle-notch fa-spin" *ngIf="showDeleteProgress"></i>
-                    Delete</button>
-            </ng-container>
-        </div>
-        <div class="col row justify-content-center m-0 p-0 mt-3" *ngIf="showRemoveButton">
-            <button class="btn btn-danger remove-btn" (click)="removeLocalMember.emit(index)">Remove</button>
-        </div>
+  <ng-container *ngIf="showCollapse">
+    <div
+      class="card-header row col m-0 justify-content-between align-items-center bg-secondary text-white"
+    >
+      <div class="col m-0 p-0">
+        <p *ngIf="!setting.collapse" class="m-0 p-0">
+          {{ member.christianName }} {{ member.ethnicName }} &nbsp;
+        </p>
+      </div>
+      <div>
+        <i
+          class="fas fa-chevron-circle-right collapse-icon"
+          *ngIf="!setting.collapse"
+          (click)="collapseCard(setting)"
+        ></i>
+        <i
+          class="fas fa-chevron-circle-down collapse-icon"
+          *ngIf="setting.collapse"
+          (click)="collapseCard(setting)"
+        ></i>
+      </div>
     </div>
+  </ng-container>
+  <div class="card-body" *ngIf="setting.collapse">
+    <!-- <p class="col small text-danger m-0 p-0" *ngIf="showErrorMessage()">Fill out the required fields.</p> -->
+    <div class="alert alert-danger" role="alert" *ngIf="showErrorMessage()">
+      <p class="small m-0">Fill out the required fields.</p>
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+      <p class="small m-0">{{ errorMessage }}</p>
+    </div>
+    <label class="member-detail-label mt-0">Christian name</label>
+    <input
+      class="form-control"
+      placeholder="Christian name"
+      [(ngModel)]="member.christianName"
+    />
+    <label class="member-detail-label">Ethnic name</label>
+    <input
+      class="form-control"
+      placeholder="Ethnic name"
+      [(ngModel)]="member.ethnicName"
+      [ngClass]="{ 'border-danger': setting.requireEthnicName }"
+    />
+    <label class="member-detail-label">Nick name</label>
+    <input
+      class="form-control"
+      placeholder="Nick name"
+      [(ngModel)]="member.nickName"
+    />
+    <label class="member-detail-label">Birth year</label>
+    <select class="form-control default-options" [(ngModel)]="member.birthYear">
+      <option value="undefined" disabled>Select Birth Year</option>
+      <option
+        *ngFor="let birthYearOption of birthYearOptions"
+        [value]="birthYearOption"
+      >
+        {{ birthYearOption }}
+      </option>
+    </select>
+    <label class="member-detail-label">Gender</label>
+    <select
+      class="form-control default-options"
+      [(ngModel)]="member.gender"
+      [ngClass]="{ 'border-danger': setting.requireGender }"
+    >
+      <option value="undefined" disabled>Select Gender</option>
+      <option
+        *ngFor="let genderOption of genderOptions"
+        [value]="genderOption.short"
+      >
+        {{ genderOption.long }}
+      </option>
+    </select>
+    <label class="member-detail-label">Phone</label>
+    <input
+      class="form-control"
+      placeholder="Phone number"
+      type="text"
+      max="10"
+      [(ngModel)]="member.phone"
+      [ngClass]="{'border-danger': setting.requirePhone}" 
+    />
+    <div class="row col m-0 p-0 justify-content-end mt-4">
+      <ng-container *ngIf="showCreateElements">
+        <button
+          class="btn btn-success btn-font-size mr-1"
+          (click)="createMember(member)"
+          [disabled]="disableActions"
+        >
+          <i class="fas fa-cloud-upload-alt" *ngIf="!showCreateProgress"></i>
+          <i class="fa fa-circle-notch fa-spin" *ngIf="showCreateProgress"></i>
+          Save
+        </button>
+        <button
+          class="btn btn-dark mr-1 btn-font-size"
+          [disabled]="disableActions"
+          (click)="closeDialog.emit()"
+        >
+          <i class="fas fa-chevron-circle-left"></i>
+          Back
+        </button>
+      </ng-container>
+      <ng-container *ngIf="showEditElements">
+        <button
+          class="btn btn-success btn-font-size"
+          (click)="updateMember(member)"
+          [disabled]="disableActions"
+        >
+          <i class="fas fa-cloud-upload-alt" *ngIf="!showUpdateProgress"></i>
+          <i class="fa fa-circle-notch fa-spin" *ngIf="showUpdateProgress"></i>
+          Update
+        </button>
+        <button
+          class="btn btn-danger btn-font-size ml-2"
+          (click)="deleteMember(member.id)"
+          [disabled]="disableActions"
+        >
+          <i class="fas fa-trash" *ngIf="!showDeleteProgress"></i>
+          <i class="fa fa-circle-notch fa-spin" *ngIf="showDeleteProgress"></i>
+          Delete
+        </button>
+      </ng-container>
+    </div>
+    <div
+      class="col row justify-content-center m-0 p-0 mt-3"
+      *ngIf="showRemoveButton"
+    >
+      <button
+        class="btn btn-danger remove-btn"
+        (click)="removeLocalMember.emit(index)"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
 </div>

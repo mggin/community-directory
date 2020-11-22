@@ -12,10 +12,10 @@
 .collapse-icon {
     font-size: 15px;
     margin-top: 5px;
-    color: rgba(113, 128, 147,1.0);
+    color: rgba(236, 240, 241,1.0); 
 }
 
 .collapse-icon:hover {
     cursor: pointer;
-    color: rgba(113, 128, 147, 0.8);
+    color: rgba(236, 240, 241, 0.8); 
 }
