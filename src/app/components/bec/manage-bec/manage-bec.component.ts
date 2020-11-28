@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteService } from 'src/app/services/route.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BecsHttpService } from 'src/app/services/http-services/becs-http.service';
 import { BecProps } from 'src/app/interfaces';
+import { DialogService } from 'src/app/services/dialog.service';
+import { BecCreatorComponent } from '../bec-creator/bec-creator.component';
 
 @Component({
   selector: 'app-manage-bec',
@@ -20,7 +22,8 @@ export class ManageBecComponent implements OnInit {
   constructor(
     private becHttpService: BecsHttpService,
     private routeService: RouteService,
-    private dialogRef: MatDialogRef<ManageBecComponent>
+    private dialogRef: MatDialogRef<ManageBecComponent>,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +96,19 @@ export class ManageBecComponent implements OnInit {
 
   routeToEditPage(householdId: string) {
     window.open(`/board/edit?householdId=${householdId}`)
+  }
+
+  openBecCreator() {
+    const dialogRef = this.dialog.open(BecCreatorComponent, {
+      width: '450px',
+      disableClose: true,
+    })
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result['shouldRefresh']) {
+         this.initPage();
+      }
+    })
   }
 
   closeDialog() {

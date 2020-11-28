@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { BecCreatorComponent } from '../components/bec/bec-creator/bec-creator.component';
+import { ManageBecComponent } from '../components/bec/manage-bec/manage-bec.component';
 import { HouseholdCreatorComponent } from '../components/household/household-creator/household-creator.component';
 import { HouseholdEditorComponent } from '../components/household/household-editor/household-editor.component';
 import { ManageLeaderComponent } from '../components/leader/manage-leader/manage-leader.component';
-import { ManageBecComponent } from '../components/manage-bec/manage-bec.component';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,10 @@ export class DialogService {
 
   openManageBec(data = undefined) {
     return this.open(ManageBecComponent, data);
+  }
+
+  openBecCreator(data = undefined) {
+    return this.open(BecCreatorComponent, data);
   }
 
   openHouseholdEditor(data = undefined) {

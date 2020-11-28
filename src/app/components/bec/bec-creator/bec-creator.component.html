@@ -1,0 +1,9 @@
+<p>Basic Ecclesial Community</p>
+<div class="col row m-0 p-0">
+    <input class="col form-control" placeholder="name" [(ngModel)]="becName"/>
+    <button class="btn btn-success ml-1" (click)="addBec()">
+        <i class="fas fa-spin fa-circle-notch" *ngIf="isCreating"></i>
+        <i class="fas fa-cloud-upload-alt" *ngIf="!isCreating"></i>
+        Add</button>
+</div>
+

@@ -14,11 +14,12 @@ import { HouseholdEditorComponent } from './components/household/household-edito
 import { AuthInterceptor } from './services/http-interceptor';
 import { ManageLeaderComponent } from './components/leader/manage-leader/manage-leader.component';
 import { AssignLeaderComponent } from './components/leader/assign-leader/assign-leader.component';
-import { ManageBecComponent } from './components/manage-bec/manage-bec.component';
 import { AdminModule } from './components/admin/admin.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { BecCreatorComponent } from './components/bec/bec-creator/bec-creator.component';
+import { ManageBecComponent } from './components/bec/manage-bec/manage-bec.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     HouseholdEditorComponent,
     ManageBecComponent,
     ManageLeaderComponent,
-    AssignLeaderComponent
+    AssignLeaderComponent,
+    BecCreatorComponent
   ],
   imports: [
     CommonModule,

@@ -19,7 +19,7 @@ export class BecsHttpService {
   getBecDetails(becId: string) {
     return this.http.get(`${this.becApiUrl}/${becId}/details`);
   }
-  createBec(props: BecProps) {
+  createBec(props: Partial<BecProps>) {
     return this.http.post(this.becApiUrl, { ...props });
   }
   updateBec(becId: string, props: BecProps) {
