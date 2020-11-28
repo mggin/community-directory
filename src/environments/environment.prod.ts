@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://api.community-directory.thanggin.com'
+  apiUrl: 'https://api.community-directory.thanggin.com'
 };
