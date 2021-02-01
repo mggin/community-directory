@@ -22,13 +22,18 @@ export class BecsHttpService {
   createBec(props: Partial<BecProps>) {
     return this.http.post(this.becApiUrl, { ...props });
   }
-  updateBec(becId: string, props: BecProps) {
+  updateBec(becId: string, props: Partial<BecProps>) {
     return this.http.put(`${this.becApiUrl}/${becId}`, { ...props });
   }
   updateBecLeader(becId: string, props: Partial<BecProps>) {
     return this.http.patch(`${this.becApiUrl}/${becId}/leader`, { ...props });
   }
   updateBecAssistant(becId: string, props: Partial<BecProps>) {
-    return this.http.patch(`${this.becApiUrl}/${becId}/assistant`, {...props});
+    return this.http.patch(`${this.becApiUrl}/${becId}/assistant`, {
+      ...props,
+    });
+  }
+  removeBec(becId: string) {
+    return this.http.delete(`${this.becApiUrl}/${becId}`);
   }
 }

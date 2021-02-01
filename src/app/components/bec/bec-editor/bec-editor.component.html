@@ -1,0 +1,30 @@
+<div *ngIf="becsDetail">
+    <p class="m-0 p-0">Basic Ecclesial Community</p>
+    <p class="m-0 p-0 mt-2 small">Name</p>
+    <input class="form-control" placeholder="Name" [(ngModel)]="bec.name" />
+    <p class="m-0 p-0 mt-2 small">Leader</p>
+    <select class="form-control" [(ngModel)]="bec.leaderId">
+        <option *ngFor="let becDetail of becsDetail | async" [value]="becDetail.householderId">
+            {{becDetail.householderName}}
+        </option>
+    </select>
+    <p class="m-0 p-0 mt-2 small">Assistant</p>
+    <select class="form-control" [(ngModel)]="bec.assistantId">
+        <option *ngFor="let becDetail of becsDetail | async" [value]="becDetail.householderId">
+            {{becDetail.householderName}}
+        </option>
+    </select>
+    <p class="m-0 p-0 mt-2 small">Locations</p>
+    <textarea class="form-control" placeholder="Locations" [(ngModel)]="bec.locations"></textarea>
+    <div class="col row m-0 p-0 mt-3">
+        <button class="btn btn-dark mr-2" (click)="dialogRef.close({shouldRefresh: false})" [disabled]="updating">
+            <i class="fas fa-times-circle"></i>
+            Cancel
+        </button>
+        <button class="btn btn-success" (click)="updateBecDetail()" [disabled]="updating">
+            <i class="fas fa-circle-notch fa-spin" *ngIf="updating"></i>
+            <i class="fas fa-cloud-upload-alt" *ngIf="!updating"></i>
+            Update
+        </button>
+    </div>
+</div>

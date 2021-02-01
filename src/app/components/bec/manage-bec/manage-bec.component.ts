@@ -3,8 +3,7 @@ import { RouteService } from 'src/app/services/route.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BecsHttpService } from 'src/app/services/http-services/becs-http.service';
 import { BecProps } from 'src/app/interfaces';
-import { DialogService } from 'src/app/services/dialog.service';
-import { BecCreatorComponent } from '../bec-creator/bec-creator.component';
+import { BecManagerComponent } from '../bec-manager/bec-manager.component';
 
 @Component({
   selector: 'app-manage-bec',
@@ -98,14 +97,14 @@ export class ManageBecComponent implements OnInit {
     window.open(`/board/edit?householdId=${householdId}`)
   }
 
-  openBecCreator() {
-    const dialogRef = this.dialog.open(BecCreatorComponent, {
-      width: '450px',
+  openBecManager() {
+    const dialogRef = this.dialog.open(BecManagerComponent, {
+      width: '80vw',
       disableClose: true,
     })
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result['shouldRefresh']) {
+      if (result && result['shouldRefresh']) {
          this.initPage();
       }
     })

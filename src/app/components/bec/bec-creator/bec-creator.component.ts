@@ -9,34 +9,46 @@ import { BecsHttpService } from 'src/app/services/http-services/becs-http.servic
 @Component({
   selector: 'app-bec-creator',
   templateUrl: './bec-creator.component.html',
-  styleUrls: ['./bec-creator.component.css']
+  styleUrls: ['./bec-creator.component.css'],
 })
 export class BecCreatorComponent implements OnInit {
-  becName: string;
-  isCreating: boolean;
   message = new Message();
+  bec = new Bec();
+  creating = false;
+
   constructor(
     private becsHttpService: BecsHttpService,
-    private dialogRef: MatDialogRef<BecCreatorComponent>
-  ) { }
+    public dialogRef: MatDialogRef<BecCreatorComponent>
+  ) {}
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   addBec() {
-    if (this.becName && this.becName.length >= 1) {
-      this.isCreating = false;
-      this.becsHttpService.createBec({name: this.becName})
-      .pipe(finalize(() => {
-         this.isCreating = false;
-      })).subscribe((HttpResponse) => {
-         console.log(HttpResponse)
-         this.dialogRef.close({ shouldRefresh: true });
-      }, (HttpError) => {
-         this.message.error =  `Failed to create bec.`
-      })
+    if (this.bec.name && this.bec.locations) {
+      this.creating = true;
+      this.message = new Message();
+      // this.isCreating = false;
+      let success = false;
+      this.becsHttpService
+        .createBec(this.bec)
+        .pipe(
+          finalize(() => {
+            setTimeout(() => {
+              this.creating = false;
+              if (success) {
+                this.dialogRef.close({ shouldRefresh: true });
+              }
+            }, 2000);
+          })
+        )
+        .subscribe(
+          (HttpResponse) => {
+            success = true;
+          },
+          (HttpError) => {
+            this.message.error = `Failed to create bec.`;
+          }
+        );
     }
   }
-
 }

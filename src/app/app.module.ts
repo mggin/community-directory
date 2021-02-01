@@ -20,7 +20,8 @@ import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BecCreatorComponent } from './components/bec/bec-creator/bec-creator.component';
 import { ManageBecComponent } from './components/bec/manage-bec/manage-bec.component';
-
+import { BecEditorComponent } from './components/bec/bec-editor/bec-editor.component';
+import { BecManagerComponent } from './components/bec/bec-manager/bec-manager.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,9 @@ import { ManageBecComponent } from './components/bec/manage-bec/manage-bec.compo
     ManageBecComponent,
     ManageLeaderComponent,
     AssignLeaderComponent,
-    BecCreatorComponent
+    BecCreatorComponent,
+    BecEditorComponent,
+    BecManagerComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +46,7 @@ import { ManageBecComponent } from './components/bec/manage-bec/manage-bec.compo
     FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
     {
@@ -59,7 +62,10 @@ import { ManageBecComponent } from './components/bec/manage-bec/manage-bec.compo
     MemberContainerComponent,
     ManageBecComponent,
     ManageLeaderComponent,
-    AssignLeaderComponent
+    AssignLeaderComponent,
+    BecCreatorComponent,
+    BecEditorComponent,
+    BecManagerComponent
   ],
 })
 export class AppModule {}

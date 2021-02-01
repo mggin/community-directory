@@ -1,0 +1,45 @@
+<div class="alert alert-danger" role="alert" *ngIf="message.error">
+    {{message.error}}
+</div>
+<div class="col row justify-content-end m-0 p-0">
+    <button class="btn btn-success" (click)="openBecCreator()">
+        <i class="fas fa-plus-circle"></i>
+        Add B.E.C
+    </button>
+    <button class="btn btn-dark ml-2" (click)="dialogRef.close()">
+        <i class="fas fa-chevron-circle-left"></i>
+        Back
+    </button>
+</div>
+<table class="table table-sm table-bordered table-striped mt-2">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Locations</th>
+            <th>Leader</th>
+            <th>Assistant</th>
+            <th style="width: 60px;"></th>
+            <th style="width: 72px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let bec of becs | async">
+            <td>{{bec.name}}</td>
+            <td>{{bec.locations}}</td>
+            <td>{{bec.leaderName}}</td>
+            <td>{{bec.assistantName}}</td>
+            <td>
+                <button class="btn btn-sm btn-info" (click)="openBecEditor(bec)">
+                    <i class="fas fa-edit"></i>
+                    Edit
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger" (click)="deleteBec(bec)" [disabled]="bec.canDelete !== 'true'">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
