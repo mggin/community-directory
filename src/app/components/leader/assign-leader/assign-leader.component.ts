@@ -9,6 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { ACTIONS } from 'src/app/constant-data';
 import { Leader } from 'src/app/models/leader';
 import { Member } from 'src/app/models/member';
+import { Message } from 'src/app/models/message';
 import { LeaderHttpService } from 'src/app/services/http-services/leader-http.service';
 import { MemberHttpService } from 'src/app/services/http-services/member-http.service';
 
@@ -24,6 +25,7 @@ export class AssignLeaderComponent implements OnInit {
   createMode: boolean;
   editMode: boolean;
   errorMessage: string;
+  message = new Message();
   constructor(
     private leaderHttpService: LeaderHttpService,
     private memberHttpService: MemberHttpService,
@@ -43,15 +45,18 @@ export class AssignLeaderComponent implements OnInit {
 
   handleOnChange(event: any) {
     const name = event.target.value;
-    const memberId = JSON.parse(
+    const member = JSON.parse(
       JSON.stringify(
         this.populatedMembers.filter((member) => {
           return member.name === name;
         })
       )
-    )[0].id;
-    this.leader.memberId = memberId;
-    console.log(this.leader);
+    )[0];
+    if (member) {
+      this.leader.memberId = member.id;
+    } else {
+      this.message.error = `Please choose the valid member.`
+    }
   }
 
   handleOnKeyUp(event: any) {
@@ -84,7 +89,7 @@ export class AssignLeaderComponent implements OnInit {
           }
         );
     } else {
-      this.errorMessage = `Please choose the valid member.`
+      this.message.error = `Please select the valid member.`
     }
   }
 
@@ -106,7 +111,7 @@ export class AssignLeaderComponent implements OnInit {
           (HttpError) => { this.errorMessage = HttpError }
         );
     } else {
-      this.errorMessage = `Please choose the valid member.`
+      this.errorMessage = `Please select the valid member.`
     }
   }
 }
