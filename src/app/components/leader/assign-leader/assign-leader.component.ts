@@ -19,12 +19,11 @@ import { MemberHttpService } from 'src/app/services/http-services/member-http.se
   styleUrls: ['./assign-leader.component.css'],
 })
 export class AssignLeaderComponent implements OnInit {
-  leader: Leader = new Leader();
+  leader = new Leader();
   populatedMembers: any;
   disableActions = false;
   createMode: boolean;
   editMode: boolean;
-  errorMessage: string;
   message = new Message();
   constructor(
     private leaderHttpService: LeaderHttpService,
@@ -55,7 +54,7 @@ export class AssignLeaderComponent implements OnInit {
     if (member) {
       this.leader.memberId = member.id;
     } else {
-      this.message.error = `Please choose the valid member.`
+      this.message.error = `Please choose the valid member.`;
     }
   }
 
@@ -83,13 +82,15 @@ export class AssignLeaderComponent implements OnInit {
           )
         )
         .subscribe(
-          (HttpResponse) => { this.dialogRef.close({shouldUpdate: true}) },
+          (HttpResponse) => {
+            this.dialogRef.close({ shouldUpdate: true });
+          },
           (HttpError) => {
-            this.errorMessage = HttpError;
+            this.message.error = HttpError;
           }
         );
     } else {
-      this.message.error = `Please select the valid member.`
+      this.message.error = `Please select the valid member.`;
     }
   }
 
@@ -107,11 +108,15 @@ export class AssignLeaderComponent implements OnInit {
           )
         )
         .subscribe(
-          (HttpResponse) => { this.dialogRef.close({shouldUpdate: true}) },
-          (HttpError) => { this.errorMessage = HttpError }
+          (HttpResponse) => {
+            this.dialogRef.close({ shouldUpdate: true });
+          },
+          (HttpError) => {
+            this.message.error = HttpError;
+          }
         );
     } else {
-      this.errorMessage = `Please select the valid member.`
+      this.message.error = `Please select the valid member.`;
     }
   }
 }
