@@ -24,9 +24,9 @@ export class BecCreatorComponent implements OnInit {
   ngOnInit(): void {}
 
   addBec() {
+    this.message = new Message();
     if (this.bec.name && this.bec.locations) {
       this.creating = true;
-      this.message = new Message();
       // this.isCreating = false;
       let success = false;
       this.becsHttpService
@@ -49,6 +49,8 @@ export class BecCreatorComponent implements OnInit {
             this.message.error = `Failed to create bec.`;
           }
         );
+    } else {
+      this.message.error = `Failed to create bec.`;
     }
   }
 }

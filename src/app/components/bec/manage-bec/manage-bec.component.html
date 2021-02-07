@@ -13,13 +13,13 @@
                 <div class="card p-2">
                     <div class="col row m-0 p-0 justify-content-between">
                         <p class="m-0 p-0 ml-1">Leader - </p>
-                        <p class="m-0 p-0 ml-1">{{bec.leaderName}}</p>
+                        <p class="m-0 p-0 ml-1" *ngIf="bec">{{bec.leaderName}}</p>
                     </div>
                 </div>
                 <div class="card p-2 ml-2">
                     <div class="col row m-0 p-0 justify-content-between">
                         <p class="m-0 p-0 ml-1">Assistant - </p>
-                        <p class="m-0 p-0 ml-1">{{bec.assistantName}}</p>
+                        <p class="m-0 p-0 ml-1" *ngIf="bec">{{bec.assistantName}}</p>
                     </div>
                 </div>
             </div>

@@ -36,7 +36,7 @@ export class ManageBecComponent implements OnInit {
         if (this.becs.length > 0) {
           let index: number;
           if (previousBecId) {
-            index = this.becs.findIndex(bec => bec.id == previousBecId);
+            index = this.becs.findIndex((bec) => bec.id == previousBecId);
           } else {
             index = 0;
           }
@@ -53,19 +53,21 @@ export class ManageBecComponent implements OnInit {
 
   hanldeOnChange(event: any) {
     this.selectedBecId = event.target.value;
-    const index = this.becs.findIndex(bec => bec.id == this.selectedBecId);
-    this.bec = this.becs[index]
+    const index = this.becs.findIndex((bec) => bec.id == this.selectedBecId);
+    this.bec = this.becs[index];
     this.setBecDetails();
   }
 
   setBecDetails() {
-    this.becsDetail = this.becHttpService.getBecDetails(this.selectedBecId);
+    if (this.selectedBecId) {
+      this.becsDetail = this.becHttpService.getBecDetails(this.selectedBecId);
+    }
   }
 
   updateLeaderRole(event: any) {
     if (confirm(`Are you sure you want to update the B.E.C Leader?`)) {
       const leaderId = event.target.value;
-      console.log(this.bec)
+      console.log(this.bec);
       this.becHttpService.updateBecLeader(this.bec.id, { leaderId }).subscribe(
         (HttpResponse) => {
           this.errorMessage = undefined;
@@ -81,33 +83,35 @@ export class ManageBecComponent implements OnInit {
   updateAssistantRole(event: any) {
     if (confirm(`Are you sure you want to update the B.E.C Assistant?`)) {
       const assistantId = event.target.value;
-      this.becHttpService.updateBecAssistant(this.bec.id, { assistantId }).subscribe(
-        (HttpResponse) => {
-          this.errorMessage = undefined;
-          this.initPage(this.bec.id);
-        },
-        (HttpError) => {
-          this.errorMessage = HttpError;
-        }
-      );
+      this.becHttpService
+        .updateBecAssistant(this.bec.id, { assistantId })
+        .subscribe(
+          (HttpResponse) => {
+            this.errorMessage = undefined;
+            this.initPage(this.bec.id);
+          },
+          (HttpError) => {
+            this.errorMessage = HttpError;
+          }
+        );
     }
   }
 
   routeToEditPage(householdId: string) {
-    window.open(`/board/edit?householdId=${householdId}`)
+    window.open(`/board/edit?householdId=${householdId}`);
   }
 
   openBecManager() {
     const dialogRef = this.dialog.open(BecManagerComponent, {
       width: '80vw',
       disableClose: true,
-    })
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result['shouldRefresh']) {
-         this.initPage();
+        this.initPage();
       }
-    })
+    });
   }
 
   closeDialog() {
