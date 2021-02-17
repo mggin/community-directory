@@ -1,6 +1,7 @@
 export class Community {
     name: string;
-    communityCode: string;
+    phone: string;
+    email: string;
     city: string;
     state: string;
 }

@@ -17,13 +17,21 @@ export interface BecProps {
 
 export interface CommunityProps {
   name: string;
-  communityCode: string;
+  phone: string;
+  email: string;
   city: string;
   state: string;
 }
 
+export interface ClientProps {
+  communityName: string;
+  communityCode: string;
+  active: string;
+  codeVisibility: boolean;
+}
+
 export interface HouseholdProps {
-  householdId: string,
+  householdId: string;
   becId: string;
   becName: string;
   primaryPhone: string;
@@ -42,14 +50,14 @@ export interface HouseholdInfoProps {
 }
 
 export interface LeaderProps {
-  id: string,
-  memberId: string,
-  role: string,
-  name: string  
+  id: string;
+  memberId: string;
+  role: string;
+  name: string;
 }
 
 export interface MemberProps {
-  memberId: string,
+  memberId: string;
   householdId: string;
   householdNo: number;
   chrisitianName: string;
@@ -60,4 +68,9 @@ export interface MemberProps {
   gender: string;
 }
 
-
+export interface UserProps {
+  firstName: string;
+  lastName: string;
+  communityName: string;
+  active: string;
+}

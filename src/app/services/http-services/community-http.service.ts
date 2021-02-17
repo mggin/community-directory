@@ -10,24 +10,21 @@ export class CommunityHttpService {
   apiUrl = environment.apiUrl;
   communityApiUrl = `${this.apiUrl}/api/communities`;
   constructor(private http: HttpClient) {}
-  getCommunities() {
-    return this.http.get<CommunityProps[]>(this.communityApiUrl);
+  getCommunities(attributes: string[]) {
+    return this.http.get<CommunityProps[]>(this.communityApiUrl, {
+      params: { attributes },
+    });
   }
-  getCommunitiesDetails() {
-    return this.http.get<CommunityProps[]>(`${this.communityApiUrl}-details`);
-  }
-  getCommunity(communityId: string) {
-    return this.http.get(`${this.communityApiUrl}/${communityId}`);
-  }
+
   createCommunity(props: CommunityProps) {
     return this.http.post(this.communityApiUrl, { ...props });
   }
-  updateCommunity(communityId: string, props: CommunityProps) {
-    return this.http.put(`${this.communityApiUrl}/${communityId}`, {
-      ...props,
-    });
-  }
-  deleteCommunity(communityId: string) {
-    return this.http.delete(this.communityApiUrl, { params: { communityId }});
-  }
+  // updateCommunity(communityId: string, props: CommunityProps) {
+  //   return this.http.put(`${this.communityApiUrl}/${communityId}`, {
+  //     ...props,
+  //   });
+  // }
+  // deleteCommunity(communityId: string) {
+  //   return this.http.delete(this.communityApiUrl, { params: { communityId } });
+  // }
 }

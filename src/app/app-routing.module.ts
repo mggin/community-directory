@@ -26,9 +26,12 @@ const routes: Routes = [
     data: { redirect: false },
     component: HouseholdBoardComponent,
   },
-  { path: 'admin', 
-    loadChildren: () => import('./components/admin/admin.module').then(m => m.AdminModule), 
-    canLoad: [AdminGuard]},
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./components/admin/admin.module').then((m) => m.AdminModule),
+    // canLoad: [AdminGuard]
+  },
   { path: '**', redirectTo: '/login' },
 ];
 

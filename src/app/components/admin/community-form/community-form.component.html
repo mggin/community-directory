@@ -1,0 +1,31 @@
+<div class="col m-0 p-3">
+    <div class="alert alert-danger" role="alert" *ngIf="message.error">
+        {{message.error}}
+    </div>
+    <h6>Create a new Community.</h6>
+    <p class="m-0 p-0 mt-2">Name</p>
+    <input class="form-control border" [ngClass]="{'border-danger': communityForm.requiredName}" placeholder="Name"
+        [(ngModel)]="community.name" />
+    <p class="m-0 p-0 mt-2">Phone</p>
+    <input class="form-control border" [ngClass]="{'border-danger': communityForm.requiredPhone}" placeholder="Phone"
+        [(ngModel)]="community.phone" />
+    <p class="m-0 p-0 mt-2">Email</p>
+    <input class="form-control" placeholder="Email" [(ngModel)]="community.email" />
+    <div class="col row m-0 p-0 mt-2">
+        <div class="col m-0 p-0 mr-2">
+            <p class="m-0 p-0">City</p>
+            <input class="form-control" placeholder="City" [(ngModel)]="community.city" />
+        </div>
+        <div class="col m-0 p-0">
+            <p class="m-0 p-0">State</p>
+            <input class="form-control" placeholder="State" [(ngModel)]="community.state" />
+        </div>
+    </div>
+    <div class="col m-0 p-0 mt-2">
+        <button class="btn btn-dark mr-1" (click)="dialogRef.close()">Cancel</button>
+        <button class="btn btn-success" (click)="createCommunity()">
+            Create
+        </button>
+    </div>
+
+</div>

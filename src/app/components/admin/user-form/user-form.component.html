@@ -1,0 +1,42 @@
+<div>
+    <div class="alert alert-danger" role="alert" *ngIf="message.error">
+        {{message.error}}
+    </div>
+    <h6>Create a new user.</h6>
+    <div class="col row m-0 p-0">
+        <div class="col m-0 p-0 mr-1">
+            <p class="m-0 p-0">First name</p>
+            <input class="form-control border col mr-1" [ngClass]="{'border-danger': userForm.requiredFirstName}"
+                placeholder="First name" [(ngModel)]="user.firstName" (change)="nameOnChange()" />
+        </div>
+        <div class="col m-0 p-0">
+            <p class="m-0 p-0">Last name</p>
+            <input class="form-control border col mr-1" [ngClass]="{'border-danger': userForm.requiredLastName}"
+                placeholder="Last name" [(ngModel)]="user.lastName" (change)="nameOnChange()" />
+        </div>
+    </div>
+    <p class="m-0 p-0 mt-2">Username</p>
+    <input class="form-control border" [ngClass]="{'border-danger': userForm.requiredUsername}" placeholder="Username"
+        [(ngModel)]="user.username" />
+    <p class="m-0 p-0 mt-2">Password</p>
+    <p class="m-0 p-0 text-danger" *ngIf="userForm.requiredPasswordLength">Password should be more then 6 characters.
+    </p>
+    <input class="form-control border" [ngClass]="{'border-danger': userForm.requiredPassword}" placeholder="Password"
+        [(ngModel)]="user.password" type="password" minlength="6" />
+    <p class="m-0 p-0 mt-2">Confirm Password</p>
+    <p class="m-0 p-0 text-danger" *ngIf="userForm.requiredConfirmPassword">Password didn't match.
+    </p>
+    <input class="form-control border" [ngClass]="{'border-danger': userForm.requiredConfirmPassword}"
+        placeholder="Confirm Password" [(ngModel)]="user.confirmPassword" type="password" minlength="6"
+        (keyup)="onConfirmPasswordChange()" />
+    <p class="m-0 p-0 mt-2">Select Community</p>
+    <select class="form-control border" [ngClass]="{'border-danger': userForm.requiredCommunityId}"
+        [(ngModel)]="user.communityId">
+        <option value="undefined" disabled>Select Community</option>
+        <option *ngFor="let community of communities | async " [value]="community.id">{{community.name}}</option>
+    </select>
+    <div class="col m-0 p-0 mt-2">
+        <button class="btn btn-dark mr-1">Cancel</button>
+        <button class="btn btn-success" (click)="createUser()">Create</button>
+    </div>
+</div>

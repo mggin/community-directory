@@ -1,0 +1,21 @@
+<div>
+    <div class="alert alert-danger" role="alert" *ngIf="message.error">
+        {{message.error}}
+    </div>
+    <h6>Create a new Client.</h6>
+    <p class="m-0 p-0 mt-2">Community code</p>
+    <input class="form-control border" [ngClass]="{'border-danger': clientForm.requiredCommunityCode}"
+        placeholder="Community code" [(ngModel)]="client.communityCode" />
+    <p class="m-0 p-0 mt-2">Select Community</p>
+    <select class="form-control border" [ngClass]="{'border-danger': clientForm.requiredCommunityId}"
+        [(ngModel)]="client.communityId">
+        <option value="undefined" disabled>Select Community</option>
+        <option *ngFor="let community of communities | async " [value]="community.id">{{community.name}}</option>
+    </select>
+    <div class="col m-0 p-0 mt-2">
+        <button class="btn btn-dark mr-1" (click)="dialogRef.close()">Cancel</button>
+        <button class="btn btn-success" (click)="createClient()">
+            Create
+        </button>
+    </div>
+</div>

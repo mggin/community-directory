@@ -5,20 +5,23 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { SharedModule } from '../shared/shared.module';
-import { CommunityCreatorComponent } from './community-creator/community-creator.component';
 import { FormsModule } from '@angular/forms';
-
+import { UserFormComponent } from './user-form/user-form.component';
+import { CommunityFormComponent } from './community-form/community-form.component';
+import { ClientFormComponent } from './client-form/client-form.component';
 
 @NgModule({
-  declarations: [AdminComponent, CommunityCreatorComponent],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    FormsModule,
-    SharedModule
+  declarations: [
+    AdminComponent,
+    UserFormComponent,
+    CommunityFormComponent,
+    ClientFormComponent,
   ],
+  imports: [CommonModule, AdminRoutingModule, FormsModule, SharedModule],
   entryComponents: [
-    CommunityCreatorComponent
-  ]
+    UserFormComponent,
+    CommunityFormComponent,
+    ClientFormComponent,
+  ],
 })
-export class AdminModule { }
+export class AdminModule {}
