@@ -1,0 +1,25 @@
+<div class="p-2" *ngIf="leader">
+    <div class="alert alert-danger" role="alert" *ngIf="message.error">
+        {{message.error}}
+    </div>
+    <h6 *ngIf="action === 'CREATE'">Assign new role.</h6>
+    <h6 *ngIf="action === 'EDIT'">Update Information.</h6>
+    <label class="m-0">Role</label>
+    <input class="form-control mb-2" placeholder="Role" [(ngModel)]="leader.role" />
+    <label class="m-0">Member</label>
+    <input list="name-input" class="form-control" name="name-input" placeholder="Member" [(ngModel)]="leader.name"
+        (keyup)="handleOnKeyUp($event)" />
+    <datalist id="name-input">
+        <option *ngFor="let member of verifiedMembers" [value]="member.name">
+
+    </datalist>
+    <div class="col row m-0 p-0 mt-3">
+        <button class="btn btn-success" (click)="assignLeader()" *ngIf="action === 'CREATE'">
+            Assign</button>
+        <button class="btn btn-success" (click)="updateLeader()" *ngIf="action === 'EDIT'">
+            Update</button>
+        <button class="btn btn-dark ml-2" (click)="dialogRef.close()">
+            Cancel
+        </button>
+    </div>
+</div>

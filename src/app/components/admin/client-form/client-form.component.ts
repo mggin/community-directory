@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { CommunityProps } from 'src/app/interfaces';
 import { Client } from 'src/app/models/client';
 import { ClientForm } from 'src/app/models/client-form';
 import { Message } from 'src/app/models/message';
@@ -14,9 +13,10 @@ import { CommunityHttpService } from 'src/app/services/http-services/community-h
   styleUrls: ['./client-form.component.css'],
 })
 export class ClientFormComponent implements OnInit {
-  client = new Client();
+  action: string;
+  client: Client;
   clientForm = new ClientForm();
-  communities: Observable<CommunityProps[]>;
+  communities$: Observable<any>;
   message = new Message();
   constructor(
     private communityHttpService: CommunityHttpService,
@@ -25,7 +25,10 @@ export class ClientFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.communities = this.communityHttpService.getCommunities(['id', 'name']);
+    this.communities$ = this.communityHttpService.getCommunities([
+      'id',
+      'name',
+    ]);
   }
 
   createClient() {
@@ -38,7 +41,25 @@ export class ClientFormComponent implements OnInit {
           this.dialogRef.close({ shouldReload: true });
         },
         (HttpError) => {
-          this.message.error = HttpError;
+          this.message.error = HttpError.error.message;
+        }
+      );
+    } else {
+      this.message.error = 'Please fill out the required fields.';
+    }
+  }
+
+  updateClient() {
+    this.message = new Message();
+    this.clientForm.requiredCommunityCode = !this.client.communityCode;
+    this.clientForm.requiredCommunityId = !this.client.communityId;
+    if (Object.keys(this.clientForm).every((key) => !this.clientForm[key])) {
+      this.clientHttpService.updateClient(this.client).subscribe(
+        (HttpResponse) => {
+          this.dialogRef.close({ shouldReload: true });
+        },
+        (HttpError) => {
+          this.message.error = HttpError.error.message;
         }
       );
     } else {

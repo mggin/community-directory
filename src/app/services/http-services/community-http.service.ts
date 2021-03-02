@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CommunityProps } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,23 +7,14 @@ import { environment } from 'src/environments/environment';
 })
 export class CommunityHttpService {
   apiUrl = environment.apiUrl;
-  communityApiUrl = `${this.apiUrl}/api/communities`;
   constructor(private http: HttpClient) {}
-  getCommunities(attributes: string[]) {
-    return this.http.get<CommunityProps[]>(this.communityApiUrl, {
+  getCommunities(attributes = []) {
+    return this.http.get(`${this.apiUrl}/api/communities`, {
       params: { attributes },
     });
   }
 
-  createCommunity(props: CommunityProps) {
-    return this.http.post(this.communityApiUrl, { ...props });
+  createCommunity(props: any) {
+    return this.http.post(`${this.apiUrl}/api/communities`, { ...props });
   }
-  // updateCommunity(communityId: string, props: CommunityProps) {
-  //   return this.http.put(`${this.communityApiUrl}/${communityId}`, {
-  //     ...props,
-  //   });
-  // }
-  // deleteCommunity(communityId: string) {
-  //   return this.http.delete(this.communityApiUrl, { params: { communityId } });
-  // }
 }

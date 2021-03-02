@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header bg-secondary text-white pt-3 pb-3">Detail</div>
+  <div class="card-header bg-dark text-white pt-3 pb-3">Detail</div>
   <div class="card-body">
     <div class="alert alert-success" role="alert" *ngIf="message.success">
       {{ message.success }}
@@ -13,26 +13,25 @@
       [(ngModel)]="householdDetail.householderId"
       [ngClass]="{ 'border-danger': setting.requireHouseholderId }"
     >
+      <option value="null" disabled>Select Householder</option>
       <option value="undefined" disabled>Select Householder</option>
       <option
         *ngFor="let memberForm of memberForms"
         [value]="memberForm.member.id"
       >
-        {{ memberForm.member.christianName }} {{ memberForm.member.ethnicName }}
+        {{ memberForm.member.fullName }} {{ memberForm.member.otherName }}
       </option>
     </select>
-    <label class="household-detail-label">B.E.C</label>
+    <label class="household-detail-label">Group</label>
     <select
       class="form-control default-options"
-      [(ngModel)]="householdDetail.becId"
-      [ngClass]="{ 'border-danger': setting.requireBecGroup }"
-    >
-      <option value="undefined" disabled>Select B.E.C</option>
+      [(ngModel)]="householdDetail.groupId"    >
+      <option value="null" disabled>Select Group</option>
       <option
-        *ngFor="let becGroupOption of becGroupOptions | async"
-        [value]="becGroupOption.id"
+        *ngFor="let option of groupOptions | async"
+        [value]="option.id"
       >
-        {{ becGroupOption.name }}
+        {{ option.groupName }}
       </option>
     </select>
     <label class="household-detail-label">Address</label>
@@ -84,20 +83,18 @@
       *ngIf="showEditElements"
     >
       <button
-        class="btn btn-success btn-font-size mr-2"
+        class="btn btn-success mr-2"
         [disabled]="disableActions"
         (click)="updateHousehold()"
       >
-        <i class="fas fa-cloud-upload-alt" *ngIf="!showUpdateProgress"></i>
         <i class="fa fa-circle-notch fa-spin" *ngIf="showUpdateProgress"></i>
         Update
       </button>
       <button
-        class="btn btn-danger btn-font-size"
+        class="btn btn-danger"
         [disabled]="disableActions"
         (click)="deleteHousehold()"
       >
-        <i class="fas fa-trash" *ngIf="!showDeleteProgress"></i>
         <i class="fa fa-circle-notch fa-spin" *ngIf="showDeleteProgress"></i>
         Delete
       </button>

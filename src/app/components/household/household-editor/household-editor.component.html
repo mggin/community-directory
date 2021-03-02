@@ -2,9 +2,8 @@
     <div class="col row m-0 p-0">
         <div class="col m-0 p-0">
             <div class="col row justify-content-end m-0 p-0">
-                <button class="btn btn-dark ml-1 btn-font-size mr-1"
+                <button class="btn btn-dark ml-1 mr-1"
                     (click)="openMemberCreator()">
-                    <i class="fas fa-user-plus"></i>
                     Add Member
                 </button>
             </div>
@@ -23,13 +22,12 @@
 
         <div class="col m-0 p-0">
             <div class="col row justify-content-end m-0 p-0">
-                <button class="btn btn-dark btn-font-size"
+                <button class="btn btn-dark"
                     (click)="closeDialog()">
-                    <i class="fas fa-chevron-circle-left"></i>
                     Back
                 </button>
             </div>
-            <div class="col m-0 p-0 mt-1" *ngIf="householdDetailForm">
+            <div class="col m-0 p-0 mt-1" *ngIf="householdDetailForm && memberForms">
                 <household-detail-container
                     [action]="ACTION" 
                     [householdDetailForm]="householdDetailForm"

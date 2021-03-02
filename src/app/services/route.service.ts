@@ -21,12 +21,12 @@ export class RouteService {
     householdId ? this.router.navigate(['board', 'edit'], {queryParams: {householdId}}) : null;
   }
   
-  toBec() {
-    this.router.navigate(['board', 'bec'])
+  toGroup() {
+    this.router.navigate(['board', 'group'])
   }
 
-  toCommittee() {
-    this.router.navigate(['board', 'committee'])
+  toLeader() {
+    this.router.navigate(['board', 'leader'])
   }
 
   toLogin() {

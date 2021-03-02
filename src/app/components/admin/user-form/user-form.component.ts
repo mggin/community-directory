@@ -1,8 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { CommunityProps } from 'src/app/interfaces';
 import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user';
 import { UserForm } from 'src/app/models/user-form';
@@ -15,7 +13,7 @@ import { UserHttpService } from 'src/app/services/http-services/user-http.servic
   styleUrls: ['./user-form.component.css'],
 })
 export class UserFormComponent implements OnInit {
-  communities: Observable<CommunityProps[]>;
+  communities$: Observable<any>;
   user = new User();
   userForm = new UserForm();
   message = new Message();
@@ -26,7 +24,7 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.communities = this.communityHttpService.getCommunities(['id', 'name']);
+    this.communities$ = this.communityHttpService.getCommunities(['id', 'name']);
   }
 
   nameOnChange() {

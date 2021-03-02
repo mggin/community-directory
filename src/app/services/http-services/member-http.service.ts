@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MemberProps } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,28 +7,33 @@ import { environment } from 'src/environments/environment';
 })
 export class MemberHttpService {
   apiUrl = environment.apiUrl;
-  memberApiUrl = `${this.apiUrl}/api/members`;
   constructor(private http: HttpClient) {}
-  getMembers(size: string = undefined) {
-    return this.http.get(this.memberApiUrl, { params: { size } });
+  getMembers(props = {}) {
+    return this.http.get(`${this.apiUrl}/api/members`, {
+      params: { ...props },
+    });
   }
-  getMember(memberId: string) {
-    return this.http.get(`${this.memberApiUrl}/${memberId}`);
+  searchMembers(props: any) {
+    return this.http.get(`${this.apiUrl}/api/members/search`, {
+      params: { ...props },
+    });
   }
-  searchMember(name: string, size: string = undefined ) {
-    const params = { name }
-    size ? params['size'] = size : null;
-    return this.http.get(`${this.memberApiUrl}/search`, { params });
+  getMembersByGroup(props: any) {
+    return this.http.get(`${this.apiUrl}/api/members/group`, {
+      params: { ...props },
+    });
   }
-  createMember(props: Partial<MemberProps>) {
-    return this.http.post(this.memberApiUrl, { ...props });
+  createMember(props: any) {
+    return this.http.post(`${this.apiUrl}/api/members`, { ...props });
   }
-  updateMember(memberId: string, props: Partial<MemberProps>) {
-    return this.http.put(`${this.memberApiUrl}/${memberId}`, {
+  updateMember(props: any) {
+    return this.http.put(`${this.apiUrl}/api/members`, {
       ...props,
     });
   }
-  deleteMember(memberId: string) {
-    return this.http.delete(`${this.memberApiUrl}/${memberId}`);
+  deleteMember(props: any) {
+    return this.http.delete(`${this.apiUrl}/api/members`, {
+      params: { ...props },
+    });
   }
 }

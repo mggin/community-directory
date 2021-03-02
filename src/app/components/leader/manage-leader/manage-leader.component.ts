@@ -1,24 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ACTIONS } from 'src/app/constant-data';
-import { LeaderProps } from 'src/app/interfaces';
 import { Leader } from 'src/app/models/leader';
 import { LeaderHttpService } from 'src/app/services/http-services/leader-http.service';
 import { RouteService } from 'src/app/services/route.service';
-import { AssignLeaderComponent } from '../assign-leader/assign-leader.component';
+import { LeaderFormComponent } from '../leader-form/leader-form.component';
 
 @Component({
   selector: 'manage-leader',
   templateUrl: './manage-leader.component.html',
 })
 export class ManageLeaderComponent implements OnInit {
-  leaders: any;
-  ACTIONS = ACTIONS;
+  leaders$: any;
   constructor(
     private leaderHttpService: LeaderHttpService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<ManageLeaderComponent>,
-    private routeService: RouteService,
+    private routeService: RouteService
   ) {}
 
   ngOnInit(): void {
@@ -26,29 +23,40 @@ export class ManageLeaderComponent implements OnInit {
   }
 
   getLeaders() {
-    this.leaderHttpService.getLeaders().subscribe((HttpResponse) => {
-      this.leaders = HttpResponse;
-    }, (HttpError) => {
-      console.log(HttpError)
-    })
+    this.leaders$ = this.leaderHttpService.getLeaders();
   }
 
-  openAssignLeader(action: string, _leader: Partial<LeaderProps> = undefined) {
-    let leader: Leader = new Leader();
-    if (action === ACTIONS.EDIT) {
-       const { id, memberId, role, name } = _leader;
-       leader.set(id, memberId, role, name);
-    }
-    const dialogRef = this.dialog.open(AssignLeaderComponent, {
-      data: { leader, action }
+  openLeaderForm(action: string, selectedLeader: any = {}) {
+    const dialogRef = this.dialog.open(LeaderFormComponent, {
+      width: '20vw',
+      disableClose: false,
     });
-
-
-    dialogRef.afterClosed().subscribe((shouldUpdate) => {
-      if (shouldUpdate) {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result['shouldRefresh']) {
         this.getLeaders();
       }
     });
+    const { fullName, otherName, memberId, id, role } = selectedLeader;
+    const props = id
+      ? {
+          role,
+          memberId,
+          id,
+          name: `${fullName}${otherName ? ', ' + otherName : ''}`,
+        }
+      : {};
+    dialogRef.componentInstance.action = action;
+    dialogRef.componentInstance.leader = new Leader(props);
+  }
+
+  deleteLeader(leaderId: string) {
+    if (confirm(`Are you sure you want to delete?`)) {
+      this.leaderHttpService
+        .deleteLeader(leaderId)
+        .subscribe((HttpResponse) => {
+          this.getLeaders();
+        });
+    }
   }
 
   closeDialog() {

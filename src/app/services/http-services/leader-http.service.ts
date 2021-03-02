@@ -1,31 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LeaderProps } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LeaderHttpService {
-
   apiUrl = environment.apiUrl;
-  leaderApiUrl = `${this.apiUrl}/api/leaders`;
   constructor(private http: HttpClient) {}
   getLeaders() {
-    return this.http.get(this.leaderApiUrl);
+    return this.http.get(`${this.apiUrl}/api/leaders`);
   }
-  getLeader(leaderId: string) {
-    return this.http.get(`${this.leaderApiUrl}/${leaderId}`);
+  createLeader(props: any) {
+    return this.http.post(`${this.apiUrl}/api/leaders`, { ...props });
   }
-  createLeader(props: LeaderProps) {
-    return this.http.post(this.leaderApiUrl, { ...props });
-  }
-  updateLeader(leaderId: string, props: LeaderProps) {
-    return this.http.put(`${this.leaderApiUrl}/${leaderId}`, {
+  updateLeader(props: any) {
+    return this.http.put(`${this.apiUrl}/api/leaders`, {
       ...props,
     });
   }
   deleteLeader(leaderId: string) {
-    return this.http.delete(`${this.leaderApiUrl}/${leaderId}`);
+    return this.http.delete(`${this.apiUrl}/api/leaders`, {
+      params: { leaderId },
+    });
   }
 }

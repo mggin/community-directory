@@ -29,4 +29,8 @@ export class AuthHttpService {
   isAdmin() {
     return this.http.get(`${this.apiUrl}/auth/admin`, { headers: InterceptorSkipHeader } )
   }
+
+  valideSession() {
+    return this.http.get(`${this.apiUrl}/auth/user/session`, { headers: InterceptorSkipHeader } )
+  }
 }

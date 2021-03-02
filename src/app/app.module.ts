@@ -13,15 +13,14 @@ import { HouseholdDetailContainerComponent } from './components/household/househ
 import { HouseholdEditorComponent } from './components/household/household-editor/household-editor.component';
 import { AuthInterceptor } from './services/http-interceptor';
 import { ManageLeaderComponent } from './components/leader/manage-leader/manage-leader.component';
-import { AssignLeaderComponent } from './components/leader/assign-leader/assign-leader.component';
 import { AdminModule } from './components/admin/admin.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CommonModule } from '@angular/common';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { BecCreatorComponent } from './components/bec/bec-creator/bec-creator.component';
-import { ManageBecComponent } from './components/bec/manage-bec/manage-bec.component';
-import { BecEditorComponent } from './components/bec/bec-editor/bec-editor.component';
-import { BecManagerComponent } from './components/bec/bec-manager/bec-manager.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ManageGroupComponent } from './components/group/manage-group/manage-group.component';
+import { BrowseGroupComponent } from './components/group/browse-group/browse-group.component';
+import { GroupFormComponent } from './components/group/group-form/group-form.component';
+import { LeaderFormComponent } from './components/leader/leader-form/leader-form.component';
 
 @NgModule({
   declarations: [
@@ -32,12 +31,11 @@ import { BecManagerComponent } from './components/bec/bec-manager/bec-manager.co
     MemberContainerComponent,
     HouseholdDetailContainerComponent,
     HouseholdEditorComponent,
-    ManageBecComponent,
     ManageLeaderComponent,
-    AssignLeaderComponent,
-    BecCreatorComponent,
-    BecEditorComponent,
-    BecManagerComponent,
+    ManageGroupComponent,
+    BrowseGroupComponent,
+    GroupFormComponent,
+    LeaderFormComponent,
   ],
   imports: [
     CommonModule,
@@ -60,12 +58,9 @@ import { BecManagerComponent } from './components/bec/bec-manager/bec-manager.co
     HouseholdCreatorComponent,
     HouseholdEditorComponent,
     MemberContainerComponent,
-    ManageBecComponent,
     ManageLeaderComponent,
-    AssignLeaderComponent,
-    BecCreatorComponent,
-    BecEditorComponent,
-    BecManagerComponent
+    BrowseGroupComponent,
+    ManageGroupComponent,
   ],
 })
 export class AppModule {}

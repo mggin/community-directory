@@ -27,9 +27,9 @@ export const BEC_COLUMNS = {
 };
 
 export const MODAL_NAMES = {
-  BEC: 'bec',
+  GROUP: 'group',
   CREATE: 'create',
   EDIT: 'edit',
-  COMMITTEE: 'committee'
+  LEADER: 'leader'
 };
 

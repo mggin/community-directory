@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ACTIONS, MODAL_NAMES } from 'src/app/constant-data';
 import { SearchedMember } from 'src/app/models/searched-member';
 import { ActivatedRoute } from '@angular/router';
@@ -8,8 +7,7 @@ import { HouseholdHttpService } from 'src/app/services/http-services/household-h
 import { MatDialogRef } from '@angular/material/dialog';
 import { RouteService } from 'src/app/services/route.service';
 import { MemberHttpService } from 'src/app/services/http-services/member-http.service';
-import { Member } from 'src/app/models/member';
-import { HouseholdProps, HouseholdInfoProps } from 'src/app/interfaces';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'household-board',
   templateUrl: './household-board.component.html',
@@ -18,12 +16,10 @@ import { HouseholdProps, HouseholdInfoProps } from 'src/app/interfaces';
 export class HouseholdBoardComponent implements OnInit {
   timerId: any;
   USER_ACTION = ACTIONS.EDIT;
-  searchedMembers: SearchedMember[];
+  searchedMembers: any;
   name: string;
-  members: Member[];
-  householdDetail: Partial<HouseholdProps>;
-  becGroupOptions: Observable<string[]>;
-  householdInfo: HouseholdInfoProps;
+  members: any;
+  household: any;
   dialogRef: MatDialogRef<any>;
   constructor(
     private memberHttpService: MemberHttpService,
@@ -41,8 +37,8 @@ export class HouseholdBoardComponent implements OnInit {
     route.params.subscribe((param) => {
       const { modal } = param;
       switch (modal) {
-        case MODAL_NAMES.BEC:
-          this.dialogRef = dialogService.openManageBec();
+        case MODAL_NAMES.GROUP:
+          this.dialogRef = dialogService.openManageGroup();
           break;
         case MODAL_NAMES.CREATE:
           this.dialogRef = dialogService.openHouseholdCreator();
@@ -51,7 +47,7 @@ export class HouseholdBoardComponent implements OnInit {
           const { householdId } = this.route.snapshot.queryParams;
           this.dialogRef = dialogService.openHouseholdEditor({ householdId });
           break;
-        case MODAL_NAMES.COMMITTEE:
+        case MODAL_NAMES.LEADER:
           this.dialogRef = dialogService.openManageLeader();
           break;
         default:
@@ -61,14 +57,28 @@ export class HouseholdBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.householdHttpService.getHouseholdsLastEntry().subscribe(
-      (HttpResponse: SearchedMember[]) => {
-        this.searchedMembers = HttpResponse;
-      },
-      (HttpError) => {
-        console.error(HttpError);
-      }
-    );
+    this.householdHttpService
+      .getHouseholds({ recentHouseholds: true, size: 10 })
+      .pipe(
+        map((households: any) => {
+          console.log(households)
+          return households.map((household) => {
+            return {
+              householdId: household['id'],
+              fullName: household['householderFullName'],
+              otherName: household['householderOtherName'],
+            };
+          });
+        })
+      )
+      .subscribe(
+        (HttpResponse: any) => {
+          this.searchedMembers = HttpResponse;
+        },
+        (HttpError) => {
+          console.error(HttpError);
+        }
+      );
   }
 
   searchMembers() {
@@ -76,14 +86,16 @@ export class HouseholdBoardComponent implements OnInit {
       clearTimeout(this.timerId);
     }
     this.timerId = setTimeout(() => {
-      this.memberHttpService.searchMember(this.name).subscribe(
-        (HttpResponse: SearchedMember[]) => {
-          this.searchedMembers = HttpResponse;
-        },
-        (HttpError) => {
-          console.log(HttpError);
-        }
-      );
+      this.memberHttpService
+        .searchMembers({ name: this.name, size: 5 })
+        .subscribe(
+          (HttpResponse: any) => {
+            this.searchedMembers = HttpResponse;
+          },
+          (HttpError) => {
+            console.log(HttpError);
+          }
+        );
     }, 1000);
   }
 
@@ -97,14 +109,15 @@ export class HouseholdBoardComponent implements OnInit {
   }
 
   queryHousehold(householdId: string) {
-    this.householdHttpService.getHouseholdInfo(householdId).subscribe(
-      (HttpResponse: HouseholdInfoProps) => {
-        const { members, householdDetail } = HttpResponse;
-        this.householdInfo = HttpResponse;
-        this.householdDetail = householdDetail;
-        this.members = members;
-      },
-      (HttpError) => {}
-    );
+    this.householdHttpService
+      .getHousehold({ householdId })
+      .subscribe((HttpResponse: any) => {
+        this.household = HttpResponse;
+      });
+    this.memberHttpService
+      .getMembers({ householdId })
+      .subscribe((HttpResponse: any) => {
+        this.members = HttpResponse;
+      });
   }
 }

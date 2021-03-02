@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { ACTIONS } from 'src/app/constant-data';
 import { MemberForm } from 'src/app/models/member-form';
 import { HouseholdDetailFormSetting } from 'src/app/models/household-detail-form-setting';
-import { BecsHttpService } from 'src/app/services/http-services/becs-http.service';
 import { HouseholdHttpService } from 'src/app/services/http-services/household-http.service';
 import { RouteService } from 'src/app/services/route.service';
 import { Message } from 'src/app/models/message';
 import { finalize } from 'rxjs/operators';
 import { ValidationService } from 'src/app/services/validation.service';
 import { HouseholdDetailForm } from 'src/app/models/household-detail-form';
+import { GroupHttpService } from 'src/app/services/http-services/group-http.service';
 
 @Component({
   selector: 'household-detail-container',
@@ -27,13 +27,13 @@ export class HouseholdDetailContainerComponent implements OnInit {
   disableActions: boolean = false;
   showUpdateProgress: boolean = false;
   showDeleteProgress: boolean = false;
-  becGroupOptions: Observable<any>;
+  groupOptions: Observable<any>;
   showEditElements = true;
   message = new Message();
   interval: any;
 
   constructor(
-    private becsHttpSvc: BecsHttpService,
+    private groupHttpService: GroupHttpService,
     private householdHttpService: HouseholdHttpService,
     private routeService: RouteService,
     private validationService: ValidationService
@@ -41,14 +41,16 @@ export class HouseholdDetailContainerComponent implements OnInit {
   ngOnInit(): void {
     this.householdDetail = this.householdDetailForm.householdDetail;
     this.setting = this.householdDetailForm.setting;
-    this.becGroupOptions = this.becsHttpSvc.getBecs();
+    // this.becGroupOptions = this.bec.getBecs();
+    this.groupOptions = this.groupHttpService.getGroups({
+      attributes: ['id', 'groupName'],
+    });
     this.showEditElements = this.action === ACTIONS.EDIT;
-    console.log(this.action)
   }
 
   resetProgress() {
     if (!this.disableActions) {
-       this.message = new Message();
+      this.message = new Message();
     }
     this.disableActions = !this.disableActions;
     this.showUpdateProgress = false;
@@ -64,16 +66,16 @@ export class HouseholdDetailContainerComponent implements OnInit {
       this.showUpdateProgress = true;
       const { id } = this.householdDetail;
       this.householdHttpService
-      .updateHousehold(id, this.householdDetail)
-      .pipe(finalize(() => this.resetProgress()))
-      .subscribe(
-        (HttpResponse) => {
-          this.message.success = `Successfully updated.`
-        },
-        (HttpError) => {
-          this.message.error = HttpError
-        }
-      );
+        .updateHousehold(this.householdDetail)
+        .pipe(finalize(() => this.resetProgress()))
+        .subscribe(
+          (HttpResponse) => {
+            this.message.success = `Successfully updated.`;
+          },
+          (HttpError) => {
+            this.message.error = HttpError;
+          }
+        );
     }
   }
 
@@ -90,7 +92,7 @@ export class HouseholdDetailContainerComponent implements OnInit {
             this.routeService.toBoard();
           },
           (HttpError) => {
-            this.message.error = HttpError
+            this.message.error = HttpError;
           }
         );
     }

@@ -2,13 +2,12 @@ export class Leader {
     id: string;
     memberId: string;
     role: string;
-    name: string; 
-    
-    set(id: string, memberId: string, role: string, name: string) {
-        this.id = id;
-        this.memberId = memberId;
-        this.role = role;
-        this.name = name;
+    name: string;
+    constructor(props: any) {
+        this.id = props.id;
+        this.memberId = props.memberId;
+        this.role = props.role;
+        this.name = props.name;
     }
   }
   

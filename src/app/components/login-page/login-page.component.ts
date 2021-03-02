@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginResponse } from 'src/app/interfaces';
 import { Router } from '@angular/router';
-import { ValidationService } from 'src/app/services/validation.service';
 import { AuthHttpService } from 'src/app/services/http-services/auth-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -18,7 +16,6 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private authHttpService: AuthHttpService,
     private router: Router,
-    private validationService: ValidationService
   ) {}
 
   ngOnInit(): void {}
@@ -27,18 +24,16 @@ export class LoginPageComponent implements OnInit {
     this.isSigningIn = true;
     this.errorMessage = undefined;
     this.authHttpService.signIn(this.username, this.password).subscribe(
-      (HttpResponse: LoginResponse) => {
+      (HttpResponse: any) => {
         this.isSigningIn = false;
-        const { accessToken, isAdmin } = HttpResponse;
-        const decodedToken = this.validationService.DecodeToken(accessToken);
-        const { username } = decodedToken;
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('username', username);
-        if (isAdmin) {
+        const { username, admin, accessToken } = HttpResponse;
+        if (admin) {
           this.router.navigate(['admin']);
         } else {
           this.router.navigate(['board']);
         }
+        localStorage.setItem('username', username);
+        localStorage.setItem('accessToken', accessToken);
       },
       (HttpError: HttpErrorResponse) => {
         this.errorMessage = HttpError.error;

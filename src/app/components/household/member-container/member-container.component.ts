@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Member } from 'src/app/models/member';
-import {
-  ACTIONS
-} from 'src/app/constant-data';
+import { ACTIONS } from 'src/app/constant-data';
 import { MemberForm } from 'src/app/models/member-form';
 import { MemberFormSetting } from 'src/app/models/member-form-setting';
 import { ValidationService } from 'src/app/services/validation.service';
@@ -44,21 +42,25 @@ export class MemberContainerComponent implements OnInit {
   constructor(
     private memberHttpService: MemberHttpService,
     private validationService: ValidationService,
-    private optionsService: OptionsService,
+    private optionsService: OptionsService
   ) {}
 
   ngOnInit(): void {
     if (this.action === ACTIONS.CREATE) {
       this.showEditElements = false;
       this.showCreateElements = this.householdId !== undefined;
-      this.showRemoveButton = ((this.index !== 0) && this.showCollapse);
+      this.showRemoveButton = this.index !== 0 && this.showCollapse;
     } else if (this.action === ACTIONS.EDIT) {
       this.showCreateElements = false;
     }
   }
 
   showErrorMessage() {
-    return this.setting.requireEthnicName || this.setting.requireGender || this.setting.requirePhone;
+    return (
+      this.setting.requireFullName ||
+      this.setting.requireGender ||
+      this.setting.requirePhone
+    );
   }
 
   collapseCard(setting: MemberFormSetting) {
@@ -91,19 +93,21 @@ export class MemberContainerComponent implements OnInit {
           },
           (HttpError) => {
             this.shouldRefreshPage = false;
-            this.errorMessage = `Failed to create the member.`
+            this.errorMessage = `Failed to create the member.`;
           },
           () => {}
         );
     }
   }
 
-  deleteMember(id: string) {
+  deleteMember(memberId: string) {
     if (confirm('Are you sure you want to delete?')) {
       this.disableActions = true;
       this.showDeleteProgress = true;
       this.memberHttpService
-        .deleteMember(id)
+        .deleteMember({
+          memberId,
+        })
         .pipe(
           finalize(() => {
             this.disableActions = false;
@@ -118,6 +122,7 @@ export class MemberContainerComponent implements OnInit {
             this.shouldRefreshPage = true;
           },
           (HttpError) => {
+            this.errorMessage = HttpError.error.message;
             this.shouldRefreshPage = false;
           }
         );
@@ -134,7 +139,7 @@ export class MemberContainerComponent implements OnInit {
       this.showUpdateProgress = true;
 
       this.memberHttpService
-        .updateMember(this.member.id, this.member)
+        .updateMember(this.member)
         .pipe(
           finalize(() => {
             this.disableActions = false;
@@ -150,7 +155,7 @@ export class MemberContainerComponent implements OnInit {
           },
           (HttpError) => {
             this.shouldRefreshPage = false;
-            this.errorMessage =  `Member update failed.`
+            this.errorMessage = `Member update failed.`;
           }
         );
     }

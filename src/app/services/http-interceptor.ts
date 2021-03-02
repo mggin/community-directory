@@ -38,14 +38,12 @@ export class AuthInterceptor implements HttpInterceptor {
           } else {
             // server-side error
             const { status, message } = error;
-            errorMessage = `Error Code: ${status}\nMessage: ${message}`;
             if (status === 401) {
               localStorage.clear();
               this.routeService.toLogin();
             }
           }
-          // window.alert(errorMessage);
-          return throwError(errorMessage);
+          return throwError(error);
         })
       );
     }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { ClientProps, CommunityProps, UserProps } from 'src/app/interfaces';
+import { Client } from 'src/app/models/client';
 import { Message } from 'src/app/models/message';
 import { ClientHttpService } from 'src/app/services/http-services/client-http.service';
 import { CommunityHttpService } from 'src/app/services/http-services/community-http.service';
@@ -23,10 +23,10 @@ export class AdminComponent implements OnInit {
     CLIENT: 'client',
     COMMUNITY: 'community',
   };
-  selectedTab = this.TAB.CLIENT;
-  users: Observable<Partial<UserProps>[]>;
-  communities: Observable<Partial<CommunityProps>[]>;
-  clients: Partial<ClientProps>[];
+  selectedTab = this.TAB.USER;
+  users$: Observable<any>;
+  communities$: Observable<any>;
+  clients: any;
   constructor(
     private communityHttpService: CommunityHttpService,
     private userHttpService: UserHttpService,
@@ -57,7 +57,7 @@ export class AdminComponent implements OnInit {
   }
 
   getUsers() {
-    this.users = this.userHttpService.getUsers();
+    this.users$ = this.userHttpService.getUsers();
   }
 
   updateUserStatus(status: boolean, userId: string) {
@@ -99,7 +99,7 @@ export class AdminComponent implements OnInit {
   }
 
   getCommunities() {
-    this.communities = this.communityHttpService.getCommunities([]);
+    this.communities$ = this.communityHttpService.getCommunities();
   }
 
   addCommunity() {
@@ -115,7 +115,7 @@ export class AdminComponent implements OnInit {
 
   getClients() {
     this.clientHttpService.getClients().subscribe(
-      (HttpResponse) => {
+      (HttpResponse: any) => {
         this.clients = HttpResponse.map((res) => {
           return {
             ...res,
@@ -127,23 +127,27 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  addClient() {
+  openClientForm(action: string, selectedClient: any) {
     const dialogRef = this.dialog.open(ClientFormComponent, {
       width: '300px',
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe((shouldReload) => {
       if (shouldReload) {
         this.getClients();
       }
     });
+    
+    dialogRef.componentInstance.client = new Client(selectedClient);
+    dialogRef.componentInstance.action = action;
   }
 
-  changeCodeVisibility(client: ClientProps) {
+  changeCodeVisibility(client: any) {
     client.codeVisibility = !client.codeVisibility;
   }
 
   updateClientStatus(status: boolean, clientId: string) {
-    console.log({clientId})
+    console.log({ clientId });
     const updatedStatus = !status;
     this.clientHttpService
       .updateClientStatus({ clientId, active: updatedStatus })
@@ -155,5 +159,15 @@ export class AdminComponent implements OnInit {
           console.log(HttpError);
         }
       );
+  }
+
+  deleteClient(clientId: string) {
+    if (confirm('Are you sure you want to delete this client?')) {
+      this.clientHttpService
+        .deleteClient(clientId)
+        .subscribe((HttpResponse) => {
+          this.getClients();
+        });
+    }
   }
 }

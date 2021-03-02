@@ -1,6 +1,6 @@
 export class HouseholdDetail {
   id: string;
-  becId: string;
+  groupId: string = null;
   primaryPhone: string;
   secondaryPhone: string;
   email: string;

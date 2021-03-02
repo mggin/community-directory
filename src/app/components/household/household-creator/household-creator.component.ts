@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ACTIONS
-} from 'src/app/constant-data';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { ACTIONS } from 'src/app/constant-data';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MemberForm } from 'src/app/models/member-form';
 import { MemberFormSetting } from 'src/app/models/member-form-setting';
 import { ValidationService } from 'src/app/services/validation.service';
@@ -10,7 +8,6 @@ import { HouseholdDetailForm } from 'src/app/models/household-detail-form';
 import { RouteService } from 'src/app/services/route.service';
 import { HouseholdHttpService } from 'src/app/services/http-services/household-http.service';
 import { MemberHttpService } from 'src/app/services/http-services/member-http.service';
-import { HouseholdProps, MemberProps } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-household-creator',
@@ -66,32 +63,16 @@ export class HouseholdCreatorComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  createMember(member: Partial<MemberProps>): Promise<string> {
+  createMember(member: any): Promise<string> {
     return new Promise((resolve, reject) => {
       this.memberHttpService.createMember(member).subscribe(
-        (HttpResponse: Partial<MemberProps>) => {
+        (HttpResponse: any) => {
           const { memberId } = HttpResponse;
           resolve(memberId);
-          console.info(HttpResponse);
         },
         (HttpError) => {
           reject(HttpError);
           console.error(HttpError);
-        }
-      );
-    });
-  }
-
-  updateHouseholder(props: Partial<HouseholdProps>) {
-    return new Promise((resolve, reject) => {
-      this.householdHttpService.updateHouseholder(props).subscribe(
-        (HttpResponse) => {
-          console.log(HttpResponse);
-          resolve(HttpResponse);
-        },
-        (HttpError) => {
-          console.error(HttpError);
-          reject(HttpError);
         }
       );
     });
@@ -111,35 +92,24 @@ export class HouseholdCreatorComponent implements OnInit {
       this.errorMessage = undefined;
       this.disableActions = true;
       const { householdDetail } = this.householdDetailForm;
-      this.householdHttpService.createHousehold(householdDetail).subscribe(
-        async (HttpResponse: Partial<HouseholdProps>) => {
-          const { householdId } = HttpResponse;
-          for (const [index, memberForm] of this.memberForms.entries()) {
-            const { member } = memberForm;
-            member.householdId = householdId;
-            member.householdNo = index + 1;
-            try {
-              const memberId = await this.createMember(member);
-              if (member.id === householdDetail.householderId) {
-                await this.updateHouseholder({
-                  householdId,
-                  householderId: memberId,
-                });
-              }
-            } catch (error) {
-              this.handleError();
-              this.householdHttpService.deleteHousehold(householdId).subscribe();
-              throw error;
-            } 
+      const members = this.memberForms.map((form, index) => {
+        form.member.householdNo = index + 1;
+        return form.member;
+      });
+      this.householdHttpService
+        .createHousehold({
+          householdDetail,
+          members,
+        })
+        .subscribe(
+          (HttpResponse: any) => {
+            this.disableActions = false;
+            this.closeDialog(HttpResponse.householdId);
+          },
+          (HttpError) => {
+            console.log(HttpError);
           }
-          this.disableActions = false;
-          this.closeDialog(householdId);
-        },
-        (HttpError) => {
-          this.handleError();
-          throw HttpError;
-        }
-      );
+        );
     }
   }
 }

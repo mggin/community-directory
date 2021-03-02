@@ -8,14 +8,17 @@
         placeholder="Community code" [(ngModel)]="client.communityCode" />
     <p class="m-0 p-0 mt-2">Select Community</p>
     <select class="form-control border" [ngClass]="{'border-danger': clientForm.requiredCommunityId}"
-        [(ngModel)]="client.communityId">
+        [disabled]="action === 'EDIT'" [(ngModel)]="client.communityId">
         <option value="undefined" disabled>Select Community</option>
-        <option *ngFor="let community of communities | async " [value]="community.id">{{community.name}}</option>
+        <option *ngFor="let community of communities$ | async " [value]="community.id">{{community.name}}</option>
     </select>
     <div class="col m-0 p-0 mt-2">
-        <button class="btn btn-dark mr-1" (click)="dialogRef.close()">Cancel</button>
-        <button class="btn btn-success" (click)="createClient()">
+        <button class="btn btn-success mr-2" (click)="createClient()" *ngIf="action === 'CREATE'">
             Create
         </button>
+        <button class="btn btn-success mr-2" (click)="updateClient()" *ngIf="action === 'EDIT'">
+            Update
+        </button>
+        <button class="btn btn-dark" (click)="dialogRef.close()">Cancel</button>
     </div>
 </div>

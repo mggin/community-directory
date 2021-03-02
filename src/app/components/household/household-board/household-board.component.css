@@ -8,7 +8,7 @@
 
 .household-list-item:hover,
 .member-list-item:hover {
-  background: rgba(149, 165, 166, 0.1);
+  /* background: rgba(149, 165, 166, 0.1); */
   cursor: pointer;
 }
 
@@ -22,7 +22,8 @@
 }
 
 .list-bg {
-  background: #00000030;
+  background: #343a40;
+  color: #FFF;
 }
 
 .rounded-input {

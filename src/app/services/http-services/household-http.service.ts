@@ -1,42 +1,39 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HouseholdProps } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HouseholdHttpService {
   apiUrl = environment.apiUrl;
-  householdApiUrl = `${this.apiUrl}/api/households`;
   constructor(private http: HttpClient) {}
-  getHouseholds() {
-    return this.http.get(this.householdApiUrl);
+  getHouseholds(props = {}) {
+    return this.http.get(`${this.apiUrl}/api/households`, {
+      params: { ...props },
+    });
   }
-  getHouseholdsLastEntry() {
-    return this.http.get(`${this.householdApiUrl}/last-entry`);
+  getHouseholders(props: any) {
+    return this.http.get(`${this.apiUrl}/api/householders`, {
+      params: { ...props },
+    });
   }
-  getHousehold(householdId: string) {
-    return this.http.get(`${this.householdApiUrl}/${householdId}`);
+  getHousehold(props: any) {
+    return this.http.get(`${this.apiUrl}/api/household`, {
+      params: { ...props },
+    });
   }
-  getHouseholdInfo(householdId: string) {
-    return this.http.get(`${this.householdApiUrl}/${householdId}/info`)
+  createHousehold(props: any) {
+    return this.http.post(`${this.apiUrl}/api/households`, { ...props });
   }
-  createHousehold(props: Partial<HouseholdProps>) {
-    return this.http.post(this.householdApiUrl, { ...props });
-  }
-  updateHousehold(householdId: string, props: Partial<HouseholdProps>) {
-    return this.http.put(`${this.householdApiUrl}/${householdId}`, {
+  updateHousehold(props: any) {
+    return this.http.put(`${this.apiUrl}/api/households`, {
       ...props,
     });
   }
-  updateHouseholder(props: Partial<HouseholdProps>) {
-    const { householdId, householderId } = props;
-    return this.http.patch(`${this.householdApiUrl}/${householdId}/householder`, {
-      householderId
-    })
-  }
   deleteHousehold(householdId: string) {
-    return this.http.delete(`${this.householdApiUrl}/${householdId}`);
+    return this.http.delete(`${this.apiUrl}/api/households`, {
+      params: { householdId },
+    });
   }
 }
