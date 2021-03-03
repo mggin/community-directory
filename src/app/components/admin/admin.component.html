@@ -154,7 +154,7 @@
                 <td align="center">
                     <div class="custom-control custom-switch m-0 p-0 ml-5">
                         <input type="checkbox" class="custom-control-input bg-success" [id]="'clientActiveSwitch' + i"
-                            (change)="updateClientStatus(client.active, client.id)" [checked]="client.active">
+                            (change)="updateClientStatus(client)" [checked]="client.active">
                         <label class="custom-control-label" [for]="'clientActiveSwitch' + i"></label>
                     </div>
                 </td>

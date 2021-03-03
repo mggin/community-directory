@@ -60,10 +60,11 @@ export class AdminComponent implements OnInit {
     this.users$ = this.userHttpService.getUsers();
   }
 
-  updateUserStatus(status: boolean, userId: string) {
-    const updatedStatus = !status;
+  updateUserStatus(user: any) {
+    const { id: userId, active } = user;
+    user.active = !user.active;
     this.userHttpService
-      .updateUserStatus({ userId, active: updatedStatus })
+      .updateUserStatus({ userId, active: !active })
       .subscribe(
         (HttpResponse) => {
           console.log({ HttpResponse });
@@ -137,7 +138,7 @@ export class AdminComponent implements OnInit {
         this.getClients();
       }
     });
-    
+
     dialogRef.componentInstance.client = new Client(selectedClient);
     dialogRef.componentInstance.action = action;
   }
@@ -146,11 +147,11 @@ export class AdminComponent implements OnInit {
     client.codeVisibility = !client.codeVisibility;
   }
 
-  updateClientStatus(status: boolean, clientId: string) {
-    console.log({ clientId });
-    const updatedStatus = !status;
+  updateClientStatus(client: any) {
+    const { id: clientId, active } = client;
+    client.active = !client.active;
     this.clientHttpService
-      .updateClientStatus({ clientId, active: updatedStatus })
+      .updateClientStatus({ clientId, active: !active })
       .subscribe(
         (HttpResponse) => {
           console.log(HttpResponse);
