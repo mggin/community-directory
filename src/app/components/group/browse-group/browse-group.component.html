@@ -4,7 +4,8 @@
     </div> -->
     <div class="col row justify-content-between m-0 p-0">
         <div class="col row">
-            <select class="form-control" style="width: 150px;" (change)="groupOnChanged($event)"
+            <ng-container *ngIf="selectedGroup">
+                <select class="form-control" style="width: 150px;" (change)="groupOnChanged($event)"
                 [(ngModel)]="selectedGroup.id">
                 <option *ngFor="let group of groups" [value]="group.id">
                     {{group.groupName}}
@@ -24,17 +25,18 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-dark btn-small mr-2" (click)="openGroupManager()">
-                Manage Groups
-            </button>
-            <button class="btn btn-dark btn-small mr-2" (click)="getGroups()">
-                Refresh
-            </button>
+            </ng-container>
             <!--   <button class="btn btn-success ml-2 mr-2" [disabled]="true">
                 <i class="fas fa-print"></i>
                 Print
             </button> -->
         </div>
+        <button class="btn btn-dark btn-small mr-2" (click)="openGroupManager()">
+            Manage Groups
+        </button>
+        <button class="btn btn-dark btn-small mr-2" (click)="getGroups()">
+            Refresh
+        </button>
 
         <button class="btn btn-dark" (click)="closeDialog()">
             Back

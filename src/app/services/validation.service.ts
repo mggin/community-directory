@@ -9,16 +9,21 @@ import { AuthHttpService } from './http-services/auth-http.service';
 export class ValidationService {
   constructor(private authHttpService: AuthHttpService) {}
 
-  validateSession = async (): Promise<boolean>=> {
-    return await new Promise((resolve, reject) => {
-      this.authHttpService.valideSession().subscribe(
-        (HttpResponse) => {
-          resolve(true);
-        },
-        (HttpError) => {
-          reject(false);
-        }
-      );
+  validateSession = (): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      try {
+        this.authHttpService.valideSession().subscribe(
+          (HttpResponse) => {
+            resolve(true);
+          },
+          (HttpError) => {
+            console.log(HttpError)
+            resolve(false);
+          }
+        );
+      } catch (error) {
+        resolve(error);
+      }
     });
   };
 

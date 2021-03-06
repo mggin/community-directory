@@ -28,6 +28,7 @@ export class ManageGroupComponent implements OnInit {
   }
 
   openGroupForm(action: string, selectedGroup = {}) {
+    console.log(action)
     const dialogRef = this.dialog.open(GroupFormComponent, {
       width: '20vw',
       disableClose: true,

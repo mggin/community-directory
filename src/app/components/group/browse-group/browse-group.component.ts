@@ -20,7 +20,7 @@ export class BrowseGroupComponent implements OnInit {
     private householdHttpService: HouseholdHttpService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<BrowseGroupComponent>,
-    private routeService: RouteService,
+    private routeService: RouteService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +37,10 @@ export class BrowseGroupComponent implements OnInit {
       )
       .subscribe((HttpResponse) => {
         this.groups = HttpResponse;
-        this.selectedGroup = JSON.parse(JSON.stringify(this.groups[0]));
+        console.log(this.groups)
+        if (this.groups.length > 0) {
+          this.selectedGroup = JSON.parse(JSON.stringify(this.groups[0]));
+        }
       });
   }
 
@@ -60,7 +63,7 @@ export class BrowseGroupComponent implements OnInit {
   }
 
   openGroupManager() {
-    const dialogRef = this.dialog.open(ManageGroupComponent, {
+    this.dialog.open(ManageGroupComponent, {
       width: '60vw',
       disableClose: true,
     });

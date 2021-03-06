@@ -29,7 +29,7 @@ export class ManageLeaderComponent implements OnInit {
   openLeaderForm(action: string, selectedLeader: any = {}) {
     const dialogRef = this.dialog.open(LeaderFormComponent, {
       width: '20vw',
-      disableClose: false,
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result['shouldRefresh']) {

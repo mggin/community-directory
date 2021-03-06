@@ -19,7 +19,7 @@
     <input class="form-control border" [ngClass]="{'border-danger': userForm.requiredUsername}" placeholder="Username"
         [(ngModel)]="user.username" />
     <p class="m-0 p-0 mt-2">Password</p>
-    <p class="m-0 p-0 text-danger" *ngIf="userForm.requiredPasswordLength">Password should be more then 6 characters.
+    <p class="m-0 p-0 text-danger" *ngIf="userForm.requiredPasswordLength">Password should be more than 6 characters.
     </p>
     <input class="form-control border" [ngClass]="{'border-danger': userForm.requiredPassword}" placeholder="Password"
         [(ngModel)]="user.password" type="password" minlength="6" />
@@ -37,6 +37,6 @@
     </select>
     <div class="col m-0 p-0 mt-2">
         <button class="btn btn-success mr-2" (click)="createUser()">Create</button>
-        <button class="btn btn-dark">Cancel</button>
+        <button class="btn btn-dark" (click)="dialogRef.close({ shouldReload: false });">Cancel</button>
     </div>
 </div>

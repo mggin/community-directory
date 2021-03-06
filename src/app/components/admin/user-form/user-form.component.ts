@@ -20,7 +20,7 @@ export class UserFormComponent implements OnInit {
   constructor(
     private communityHttpService: CommunityHttpService,
     private userHttpService: UserHttpService,
-    private dialogRef: MatDialogRef<UserFormComponent>
+    public dialogRef: MatDialogRef<UserFormComponent>
   ) {}
 
   ngOnInit(): void {

@@ -7,7 +7,7 @@
     <p class="m-0 p-0 mt-2">Name</p>
     <input class="form-control" placeholder="Name" [(ngModel)]="group.groupName" />
     <p class="m-0 p-0 mt-2">Description</p>
-    <textarea class="form-control" placeholder="Description" [(ngModel)]="group.description"></textarea>
+    <textarea class="form-control" placeholder="Description" [(ngModel)]="group.groupDescription"></textarea>
     <ng-container *ngIf="members$">
         <p class="m-0 p-0 mt-2">Select Leader</p>
         <select class="form-control" [(ngModel)]="group.leaderId">

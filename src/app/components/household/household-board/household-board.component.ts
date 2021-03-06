@@ -114,9 +114,11 @@ export class HouseholdBoardComponent implements OnInit {
       .subscribe((HttpResponse: any) => {
         this.household = HttpResponse;
       });
+    console.log(householdId)
     this.memberHttpService
       .getMembers({ householdId })
       .subscribe((HttpResponse: any) => {
+        console.log(HttpResponse)
         this.members = HttpResponse;
       });
   }

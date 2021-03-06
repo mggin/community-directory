@@ -8,5 +8,5 @@ export class HouseholdDetail {
   city: string;
   state: string;
   zipCode: string;
-  householderId: string;
+  householderId: string = null;
 }

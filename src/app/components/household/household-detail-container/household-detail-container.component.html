@@ -14,7 +14,7 @@
       [ngClass]="{ 'border-danger': setting.requireHouseholderId }"
     >
       <option value="null" disabled>Select Householder</option>
-      <option value="undefined" disabled>Select Householder</option>
+      <!-- <option value="undefined" disabled>Select Householder</option> -->
       <option
         *ngFor="let memberForm of memberForms"
         [value]="memberForm.member.id"
