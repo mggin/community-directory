@@ -61,6 +61,7 @@ export class HouseholdDetailContainerComponent implements OnInit {
     const householdValidation = this.validationService.HouseholdDetailForm(
       this.householdDetailForm
     );
+    this.message = new Message();
     if (householdValidation) {
       this.resetProgress();
       this.showUpdateProgress = true;
@@ -73,9 +74,11 @@ export class HouseholdDetailContainerComponent implements OnInit {
             this.message.success = `Successfully updated.`;
           },
           (HttpError) => {
-            this.message.error = HttpError;
+            this.message.error = HttpError.error.message;
           }
         );
+    } else {
+      this.message.error = `Please fill out required fields.`
     }
   }
 

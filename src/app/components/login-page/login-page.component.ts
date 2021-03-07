@@ -36,7 +36,7 @@ export class LoginPageComponent implements OnInit {
         localStorage.setItem('accessToken', accessToken);
       },
       (HttpError: HttpErrorResponse) => {
-        this.errorMessage = HttpError.error;
+        this.errorMessage = HttpError.error.message;
         this.isSigningIn = false;
       }
     );

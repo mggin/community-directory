@@ -61,7 +61,6 @@ export class HouseholdBoardComponent implements OnInit {
       .getHouseholds({ recentHouseholds: true, size: 10 })
       .pipe(
         map((households: any) => {
-          console.log(households)
           return households.map((household) => {
             return {
               householdId: household['id'],
@@ -114,11 +113,10 @@ export class HouseholdBoardComponent implements OnInit {
       .subscribe((HttpResponse: any) => {
         this.household = HttpResponse;
       });
-    console.log(householdId)
     this.memberHttpService
       .getMembers({ householdId })
       .subscribe((HttpResponse: any) => {
-        console.log(HttpResponse)
+        // console.log(HttpResponse)
         this.members = HttpResponse;
       });
   }

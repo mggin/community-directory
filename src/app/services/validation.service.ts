@@ -17,7 +17,6 @@ export class ValidationService {
             resolve(true);
           },
           (HttpError) => {
-            console.log(HttpError)
             resolve(false);
           }
         );
@@ -68,6 +67,10 @@ export class ValidationService {
         secondaryPhone.length >= 10 && secondaryPhone.length <= 12
       );
     }
-    return !householdDetailForm.setting.requireHouseholderId;
+    return (
+      !householdDetailForm.setting.requireHouseholderId &&
+      !householdDetailForm.setting.requirePrimaryPhone &&
+      !householdDetailForm.setting.requireSecondaryPhone
+    );
   }
 }

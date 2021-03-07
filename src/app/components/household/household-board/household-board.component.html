@@ -16,7 +16,8 @@
   </section>
   <section class="col m-0 p-0 mt-1" *ngIf="household">
     <div class="col m-0 p-0 row justify-content-between">
-      <span class="card p-2 pl-3 pr-3 ml-1 bg-dark text-white">{{ household.groupName }}&nbsp;</span>
+      <span class="card p-2 pl-3 pr-3 ml-1 bg-dark text-white" *ngIf="household.groupName">{{ household.groupName }}&nbsp;</span>
+      <span *ngIf="!household.groupName"></span>
       <button class="btn btn-primary pl-3 pr-3 mr-1" (click)="routeService.toEdit(household.id)">
         <i class="fas fa-edit"></i>
         Edit
