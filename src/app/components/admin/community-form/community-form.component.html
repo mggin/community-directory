@@ -6,6 +6,8 @@
     <p class="m-0 p-0 mt-2">Name</p>
     <input class="form-control border" [ngClass]="{'border-danger': communityForm.requiredName}" placeholder="Name"
         [(ngModel)]="community.name" />
+    <p class="m-0 p-0 mt-2">Abbreviation</p>
+    <input class="form-control border" placeholder="Abbreviation" [(ngModel)]="community.abbr" />
     <p class="m-0 p-0 mt-2">Phone</p>
     <input class="form-control border" [ngClass]="{'border-danger': communityForm.requiredPhone}" placeholder="Phone"
         [(ngModel)]="community.phone" />

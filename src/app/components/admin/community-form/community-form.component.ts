@@ -33,7 +33,7 @@ export class CommunityFormComponent implements OnInit {
           this.dialogRef.close({ shouldReload: true });
         },
         (HttpError) => {
-          this.message.error = HttpError;
+          this.message.error = HttpError.error.message;
         }
       );
     } else {
