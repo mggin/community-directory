@@ -60,7 +60,7 @@ export class UserFormComponent implements OnInit {
           this.dialogRef.close({ shouldReload: true });
         },
         (HttpError) => {
-          this.message.error = HttpError;
+          this.message.error = HttpError.error.message;
         }
       );
     } else {

@@ -37,7 +37,6 @@ export class BrowseGroupComponent implements OnInit {
       )
       .subscribe((HttpResponse) => {
         this.groups = HttpResponse;
-        console.log(this.groups)
         if (this.groups.length > 0) {
           this.selectedGroup = JSON.parse(JSON.stringify(this.groups[0]));
         }
@@ -53,9 +52,11 @@ export class BrowseGroupComponent implements OnInit {
     }
   }
   getHouseholds() {
-    this.households = this.householdHttpService.getHouseholds({
-      groupId: this.selectedGroup.id,
-    });
+    if (this.selectedGroup) {
+      this.households = this.householdHttpService.getHouseholds({
+        groupId: this.selectedGroup.id,
+      });
+    }
   }
 
   routeToEditPage(householdId: string) {

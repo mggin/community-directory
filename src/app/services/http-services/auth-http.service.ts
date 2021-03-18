@@ -15,7 +15,7 @@ export class AuthHttpService {
   apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
   signIn(username: string, password: string) {
-    console.log(username, password)
+    // console.log(username, password)
     return this.http.post(`${this.apiUrl}/auth/sign-in`, {
       username,
       password,
