@@ -78,6 +78,7 @@ export class AdminComponent implements OnInit {
   addUser() {
     const dialogRef = this.dialog.open(UserFormComponent, {
       width: '400px',
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe((shouldReload) => {
       if (shouldReload) {
@@ -106,6 +107,7 @@ export class AdminComponent implements OnInit {
   addCommunity() {
     const dialogRef = this.dialog.open(CommunityFormComponent, {
       width: '400px',
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe(({ shouldReload }) => {
       if (shouldReload) {
