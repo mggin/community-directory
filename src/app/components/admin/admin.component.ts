@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Client } from 'src/app/models/client';
+import { Community } from 'src/app/models/community';
 import { Message } from 'src/app/models/message';
 import { ClientHttpService } from 'src/app/services/http-services/client-http.service';
 import { CommunityHttpService } from 'src/app/services/http-services/community-http.service';
@@ -104,16 +105,44 @@ export class AdminComponent implements OnInit {
     this.communities$ = this.communityHttpService.getCommunities();
   }
 
-  addCommunity() {
+  // addCommunity() {
+  //   const dialogRef = this.dialog.open(CommunityFormComponent, {
+  //     width: '400px',
+  //     disableClose: true,
+  //   });
+  //   dialogRef.afterClosed().subscribe(({ shouldReload }) => {
+  //     if (shouldReload) {
+  //       this.getCommunities();
+  //     }
+  //   });
+  // }
+
+  openCommunityForm(action: string, selectedCommunity: any) {
     const dialogRef = this.dialog.open(CommunityFormComponent, {
       width: '400px',
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe(({ shouldReload }) => {
+    dialogRef.afterClosed().subscribe((shouldReload) => {
       if (shouldReload) {
         this.getCommunities();
       }
     });
+
+    dialogRef.componentInstance.community = new Community(selectedCommunity)
+    dialogRef.componentInstance.action = action;
+  }
+
+  deleteCommunity(communityId: string) {
+    if (confirm('Are you sure you want to delete this community?')) {
+      this.communityHttpService.deleteCommunity({ communityId }).subscribe(
+        (_) => {
+          this.getCommunities();
+        },
+        (HttpError) => {
+          this.message.error = HttpError.error.message;
+        }
+      );
+    }
   }
 
   getClients() {

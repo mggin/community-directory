@@ -11,7 +11,8 @@ import { CommunityHttpService } from 'src/app/services/http-services/community-h
   styleUrls: ['./community-form.component.css'],
 })
 export class CommunityFormComponent implements OnInit {
-  community = new Community();
+  action: string;
+  community: Community;
   communityForm = new CommunityForm();
   message = new Message();
   constructor(
@@ -21,13 +22,17 @@ export class CommunityFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  createCommunity() {
+  validateForm() {
     this.message = new Message();
     this.communityForm.requiredName = !this.community.name;
-    this.communityForm.requiredPhone = !this.community.phone;
-    if (
-      Object.keys(this.communityForm).every((key) => !this.communityForm[key])
-    ) {
+    this.communityForm.requiredAbbr = !this.community.abbr;
+    return Object.keys(this.communityForm).every(
+      (key) => !this.communityForm[key]
+    );
+  }
+
+  createCommunity() {
+    if (this.validateForm()) {
       this.communityHttpService.createCommunity(this.community).subscribe(
         (HttpResponse) => {
           this.dialogRef.close({ shouldReload: true });
@@ -38,6 +43,20 @@ export class CommunityFormComponent implements OnInit {
       );
     } else {
       this.message.error = 'Please fill out the required fields.';
+    }
+  }
+
+  updateCommunity() {
+    if (this.validateForm()) {
+      console.log(this.community);
+      this.communityHttpService.updateCommunity(this.community).subscribe(
+        (HttpResponse) => {
+          this.dialogRef.close({ shouldReload: true });
+        },
+        (HttpError) => {
+          this.message.error = HttpError.error.message;
+        }
+      );
     }
   }
 }

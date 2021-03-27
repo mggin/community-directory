@@ -17,4 +17,16 @@ export class CommunityHttpService {
   createCommunity(props: any) {
     return this.http.post(`${this.apiUrl}/api/communities`, { ...props });
   }
+
+  updateCommunity(props: any) {
+    return this.http.put(`${this.apiUrl}/api/communities`, { ...props });
+  }
+
+  deleteCommunity(props: any) {
+    return this.http.delete(`${this.apiUrl}/api/communities`, {
+      params: {
+        ...props,
+      },
+    });
+  }
 }

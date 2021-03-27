@@ -2,14 +2,16 @@
     <div class="alert alert-danger" role="alert" *ngIf="message.error">
         {{message.error}}
     </div>
-    <h6>Create a new Community.</h6>
+    <h6 *ngIf="action === 'CREATE'">Create a new Community.</h6>
+    <h6 *ngIf="action === 'EDIT'">Update Community Information.</h6>
     <p class="m-0 p-0 mt-2">Name</p>
     <input class="form-control border" [ngClass]="{'border-danger': communityForm.requiredName}" placeholder="Name"
         [(ngModel)]="community.name" />
     <p class="m-0 p-0 mt-2">Abbreviation</p>
-    <input class="form-control border" placeholder="Abbreviation" [(ngModel)]="community.abbr" />
+    <input class="form-control border" placeholder="Abbreviation"
+        [ngClass]="{'border-danger': communityForm.requiredAbbr}" [(ngModel)]="community.abbr" />
     <p class="m-0 p-0 mt-2">Phone</p>
-    <input class="form-control border" [ngClass]="{'border-danger': communityForm.requiredPhone}" placeholder="Phone"
+    <input class="form-control border" placeholder="Phone"
         [(ngModel)]="community.phone" />
     <p class="m-0 p-0 mt-2">Email</p>
     <input class="form-control" placeholder="Email" [(ngModel)]="community.email" />
@@ -24,8 +26,11 @@
         </div>
     </div>
     <div class="col m-0 p-0 mt-2">
-        <button class="btn btn-success mr-2" (click)="createCommunity()">
+        <button class="btn btn-success mr-2" (click)="createCommunity()" *ngIf="action === 'CREATE'">
             Create
+        </button>
+        <button class="btn btn-success mr-2" (click)="updateCommunity()" *ngIf="action === 'EDIT'">
+            Update
         </button>
         <button class="btn btn-dark" (click)="dialogRef.close()">Cancel</button>
     </div>

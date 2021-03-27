@@ -43,7 +43,7 @@
         </tbody>
     </table>
 </div> -->
-<div class="alert alert-danger" role="alert" *ngIf="message.error">
+<div class="alert alert-danger m-1" role="alert" *ngIf="message.error">
     {{message.error}}
 </div>
 
@@ -66,7 +66,7 @@
         <button *ngIf="selectedTab === TAB.CLIENT" class="btn btn-dark" (click)="openClientForm('CREATE', {})">
             Add Client
         </button>
-        <button *ngIf="selectedTab === TAB.COMMUNITY" class="btn btn-dark" (click)="addCommunity()">
+        <button *ngIf="selectedTab === TAB.COMMUNITY" class="btn btn-dark" (click)="openCommunityForm('CREATE', {})">
             Add Community
         </button>
     </div>
@@ -159,7 +159,8 @@
                     </div>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-success mr-1" (click)="openClientForm('EDIT', client)"><i class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-sm btn-success mr-1" (click)="openClientForm('EDIT', client)"><i
+                            class="fas fa-edit"></i>Edit</button>
                     <button class="btn btn-sm btn-danger" (click)="deleteClient(client.id)">
                         <i class="fas fa-trash"></i>
                         Delete
@@ -181,6 +182,7 @@
                 <th>City</th>
                 <th>State</th>
                 <th style="width: 100px;">Created on</th>
+                <th style="width: 122px;"></th>
             </tr>
         </thead>
         <tbody>
@@ -192,6 +194,14 @@
                 <td>{{community.city}}</td>
                 <td>{{community.state}}</td>
                 <td>{{community.createdAt | date}}</td>
+                <td>
+                    <button class="btn btn-sm btn-success mr-1" (click)="openCommunityForm('EDIT', community)"><i
+                            class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteCommunity(community.id)">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
