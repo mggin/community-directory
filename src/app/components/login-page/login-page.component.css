@@ -1,3 +1,6 @@
 .login-page {
-  background-image: url("https://uploads.weconnect.com/262d0d21c42256263406ffe42bd30481f55e870a/4twfyv18plewtq4x3shfvh9lxyf.jpg");
+  background-image: url("../../../assets/welcome.png");
+  background-size: auto;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;  
 }
