@@ -1,11 +1,10 @@
 export class SearchedMember {
+  id: string;
   householdId: string;
-  christianName: string;
-  ethnicName: string;
+  name: string;
   selected: boolean;
-  constructor(householdId: string, christianName: string, ethnicName: string) {
+  constructor(householdId: string, name: string) {
     this.householdId = householdId;
-    this.christianName = christianName;
-    this.ethnicName = ethnicName;
+    this.name = name;
   }
 }

@@ -1,12 +1,12 @@
 .nav-bar {
-  background: #0984e3;
+  background: #343a40;
   height: 60px;
 }
 
 .action-btn {
   border-radius: 50px;
   padding: 5px 15px;
-  font-size: 12px;
+  font-size: 13px;
   margin-right: 50px;;
 }
 
@@ -15,17 +15,17 @@
   color: white;
 }
 
-li {
-  font-size: 12px;
-}
 
 li:hover {
   background: rgba(52, 73, 94, 0.2);
   cursor: pointer;
 }
 
+li:active {
+  color: inherit;
+}
+
 .user-title {
-  font-size: 11px;
   margin: 0px 5px;
   color: white;
 }

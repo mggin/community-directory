@@ -1,5 +1,6 @@
 export class MemberFormSetting {
     collapse = true;
-    requireEthnicName = false;
+    requireFullName = false;
     requireGender = false;
+    requirePhone = false;
 }

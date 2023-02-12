@@ -1,73 +1,76 @@
 import { Injectable } from '@angular/core';
 import { MemberForm } from '../models/member-form';
-import { HouseholdDetail } from '../models/household-detail';
-import { HOUSEHOLD_SQL_EXCHANGE, MEMBER_SQL_EXCHANGE } from '../constant-data';
-import { Member } from '../models/member';
-import { HouseholdEditorComponent } from '../components/household-editor/household-editor.component';
 import { HouseholdDetailForm } from '../models/household-detail-form';
+import { AuthHttpService } from './http-services/auth-http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ValidationService {
-  constructor() {}
+  constructor(private authHttpService: AuthHttpService) {}
+
+  validateSession = (): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      try {
+        this.authHttpService.valideSession().subscribe(
+          (HttpResponse) => {
+            resolve(true);
+          },
+          (HttpError) => {
+            resolve(false);
+          }
+        );
+      } catch (error) {
+        resolve(error);
+      }
+    });
+  };
+
   MemberForm(memberForms: MemberForm[]) {
     for (const memberForm of memberForms) {
-      const { ethnicName, gender } = memberForm.member;
-      if (!ethnicName || ethnicName.length < 1) {
-        memberForm.setting.requireEthnicName = true;
-      } else if (ethnicName) {
-        memberForm.setting.requireEthnicName = false;
+      const { fullName, gender, phone } = memberForm.member;
+      // if (!ethnicName || ethnicName.length < 1) {
+      memberForm.setting.requireFullName = !fullName || fullName.length < 1;
+      if (phone) {
+        memberForm.setting.requirePhone = !(
+          phone.length <= 12 && phone.length >= 10
+        );
+      } else {
+        memberForm.setting.requirePhone = false;
       }
-      if (!gender) {
-        memberForm.setting.requireGender = true;
-      } else if (gender) {
-        memberForm.setting.requireGender = false;
-      }
+      memberForm.setting.requireGender = !gender;
     }
     return memberForms.every((memberForm) => {
       return (
-        !memberForm.setting.requireEthnicName &&
-        !memberForm.setting.requireGender
+        !memberForm.setting.requireFullName &&
+        !memberForm.setting.requireGender &&
+        !memberForm.setting.requirePhone
       );
     });
   }
 
   HouseholdDetailForm(householdDetailForm: HouseholdDetailForm) {
-    console.log(householdDetailForm.householdDetail)
-    if (!householdDetailForm.householdDetail.householderId) {
-      householdDetailForm.setting.requireHouseholderId = true;
-    } else {
-      householdDetailForm.setting.requireHouseholderId = false;
+    console.log(householdDetailForm.householdDetail);
+    const {
+      householderId,
+      primaryPhone,
+      secondaryPhone,
+    } = householdDetailForm.householdDetail;
+    householdDetailForm.setting.requireHouseholderId = !householderId;
+    if (primaryPhone) {
+      householdDetailForm.setting.requirePrimaryPhone = !(
+        primaryPhone.length >= 10 && primaryPhone.length <= 12
+      );
     }
-    if (!householdDetailForm.householdDetail.becGroup) {
-      householdDetailForm.setting.requireBecGroup = true;
-    } else {
-      householdDetailForm.setting.requireBecGroup = false;
+    if (secondaryPhone) {
+      householdDetailForm.setting.requireSecondaryPhone = !(
+        secondaryPhone.length >= 10 && secondaryPhone.length <= 12
+      );
     }
     return (
       !householdDetailForm.setting.requireHouseholderId &&
-      !householdDetailForm.setting.requireBecGroup
+      !householdDetailForm.setting.requirePrimaryPhone &&
+      !householdDetailForm.setting.requireSecondaryPhone
     );
-  }
-
-  FormatHouseholdDetails(_householdDetail: HouseholdDetail) {
-    const householdDetails = {};
-    Object.keys(_householdDetail).forEach((key) => {
-      if (HOUSEHOLD_SQL_EXCHANGE[key]) {
-        householdDetails[HOUSEHOLD_SQL_EXCHANGE[key]] = _householdDetail[key];
-      }
-    });
-    return householdDetails;
-  }
-
-  FormatMember(_member: Member) {
-    const member = {};
-    Object.keys(_member).forEach((key) => {
-      if (MEMBER_SQL_EXCHANGE[key]) {
-        member[MEMBER_SQL_EXCHANGE[key]] = _member[key];
-      }
-    });
-    return member;
   }
 }

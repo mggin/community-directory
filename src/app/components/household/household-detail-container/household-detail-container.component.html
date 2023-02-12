@@ -1,0 +1,103 @@
+<div class="card">
+  <div class="card-header bg-dark text-white pt-3 pb-3">Detail</div>
+  <div class="card-body">
+    <div class="alert alert-success" role="alert" *ngIf="message.success">
+      {{ message.success }}
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="message.error">
+      {{ message.error }}
+    </div>
+    <label class="household-detail-label mt-0">Householder</label>
+    <select
+      class="form-control default-options"
+      [(ngModel)]="householdDetail.householderId"
+      [ngClass]="{ 'border-danger': setting.requireHouseholderId }"
+    >
+      <option value="null" disabled>Select Householder</option>
+      <!-- <option value="undefined" disabled>Select Householder</option> -->
+      <option
+        *ngFor="let memberForm of memberForms"
+        [value]="memberForm.member.id"
+      >
+        {{ memberForm.member.fullName }} {{ memberForm.member.otherName }}
+      </option>
+    </select>
+    <label class="household-detail-label">Group</label>
+    <select
+      class="form-control default-options"
+      [(ngModel)]="householdDetail.groupId"    >
+      <option value="null" disabled>Select Group</option>
+      <option
+        *ngFor="let option of groupOptions | async"
+        [value]="option.id"
+      >
+        {{ option.groupName }}
+      </option>
+    </select>
+    <label class="household-detail-label">Address</label>
+    <input
+      class="form-control"
+      placeholder="Address"
+      [(ngModel)]="householdDetail.addressLine"
+    />
+    <label class="household-detail-label">City</label>
+    <input
+      class="form-control"
+      placeholder="City"
+      [(ngModel)]="householdDetail.city"
+    />
+    <div class="row m-0 p-0">
+      <div class="col m-0 p-0">
+        <label class="household-detail-label">State</label>
+        <input
+          class="form-control"
+          placeholder="State"
+          [(ngModel)]="householdDetail.state"
+        />
+      </div>
+      <div class="col m-0 p-0 ml-2">
+        <label class="household-detail-label">Zip Code</label>
+        <input
+          class="form-control"
+          placeholder="Zip Code"
+          [(ngModel)]="householdDetail.zipCode"
+        />
+      </div>
+    </div>
+    <label class="household-detail-label">Primary contact</label>
+    <input
+      class="form-control"
+      placeholder="Primary contact"
+      [(ngModel)]="householdDetail.primaryPhone"
+      [ngClass]="{ 'border-danger': setting.requirePrimaryPhone}"
+    />
+    <label class="household-detail-label">Secondary contact</label>
+    <input
+      class="form-control"
+      placeholder="Secondary contact"
+      [(ngModel)]="householdDetail.secondaryPhone"
+      [ngClass]="{ 'border-danger': setting.requireSecondaryPhone }"
+    />
+    <div
+      class="col row justify-content-end m-0 p-0 mt-3"
+      *ngIf="showEditElements"
+    >
+      <button
+        class="btn btn-success mr-2"
+        [disabled]="disableActions"
+        (click)="updateHousehold()"
+      >
+        <i class="fa fa-circle-notch fa-spin" *ngIf="showUpdateProgress"></i>
+        Update
+      </button>
+      <button
+        class="btn btn-danger"
+        [disabled]="disableActions"
+        (click)="deleteHousehold()"
+      >
+        <i class="fa fa-circle-notch fa-spin" *ngIf="showDeleteProgress"></i>
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

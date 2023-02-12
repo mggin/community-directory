@@ -1,0 +1,39 @@
+<div>
+    <!-- <div class="alert alert-danger" role="alert" *ngIf="message.error">
+        {{message.error}}
+    </div> -->
+    <p class="m-0 p-0" *ngIf="action === 'CREATE'">Create a new Group.</p>
+    <p class="m-0 p-0" *ngIf="action === 'EDIT'">Update Group Information.</p>
+    <p class="m-0 p-0 mt-2">Name</p>
+    <input class="form-control" placeholder="Name" [(ngModel)]="group.groupName" />
+    <p class="m-0 p-0 mt-2">Description</p>
+    <textarea class="form-control" placeholder="Description" [(ngModel)]="group.groupDescription"></textarea>
+    <ng-container *ngIf="members$">
+        <p class="m-0 p-0 mt-2">Select Leader</p>
+        <select class="form-control" [(ngModel)]="group.leaderId">
+            <option [value]="null" disabled>Select Leader</option>
+            <option *ngFor="let member of members$ | async" [value]="member.id">{{member.name}}</option>
+        </select>
+    </ng-container>
+    <ng-container *ngIf="members$">
+        <p class="m-0 p-0 mt-2">Select Assistant</p>
+        <select class="form-control" [(ngModel)]="group.assistantId">
+            <option [value]="null" disabled>Select Assistant</option>
+            <option *ngFor="let member of members$ | async" [value]="member.id">{{member.name}}</option>
+        </select>
+    </ng-container>
+    <div class="col row m-0 p-0 mt-3">
+        <button class="btn btn-success mr-2" (click)="createGroup()" [disabled]="requesting"
+            *ngIf="action === 'CREATE'">
+            <i class="fas fa-circle-notch fa-spin" *ngIf="requesting"></i>
+            Create
+        </button>
+        <button class="btn btn-success mr-2" (click)="updateGroup()" [disabled]="requesting" *ngIf="action === 'EDIT'">
+            <i class="fas fa-circle-notch fa-spin" *ngIf="requesting"></i>
+            Update
+        </button>
+        <button class="btn btn-dark" (click)="dialogRef.close({shouldRefresh: false})" [disabled]="requesting">
+            Cancel
+        </button>
+    </div>
+</div>

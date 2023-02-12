@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from 'src/app/services/http.service';
-import { LoginResponse } from 'src/app/interfaces';
 import { Router } from '@angular/router';
+import { AuthHttpService } from 'src/app/services/http-services/auth-http.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'login-page',
@@ -13,22 +13,30 @@ export class LoginPageComponent implements OnInit {
   password: string;
   errorMessage: string;
   isSigningIn = false;
-  constructor(private httpService: HttpService, private router: Router) {}
+  constructor(
+    private authHttpService: AuthHttpService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {}
 
   signIn() {
     this.isSigningIn = true;
     this.errorMessage = undefined;
-    this.httpService.signIn(this.username, this.password).subscribe(
-      (response: LoginResponse) => {
+    this.authHttpService.signIn(this.username, this.password).subscribe(
+      (HttpResponse: any) => {
         this.isSigningIn = false;
-        const { accessToken } = response;
+        const { username, admin, accessToken } = HttpResponse;
+        if (admin) {
+          this.router.navigate(['admin']);
+        } else {
+          this.router.navigate(['board']);
+        }
+        localStorage.setItem('username', username);
         localStorage.setItem('accessToken', accessToken);
-        this.router.navigate(['board']);
       },
-      (HttpErrorResponse) => {
-        this.errorMessage = HttpErrorResponse.error.message;
+      (HttpError: HttpErrorResponse) => {
+        this.errorMessage = HttpError.error.message;
         this.isSigningIn = false;
       }
     );

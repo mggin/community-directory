@@ -1,0 +1,38 @@
+<div class="row m-0 p-0">
+    <div class="col m-0 p-0">
+        <div class="col row justify-content-end m-0 p-0 mb-1">
+            <button class="btn btn-dark mr-1" (click)="openLeaderForm('CREATE')">
+                Add Leader</button>
+            <button class="btn btn-dark" (click)="closeDialog()">
+                Back</button>
+        </div>
+        <table class="table table-sm table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th style="width: 125px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let leader of leaders$ | async; let i = index;">
+                    <td>{{i + 1}}</td>
+                    <td class="p-2">{{leader.role}}</td>
+                    <td class="p-2">{{leader.fullName}} <span *ngIf="leader.otherName">, {{leader.otherName}}</span>
+                    </td>
+                    <td class="col row justify-content-between m-0 border-right-0 border-left-0 border-bottom-0">
+                        <button class="btn btn-sm btn-primary" (click)="openLeaderForm('EDIT', leader)">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteLeader(leader.id)">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

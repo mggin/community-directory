@@ -1,0 +1,78 @@
+<nav-bar></nav-bar>
+<div class="col row m-0 p-0">
+  <section class="household-list-col">
+    <div class="card m-1 p-2">
+      <input class="form-control rounded-input" placeholder="Search" (keyup)="searchMembers()" [(ngModel)]="name" />
+      <ul class="list-group mt-2" *ngIf="searchedMembers">
+        <li *ngFor="let searchedMember of searchedMembers" class="list-group-item household-list-item"
+          [ngClass]="{ 'list-bg': searchedMember.selected}" (click)="handleHouseholdBoard(searchedMember)">
+          <div class="row justify-content-between align-items-center">
+            <p class="m-0 p-0 ml-2">{{ searchedMember.fullName }} <span *ngIf="searchedMember.otherName">, {{searchedMember.otherName}}</span></p>
+            <i class="fas fa-angle-right mr-2"></i>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="col m-0 p-0 mt-1" *ngIf="household">
+    <div class="col m-0 p-0 row justify-content-between">
+      <span class="card p-2 pl-3 pr-3 ml-1 bg-dark text-white" *ngIf="household.groupName">{{ household.groupName }}&nbsp;</span>
+      <span *ngIf="!household.groupName"></span>
+      <button class="btn btn-primary pl-3 pr-3 mr-1" (click)="routeService.toEdit(household.id)">
+        <i class="fas fa-edit"></i>
+        Edit
+      </button>
+    </div>
+    <div class="m-1 p-0 row">
+      <div class="col p-0 m-0">
+        <ul class="list-group">
+          <li class="list-group-item member-list-item bg-dark text-white"
+            *ngFor="let member of members; let i = index">
+            <div class="col row justify-content-between align-items-center m-0 p-0">
+              <div class="col row align-items-center m-0 p-0">
+
+                <p class="m-0 p-0">{{ i + 1 }}</p>
+                <p class="m-0 p-0 ml-2">
+                  {{ member.fullName }}<span *ngIf="member.otherName">, {{member.otherName}}</span>
+                </p>
+
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col p-0 m-0 ml-1">
+        <div class="card">
+          <div class="card-header bg-dark text-white">Address</div>
+          <div class="card-body">
+            <p class="col card p-2 mb-2 card-bg" *ngIf="household.addressLine">
+              {{ household.addressLine }}
+            </p>
+            <div class="col row m-0 p-0">
+              <span class="col card p-2 card-bg">{{
+                household.city
+                }}</span>
+              <span class="col card p-2 ml-2 card-bg">{{
+                household.state
+                }}</span>
+              <span class="col card p-2 ml-2 card-bg">{{
+                household.zipCode
+                }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card mt-1">
+          <div class="card-header bg-dark text-white">Contact</div>
+          <div class="card-body">
+            <p class="card p-2 card-bg m-0" *ngIf="household.primaryPhone">
+              {{ household.primaryPhone }}
+            </p>
+            <p class="card p-2 card-bg m-0 mt-2" *ngIf="household.secondaryPhone">
+              {{ household.secondaryPhone }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

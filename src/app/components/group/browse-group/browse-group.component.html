@@ -1,0 +1,84 @@
+<div class="col m-0 p-0" *ngIf="groups">
+    <!-- <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{errorMessage}}
+    </div> -->
+    <div class="col row justify-content-between m-0 p-0">
+        <div class="col row">
+            <ng-container *ngIf="selectedGroup">
+                <select class="form-control" style="width: 150px;" (change)="groupOnChanged($event)"
+                [(ngModel)]="selectedGroup.id">
+                <option *ngFor="let group of groups" [value]="group.id">
+                    {{group.groupName}}
+                </option>
+            </select>
+            <div class="col row align-items-center ml-4">
+                <div class="card p-2">
+                    <div class="col row m-0 p-0 justify-content-between">
+                        <p class="m-0 p-0 ml-1">Leader - </p>
+                        <p class="m-0 p-0 ml-1" *ngIf="selectedGroup">{{selectedGroup.leaderName}}</p>
+                    </div>
+                </div>
+                <div class="card p-2 ml-2">
+                    <div class="col row m-0 p-0 justify-content-between">
+                        <p class="m-0 p-0 ml-1">Assistant - </p>
+                        <p class="m-0 p-0 ml-1" *ngIf="selectedGroup">{{selectedGroup.assistantName}}</p>
+                    </div>
+                </div>
+            </div>
+            </ng-container>
+            <!--   <button class="btn btn-success ml-2 mr-2" [disabled]="true">
+                <i class="fas fa-print"></i>
+                Print
+            </button> -->
+        </div>
+        <button class="btn btn-dark btn-small mr-2" (click)="openGroupManager()">
+            Manage Groups
+        </button>
+        <button class="btn btn-dark btn-small mr-2" (click)="getGroups()">
+            Refresh
+        </button>
+
+        <button class="btn btn-dark" (click)="closeDialog()">
+            Back
+        </button>
+    </div>
+    <table class="table table-sm table-striped table-bordered mt-2" *ngIf="households">
+        <thead class="thead-dark">
+            <th>No.</th>
+            <th>Householder</th>
+            <th>Members</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th>Primary Phone</th>
+            <th>Secondary Phone</th>
+            <th style="width: 60px;"> </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let household of households | async ; let i = index">
+                <td>{{i + 1}}
+                    <!-- <i class="fas fa-check-circle text-success" *ngIf="becDetail.householderId === bec.leaderId || 
+                    becDetail.householderId === bec.assistantId"></i> -->
+                </td>
+                <td><span>{{household['householderFullName']}}</span>
+                    <span *ngIf="household['householderOtherName']">,
+                        {{household['householderOtherName']}}</span>
+                </td>
+                <td>{{household['members']}}</td>
+                <td>{{household['addressLine']}}</td>
+                <td>{{household['city']}}</td>
+                <td>{{household['state']}}</td>
+                <td>{{household['zipCode']}}</td>
+                <td>{{household['primaryPhone']}}</td>
+                <td>{{household['secondaryPhone']}}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="routeToEditPage(household.id)">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

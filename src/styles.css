@@ -2,8 +2,9 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 body, html {
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Mulish', sans-serif;
     font-size: 13px;
+    font-weight: 400;
     margin: 0;
 }
 

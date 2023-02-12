@@ -1,0 +1,41 @@
+<div class="alert alert-danger mb-1" role="alert" *ngIf="errorMessage">
+    {{errorMessage}}    
+</div>
+<div class="row justify-content-center">
+    <div class="col m-0 p-0">
+        <div class="col row justify-content-end m-0 p-0 mb-1">
+            <button class="btn btn-dark m-0 add-btn" (click)="addMember()" [disabled]="disableActions">
+                <i class="fas fa-user-plus"></i>
+                Add Member
+            </button>
+        </div>
+        <ng-container *ngFor="let memberForm of memberForms; let i = index">
+            <member-container 
+                [action]="ACTION"
+                [member]="memberForm.member" 
+                [index]="i"
+                [setting]="memberForm.setting" 
+                (removeLocalMember)="removeLocalMember($event)">
+            </member-container>
+        </ng-container>
+    </div>
+    <div class="col">
+        <div class="col row justify-content-end m-0 p-0 mb-1">
+            <button class="btn btn-success create-btn" (click)="createHousehold()" [disabled]="disableActions">
+                <i class="fa fa-circle-notch fa-spin" *ngIf="disableActions"></i>
+                <i class="fas fa-cloud-upload-alt" *ngIf="!disableActions"></i>
+                Create</button>
+            <button class="btn btn-dark ml-1 cancel-btn" (click)="closeDialog()"
+                [disabled]="disableActions">
+                <i class="fas fa-chevron-circle-left"></i>
+                Back</button>
+        </div>
+        <household-detail-container 
+            [action]="ACTION"
+            [householdDetailForm]="householdDetailForm"
+            [memberForms]="memberForms"
+            >
+        </household-detail-container>
+
+    </div>
+</div>

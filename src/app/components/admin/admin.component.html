@@ -1,0 +1,208 @@
+<nav-bar [hideElements]="true"></nav-bar>
+<!-- <div class="col p-2 m-0">
+    <div class="alert alert-success mb-1" role="alert" *ngIf="message.success">
+        {{message.success}}
+      </div>
+      <div class="alert alert-danger mb-1" role="alert" *ngIf="message.error">
+        {{message.error}}
+      </div>
+    <div class="col row justify-content-end m-0 p-0 mb-1">
+        <button class="btn btn-dark" (click)="addCommunity()">
+            <i class="fas fa-church"></i>
+            <span class="ml-2 mb-4">Add Community</span>
+        </button>
+    </div>
+    <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Households</th>
+                <th>Members</th>
+                <th style="width: 50px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let community of communities | async" class="col p-0 m-0">
+                <td>{{community.name}}</td>
+                <td>{{community.communityCode}}</td>
+                <td>{{community.city}}</td>
+                <td>{{community.state}}</td>
+                <td>{{community.households}}</td>
+                <td>{{community.members}}</td>
+                <td class="p-2">
+                    <div class="d-flex justify-content-center m-auto p-0">
+                        <div>
+                            <i class="fas fa-trash text-danger" id="remove-icon" (click)="deleteCommunity(community.id)"></i>
+                        </div>
+                    </div> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+<div class="alert alert-danger m-1" role="alert" *ngIf="message.error">
+    {{message.error}}
+</div>
+
+<div class="col row align-item-center justify-content-between m-1 p-0">
+    <div class="btn-group" role="group">
+        <button class="btn"
+            [ngClass]="{'btn-dark': selectedTab === TAB.USER, 'btn-outline-dark': selectedTab !== TAB.USER}"
+            (click)="changeTab(TAB.USER)">Users</button>
+        <button class="btn"
+            [ngClass]="{'btn-dark': selectedTab === TAB.CLIENT, 'btn-outline-dark': selectedTab !== TAB.CLIENT}"
+            (click)="changeTab(TAB.CLIENT)">Clients</button>
+        <button class="btn"
+            [ngClass]="{'btn-dark': selectedTab === TAB.COMMUNITY, 'btn-outline-dark': selectedTab !== TAB.COMMUNITY}"
+            (click)="changeTab(TAB.COMMUNITY)">Communities</button>
+    </div>
+    <div class="m-0 p-0 mr-2">
+        <button *ngIf="selectedTab === TAB.USER" class="btn btn-dark" (click)="addUser()">
+            Add User
+        </button>
+        <button *ngIf="selectedTab === TAB.CLIENT" class="btn btn-dark" (click)="openClientForm('CREATE', {})">
+            Add Client
+        </button>
+        <button *ngIf="selectedTab === TAB.COMMUNITY" class="btn btn-dark" (click)="openCommunityForm('CREATE', {})">
+            Add Community
+        </button>
+    </div>
+</div>
+
+<div *ngIf="selectedTab === TAB.USER" class="m-1 mt-0">
+    <table *ngIf="users$" class="table table-sm table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th style="width: 40px;">No.</th>
+                <th>Name</th>
+                <th>Community</th>
+                <th style="width: 100px;">Created on</th>
+                <th style="width: 100px; text-align: center;">Active</th>
+                <th style="width: 100px; text-align: center;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users$ | async; let i = index">
+                <td>{{i+1}}</td>
+                <td>
+                    {{user.firstName}} {{user.lastName}}
+                </td>
+                <td>
+                    {{user.communityName}}
+                </td>
+                <td>
+                    {{user.createdAt | date}}
+                </td>
+                <td align="center">
+                    <div class="custom-control custom-switch m-0 p-0 ml-5">
+                        <input type="checkbox" class="custom-control-input" [id]="'activeSwitch' + i"
+                            (change)="updateUserStatus(user)" [checked]="user.active">
+                        <label class="custom-control-label" [for]="'activeSwitch' + i"></label>
+                    </div>
+                </td>
+                <td align="center">
+                    <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id)">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="selectedTab === TAB.CLIENT" class="m-1 mt-0">
+    <table class="table table-sm table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th style="width: 40px;">No.</th>
+                <th>Name</th>
+                <th style="width: 200px;">Code</th>
+                <th style="width: 100px;">Created on</th>
+                <th style="width: 100px; text-align: center;">Active</th>
+                <th style="width: 122px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of clients; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{client.communityName}}</td>
+                <td>
+                    <div class="col row justify-contetn-between m-0 p-0">
+                        <p class="col p-0 m-0">
+                            <ng-container *ngIf="client.codeVisibility">
+                                {{client.communityCode}}
+                            </ng-container>
+                            <ng-container *ngIf="!client.codeVisibility">
+                                {{"*".repeat(client.communityCode.length)}}
+                            </ng-container>
+                        </p>
+                        <button class="btn btn-sm btn-info p-0 pl-1 pr-1" (click)="changeCodeVisibility(client)">
+                            <ng-container *ngIf="!client.codeVisibility">
+                                Show
+                            </ng-container>
+                            <ng-conatiner *ngIf="client.codeVisibility">
+                                Hide
+                            </ng-conatiner>
+                        </button>
+                    </div>
+                </td>
+                <td>{{client.createdAt | date}}</td>
+
+                <td align="center">
+                    <div class="custom-control custom-switch m-0 p-0 ml-5">
+                        <input type="checkbox" class="custom-control-input bg-success" [id]="'clientActiveSwitch' + i"
+                            (change)="updateClientStatus(client)" [checked]="client.active">
+                        <label class="custom-control-label" [for]="'clientActiveSwitch' + i"></label>
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-success mr-1" (click)="openClientForm('EDIT', client)"><i
+                            class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteClient(client.id)">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="selectedTab === TAB.COMMUNITY" class="m-1 mt-0">
+    <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th style="width: 40px;">No.</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+                <th style="width: 100px;">Created on</th>
+                <th style="width: 122px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let community of communities$ | async; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{community.name}}</td>
+                <td>{{community.phone}}</td>
+                <td>{{community.email}}</td>
+                <td>{{community.city}}</td>
+                <td>{{community.state}}</td>
+                <td>{{community.createdAt | date}}</td>
+                <td>
+                    <button class="btn btn-sm btn-success mr-1" (click)="openCommunityForm('EDIT', community)"><i
+                            class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteCommunity(community.id)">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

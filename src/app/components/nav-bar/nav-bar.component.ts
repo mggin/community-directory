@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HouseholdCreatorComponent } from '../household-creator/household-creator.component';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { MENU_OPTIONS } from 'src/app/constant-data';
+import { RouteService } from 'src/app/services/route.service';
+import { AuthHttpService } from 'src/app/services/http-services/auth-http.service';
 
 @Component({
   selector: 'nav-bar',
@@ -8,36 +9,27 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  menuOption = {
-    CREATE_HOUSEHOLD: 'Create Household',
-    BEC: 'B.E.C',
-    SIGN_OUT: 'Sign out',
-  };
+  @Input() hideElements: boolean = false;
+  menuOptions = MENU_OPTIONS;
   username: string;
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public routeService: RouteService,
+    private authHttpService: AuthHttpService
+  ) {}
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('username')
+    this.username = localStorage.getItem('username');
   }
 
-  navigateOptions(option: string) {
-    let component: any;
-    switch (option) {
-      case this.menuOption.CREATE_HOUSEHOLD:
-        component = HouseholdCreatorComponent;
-        break;
-      case this.menuOption.BEC:
-        break;
-      case this.menuOption.SIGN_OUT:
-        break;
-      default:
-        break;
-    }
-    this.dialog.open(component, {
-      width: '98vw',
-      maxWidth: '98vw',
-      height: '95vh',
-      disableClose: true,
-    });
+  signOut() {
+    this.authHttpService.signOut().subscribe(
+      (HttpResponse) => {
+        localStorage.clear();
+        this.routeService.toLogin();
+      },
+      (HttpError) => {
+        console.error(HttpError);
+      }
+    );
   }
 }

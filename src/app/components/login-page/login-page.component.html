@@ -4,10 +4,10 @@
         <input class="form-control m-0 mt-1" placeholder="Username" type="text"
             [(ngModel)]="username" />
         <label class="small m-0 mt-2">Password</label>
-        <input class="form-control m-0 mt-1 mb-1" placeholder="Password" type="password"
+        <input class="form-control m-0 mt-1 mb-1" placeholder="Password" type="password" (keyup.enter)="signIn()"
             [(ngModel)]="password" />
         <label class="small text-danger m-0" *ngIf="errorMessage">{{errorMessage}}</label>
-        <button class="btn btn-primary mt-2" (click)="signIn()" [disabled]="isSigningIn">
+        <button class="btn btn-primary mt-2" (click)="signIn()" [disabled]="isSigningIn" >
             <i class="fa fa-circle-notch fa-spin" *ngIf="isSigningIn"></i>
             <ng-container *ngIf="!isSigningIn">
                 Sign In
